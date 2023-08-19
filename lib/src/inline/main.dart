@@ -13,10 +13,11 @@ class InlineChoice<T> extends ChoiceList<T> {
     this.onChanged,
     required super.itemCount,
     required super.itemBuilder,
-    ChoiceListBuilder? listBuilder,
+    super.itemSkip,
     super.dividerBuilder,
     super.leadingBuilder,
     super.trailingBuilder,
+    ChoiceListBuilder? listBuilder,
   }) : super(builder: listBuilder);
 
   final String? title;

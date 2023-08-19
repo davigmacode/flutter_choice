@@ -12,3 +12,8 @@ typedef IndexedChoiceStateBuilder<T> = Widget Function(
   ChoiceSelectionController<T> state,
   int index,
 );
+
+typedef ChoiceSkipCallback<T> = bool Function(
+  String? keyword,
+  int index,
+);

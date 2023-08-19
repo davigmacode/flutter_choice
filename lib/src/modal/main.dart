@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:choice/inline.dart';
 import 'provider.dart';
 import 'types.dart';
 
-class ChoiceModal<T> extends ChoiceList<T> {
-  ChoiceModal({
+class ChoiceModal<T> extends StatelessWidget {
+  const ChoiceModal({
     super.key,
+    required this.bodyBuilder,
     this.headerBuilder,
     this.footerBuilder,
     this.separatorBuilder,
     this.onWillClose,
     this.fit = FlexFit.loose,
-    required super.itemCount,
-    required super.itemBuilder,
-    ChoiceListBuilder? listBuilder,
-    super.dividerBuilder,
-    super.leadingBuilder,
-    super.trailingBuilder,
-  }) : super(builder: listBuilder ?? ChoiceList.virtualized());
+  });
 
+  final ChoiceModalStateBuilder<T> bodyBuilder;
   final ChoiceModalStateBuilder<T>? headerBuilder;
   final ChoiceModalStateBuilder<T>? footerBuilder;
   final ChoiceModalStateBuilder<T>? separatorBuilder;
@@ -42,7 +37,7 @@ class ChoiceModal<T> extends ChoiceList<T> {
           children: [
             headerBuilder?.call(state),
             if (headerBuilder != null) separatorBuilder?.call(state),
-            Flexible(fit: fit, child: super.build(context)),
+            Flexible(fit: fit, child: bodyBuilder(state)),
             if (footerBuilder != null) separatorBuilder?.call(state),
             footerBuilder?.call(state),
           ].whereType<Widget>().toList(),

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
+import 'placeholder.dart';
 import 'types.dart';
 
 class ChoiceList<T> extends StatelessWidget {
@@ -8,26 +9,35 @@ class ChoiceList<T> extends StatelessWidget {
     super.key,
     required this.itemCount,
     required this.itemBuilder,
-    this.builder,
+    this.itemSkip = defaultItemSkip,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
+    this.builder,
+    this.keyword,
   });
 
   final int itemCount;
   final IndexedChoiceStateBuilder<T> itemBuilder;
+  final ChoiceSkipCallback itemSkip;
   final ChoiceStateBuilder<T>? dividerBuilder;
   final ChoiceStateBuilder<T>? leadingBuilder;
   final ChoiceStateBuilder<T>? trailingBuilder;
   final ChoiceListBuilder? builder;
+  final String? keyword;
 
   bool get hasDivider => dividerBuilder != null;
   bool get hasLeading => leadingBuilder != null;
   bool get hasTrailing => trailingBuilder != null;
 
-  static final defaultBuilder = wrapped();
+  static final defaultBuilder = createWrapped();
 
-  static ChoiceListBuilder wrapped({
+  static const ChoiceSkipCallback defaultItemSkip = _defaultItemSkip;
+  static bool _defaultItemSkip(String? keyword, int i) {
+    return false;
+  }
+
+  static ChoiceListBuilder createWrapped({
     Axis direction = Axis.horizontal,
     WrapAlignment alignment = WrapAlignment.start,
     EdgeInsetsGeometry padding = EdgeInsets.zero,
@@ -55,32 +65,13 @@ class ChoiceList<T> extends StatelessWidget {
           children: List<Widget>.generate(
             itemCount,
             (i) => itemBuilder(i),
-          ),
+          ).where((e) => e is! SizedBox).toList(),
         ),
       );
     };
   }
 
-  static ChoiceListBuilder virtualized({
-    bool shrinkWrap = true,
-    ScrollPhysics? physics,
-    Axis direction = Axis.vertical,
-    EdgeInsetsGeometry? padding,
-  }) {
-    return (itemBuilder, itemCount) {
-      return ListView.builder(
-        primary: false,
-        shrinkWrap: shrinkWrap,
-        physics: physics,
-        scrollDirection: direction,
-        padding: padding,
-        itemCount: itemCount,
-        itemBuilder: (context, i) => itemBuilder(i),
-      );
-    };
-  }
-
-  static ChoiceListBuilder scrollable({
+  static ChoiceListBuilder createScrollable({
     Axis direction = Axis.horizontal,
     double spacing = 0.0,
     double runSpacing = 0.0,
@@ -110,13 +101,32 @@ class ChoiceList<T> extends StatelessWidget {
           children: List<Widget>.generate(
             itemCount,
             (i) => itemBuilder(i),
-          ),
+          ).where((e) => e is! SizedBox).toList(),
         ),
       );
     };
   }
 
-  static ChoiceListBuilder grid({
+  static ChoiceListBuilder createVirtualized({
+    bool shrinkWrap = false,
+    ScrollPhysics? physics,
+    Axis direction = Axis.vertical,
+    EdgeInsetsGeometry? padding,
+  }) {
+    return (itemBuilder, itemCount) {
+      return ListView.builder(
+        primary: false,
+        shrinkWrap: shrinkWrap,
+        physics: physics,
+        scrollDirection: direction,
+        padding: padding,
+        itemCount: itemCount,
+        itemBuilder: (context, i) => itemBuilder(i),
+      );
+    };
+  }
+
+  static ChoiceListBuilder createGrid({
     bool shrinkWrap = true,
     ScrollPhysics? physics,
     SliverGridDelegate? delegate,
@@ -156,7 +166,10 @@ class ChoiceList<T> extends StatelessWidget {
       if (hasTrailing && i == (resolveItemCount() - 1)) {
         return trailingBuilder!(state);
       }
-      return itemBuilder(state, hasLeading ? i - 1 : i);
+      if (!itemSkip(keyword, i)) {
+        return itemBuilder(state, hasLeading ? i - 1 : i);
+      }
+      return const SizedBox();
     };
   }
 
@@ -182,6 +195,12 @@ class ChoiceList<T> extends StatelessWidget {
     };
   }
 
+  int resolveSkippedItemCount() {
+    return List<bool>.generate(itemCount, (i) => itemSkip(keyword, i))
+        .where((e) => e == true)
+        .length;
+  }
+
   int resolveItemCount() {
     int count = itemCount;
     if (hasLeading) {
@@ -200,10 +219,13 @@ class ChoiceList<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChoiceSelectionConsumer<T>(
       builder: (state, _) {
-        return (builder ?? defaultBuilder).call(
-          resolveItemBuilder(state),
-          resolveItemCount(),
-        );
+        final itemCount = resolveItemCount();
+        return itemCount - resolveSkippedItemCount() > 0
+            ? (builder ?? defaultBuilder).call(
+                resolveItemBuilder(state),
+                itemCount,
+              )
+            : const ChoiceListPlaceholder();
       },
     );
   }
