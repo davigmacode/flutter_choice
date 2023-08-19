@@ -1,6 +1,7 @@
-import 'package:choice/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:choice/inline.dart';
+import 'provider.dart';
+import 'types.dart';
 
 class ChoiceModal<T> extends ChoiceList<T> {
   ChoiceModal({
@@ -24,6 +25,12 @@ class ChoiceModal<T> extends ChoiceList<T> {
   final Future<bool> Function()? onWillClose;
   final FlexFit fit;
 
+  static ChoiceModalStateBuilder<T> createBuilder<T>({
+    required Widget child,
+  }) {
+    return (state) => child;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -34,9 +41,9 @@ class ChoiceModal<T> extends ChoiceList<T> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             headerBuilder?.call(state),
-            separatorBuilder?.call(state),
+            if (headerBuilder != null) separatorBuilder?.call(state),
             Flexible(fit: fit, child: super.build(context)),
-            separatorBuilder?.call(state),
+            if (footerBuilder != null) separatorBuilder?.call(state),
             footerBuilder?.call(state),
           ].whereType<Widget>().toList(),
         );

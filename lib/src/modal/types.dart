@@ -7,4 +7,9 @@ typedef ChoiceModalBuilder<T> = Widget Function(
 );
 
 typedef ChoiceModalStateBuilder<T> = Widget Function(
-    ChoiceModalController<T> state);
+  ChoiceModalController<T> state,
+);
+
+typedef ChoiceFilterStateBuilder = Widget Function(
+  ChoiceFilterController state,
+);
