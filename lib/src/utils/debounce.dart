@@ -11,7 +11,7 @@ class Debounce {
   Timer? _timer;
 
   /// default constructor
-  Debounce({this.delay = const Duration(milliseconds: 300)});
+  Debounce({this.delay = const Duration(milliseconds: 200)});
 
   /// run the function
   run(VoidCallback action, {Duration? delay}) {
