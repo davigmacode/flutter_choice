@@ -1,7 +1,7 @@
 library choice;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'selection.dart';
+export 'inline.dart';
+export 'prompt.dart';
+export 'modal.dart';
+export 'src/main.dart';
