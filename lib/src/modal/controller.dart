@@ -3,12 +3,18 @@ import 'package:choice/selection.dart';
 import 'package:choice/utils.dart';
 
 class ChoiceModalController<T> extends ChangeNotifier {
-  ChoiceModalController() {
+  ChoiceModalController({
+    this.title,
+    this.filterable = false,
+  }) {
     this.filter = ChoiceFilterController()
       ..addListener(() {
         notifyListeners();
       });
   }
+
+  final String? title;
+  final bool filterable;
 
   /// Filter controller
   late final ChoiceFilterController filter;
