@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class ChoiceController<T> extends ChangeNotifier {
-  ChoiceController({
+class ChoiceSelectionController<T> extends ChangeNotifier {
+  ChoiceSelectionController({
     List<T> value = const [],
     this.onChanged,
     this.multiple = false,
@@ -9,13 +9,13 @@ class ChoiceController<T> extends ChangeNotifier {
     this.title,
   }) : _value = Set.from(value);
 
-  ChoiceController<T> copyWith({
+  ChoiceSelectionController<T> copyWith({
     List<T>? value,
     ValueChanged<List<T>>? onChanged,
     bool? multiple,
     bool? mandatory,
   }) {
-    return ChoiceController<T>(
+    return ChoiceSelectionController<T>(
       value: value ?? this.value,
       onChanged: onChanged ?? this.onChanged,
       multiple: multiple ?? this.multiple,
