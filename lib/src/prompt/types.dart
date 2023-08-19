@@ -8,5 +8,5 @@ typedef ChoicePromptDelegate<T> = Future<List<T>?> Function(
 
 typedef ChoicePromptBuilder<T> = Widget Function(
   ChoiceSelectionController<T> state,
-  VoidCallback openPrompt,
+  VoidCallback openModal,
 );

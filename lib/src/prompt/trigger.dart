@@ -32,7 +32,7 @@ class ChoiceTrigger extends StatelessWidget {
     bool? dense,
     int? valueTruncate,
   }) {
-    return (state, openPrompt) {
+    return (state, openModal) {
       return ChoiceTrigger(
         title: title ?? (state.title != null ? Text(state.title!) : null),
         value: ChoiceValueDisplay(
@@ -44,7 +44,7 @@ class ChoiceTrigger extends StatelessWidget {
         trailing: trailing,
         loading: loading,
         inline: inline,
-        onTap: openPrompt,
+        onTap: openModal,
       );
     };
   }
