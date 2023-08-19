@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:choice/utils.dart';
 import 'types.dart';
 
 class ChoiceFilter extends StatelessWidget {
@@ -12,8 +13,6 @@ class ChoiceFilter extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.onSubmitted,
     this.onChanged,
-    this.autoApply = true,
-    this.delay,
   });
 
   final TextEditingController? controller;
@@ -24,8 +23,14 @@ class ChoiceFilter extends StatelessWidget {
   final TextAlign textAlign;
   final ValueChanged<String>? onSubmitted;
   final ValueChanged<String>? onChanged;
-  final bool autoApply;
-  final Duration? delay;
+
+  static bool test(String? value, String? query) {
+    return value != null
+        ? query != null
+            ? normalized(value).contains(normalized(query))
+            : true
+        : false;
+  }
 
   static ChoiceModalStateBuilder<T> createBuilder<T>({
     Key? key,
