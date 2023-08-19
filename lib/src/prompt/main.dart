@@ -25,6 +25,7 @@ class PromptedChoice<T> extends ChoiceModal<T> {
     FlexFit modalFit = FlexFit.loose,
     this.triggerBuilder,
     this.promptDelegate,
+    this.filterable = false,
   }) : super(
           headerBuilder: modalHeaderBuilder,
           footerBuilder: modalFooterBuilder,
@@ -39,6 +40,7 @@ class PromptedChoice<T> extends ChoiceModal<T> {
   final ValueChanged<List<T>>? onChanged;
   final ChoicePromptDelegate<T>? promptDelegate;
   final ChoicePromptBuilder<T>? triggerBuilder;
+  final bool filterable;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class PromptedChoice<T> extends ChoiceModal<T> {
         modal: super.build(context),
         delegate: promptDelegate,
         builder: triggerBuilder ?? ChoiceTrigger.createBuilder(),
+        filterable: filterable,
       ),
     );
   }

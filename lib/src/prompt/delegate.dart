@@ -9,13 +9,15 @@ class ChoicePrompt<T> extends StatelessWidget {
     required this.builder,
     required this.modal,
     ChoicePromptDelegate<T>? delegate,
-  }) : delegate = delegate ?? popupDialog();
+    this.filterable = false,
+  }) : delegate = delegate ?? delegatePopupDialog();
 
   final ChoicePromptBuilder<T> builder;
   final Widget modal;
   final ChoicePromptDelegate<T> delegate;
+  final bool filterable;
 
-  static ChoicePromptDelegate<T> newPage<T>({
+  static ChoicePromptDelegate<T> delegateNewPage<T>({
     Color? backgroundColor,
     Widget? header,
   }) {
@@ -41,7 +43,7 @@ class ChoicePrompt<T> extends StatelessWidget {
     };
   }
 
-  static ChoicePromptDelegate<T> popupDialog<T>({
+  static ChoicePromptDelegate<T> delegatePopupDialog<T>({
     bool useSafeArea = true,
     bool barrierDismissible = true,
     Color? barrierColor = Colors.black54,
@@ -77,7 +79,7 @@ class ChoicePrompt<T> extends StatelessWidget {
     };
   }
 
-  static ChoicePromptDelegate<T> bottomSheet<T>({
+  static ChoicePromptDelegate<T> delegateBottomSheet<T>({
     bool useSafeArea = true,
     bool enableDrag = true,
     bool barrierDismissible = true,
@@ -126,7 +128,7 @@ class ChoicePrompt<T> extends StatelessWidget {
     };
   }
 
-  VoidCallback openPromptBuilder(
+  VoidCallback createOpenModal(
     BuildContext context,
     ChoiceSelectionController<T> state,
   ) {
@@ -138,7 +140,10 @@ class ChoicePrompt<T> extends StatelessWidget {
             onChanged: (value) => state.replace(value),
           ),
           child: ChoiceModalProvider<T>(
-            controller: ChoiceModalController<T>(),
+            controller: ChoiceModalController<T>(
+              title: state.title,
+              filterable: filterable,
+            ),
             child: modal,
           ),
         ),
@@ -153,7 +158,7 @@ class ChoicePrompt<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChoiceSelectionConsumer<T>(
       builder: (state, _) {
-        return builder(state, openPromptBuilder(context, state));
+        return builder(state, createOpenModal(context, state));
       },
     );
   }
