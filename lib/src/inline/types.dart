@@ -12,11 +12,3 @@ typedef IndexedChoiceStateBuilder<T> = Widget Function(
   ChoiceSelectionController<T> state,
   int index,
 );
-
-typedef ChoiceStateBuilder<T> = Widget Function(
-  ChoiceSelectionController<T> state,
-);
-
-typedef NullableChoiceStateBuilder<T> = Widget? Function(
-  ChoiceSelectionController<T> state,
-);

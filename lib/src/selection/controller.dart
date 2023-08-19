@@ -48,7 +48,7 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
 
   bool every(List<T> choices) => choices.every((e) => _value.contains(e));
 
-  bool? determined(List<T> choices) => every(choices)
+  bool? selectedMany(List<T> choices) => every(choices)
       ? true
       : any(choices)
           ? null

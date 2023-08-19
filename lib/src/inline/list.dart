@@ -4,26 +4,28 @@ import 'package:choice/selection.dart';
 import 'types.dart';
 
 class ChoiceList<T> extends StatelessWidget {
-  ChoiceList({
+  const ChoiceList({
     super.key,
     required this.itemCount,
     required this.itemBuilder,
-    ChoiceListBuilder? builder,
+    this.builder,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
-  }) : builder = builder ?? wrapped();
+  });
 
   final int itemCount;
   final IndexedChoiceStateBuilder<T> itemBuilder;
   final ChoiceStateBuilder<T>? dividerBuilder;
   final ChoiceStateBuilder<T>? leadingBuilder;
   final ChoiceStateBuilder<T>? trailingBuilder;
-  final ChoiceListBuilder builder;
+  final ChoiceListBuilder? builder;
 
   bool get hasDivider => dividerBuilder != null;
   bool get hasLeading => leadingBuilder != null;
   bool get hasTrailing => trailingBuilder != null;
+
+  static final defaultBuilder = wrapped();
 
   static ChoiceListBuilder wrapped({
     Axis direction = Axis.horizontal,
@@ -198,7 +200,7 @@ class ChoiceList<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChoiceSelectionConsumer<T>(
       builder: (state, _) {
-        return builder(
+        return (builder ?? defaultBuilder).call(
           resolveItemBuilder(state),
           resolveItemCount(),
         );

@@ -1,9 +1,10 @@
 import 'package:choice/selection.dart';
 import 'package:flutter/widgets.dart';
 import 'list.dart';
+import 'types.dart';
 
 class InlineChoice<T> extends ChoiceList<T> {
-  InlineChoice({
+  const InlineChoice({
     super.key,
     this.title,
     this.multiple = false,
@@ -12,11 +13,11 @@ class InlineChoice<T> extends ChoiceList<T> {
     this.onChanged,
     required super.itemCount,
     required super.itemBuilder,
-    super.builder,
+    ChoiceListBuilder? listBuilder,
     super.dividerBuilder,
     super.leadingBuilder,
     super.trailingBuilder,
-  });
+  }) : super(builder: listBuilder);
 
   final String? title;
   final bool multiple;
