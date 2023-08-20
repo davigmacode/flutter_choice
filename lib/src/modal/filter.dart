@@ -40,21 +40,21 @@ class ChoiceFilter extends StatelessWidget {
     String? hintText,
     TextStyle? hintStyle,
     TextAlign textAlign = TextAlign.start,
-    bool autoApply = true,
-    Duration? delayApply,
+    bool autoSubmit = true,
+    Duration? submitDelay,
   }) {
     return (selection, modal) {
       return ChoiceFilter(
         key: key,
-        controller: modal.filter.ctrl,
+        controller: modal.filter.controller,
         cursorColor: cursorColor,
         textStyle: textStyle,
         hintText: hintText ?? 'Search on ${modal.title}',
         hintStyle: hintStyle,
         textAlign: textAlign,
-        onSubmitted: autoApply ? null : modal.filter.apply,
-        onChanged: autoApply
-            ? (query) => modal.filter.applyDelayed(query, delayApply)
+        onSubmitted: !autoSubmit ? modal.filter.apply : null,
+        onChanged: autoSubmit
+            ? (query) => modal.filter.apply(query, submitDelay)
             : null,
       );
     };
@@ -106,7 +106,7 @@ class ChoiceFilterToggle extends StatelessWidget {
     return (selection, modal) {
       return ChoiceFilterToggle(
         key: key,
-        filtering: modal.filter.displayed,
+        filtering: modal.filter.active,
         onShow: () => modal.filter.show(),
         onHide: () => modal.filter.hide(),
         iconShow: iconShow,
