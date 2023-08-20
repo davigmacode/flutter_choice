@@ -25,14 +25,14 @@ class ChoiceModalFooter extends StatelessWidget {
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.end,
     required List<ChoiceModalStateBuilder> children,
   }) {
-    return (state) {
+    return (selection, modal) {
       return ChoiceModalFooter(
         key: key,
         color: color,
         padding: padding,
         crossAxisAlignment: crossAxisAlignment,
         mainAxisAlignment: mainAxisAlignment,
-        children: children.map((builder) => builder(state)).toList(),
+        children: children.map((builder) => builder(selection, modal)).toList(),
       );
     };
   }

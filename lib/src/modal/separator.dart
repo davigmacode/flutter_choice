@@ -19,7 +19,7 @@ class ChoiceModalSeparator extends Divider {
     double? indent,
     double? thickness,
   }) {
-    return (state) {
+    return (selection, modal) {
       return ChoiceModalSeparator(
         key: key,
         color: color,

@@ -33,20 +33,18 @@ class ChoiceConfirmButton extends StatelessWidget {
     EdgeInsetsGeometry? margin,
     Brightness brightness = Brightness.light,
   }) {
-    return (state) {
-      return Builder(builder: (context) {
-        return ChoiceConfirmButton(
-          key: key,
-          icon: icon,
-          label: label,
-          color: color,
-          margin: margin,
-          brightness: brightness,
-          onPressed: () {
-            state.closeModal(context, confirmed: true);
-          },
-        );
-      });
+    return (selection, modal) {
+      return ChoiceConfirmButton(
+        key: key,
+        icon: icon,
+        label: label,
+        color: color,
+        margin: margin,
+        brightness: brightness,
+        onPressed: () {
+          modal.closeModal(confirmed: true);
+        },
+      );
     };
   }
 

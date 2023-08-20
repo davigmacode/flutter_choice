@@ -1,15 +1,25 @@
 import 'package:flutter/widgets.dart';
+import 'package:choice/selection.dart';
 import 'controller.dart';
 
 typedef ChoiceModalBuilder<T> = Widget Function(
-  ChoiceModalController<T> state,
+  ChoiceModalController<T> modal,
   Widget? child,
 );
 
 typedef ChoiceModalStateBuilder<T> = Widget Function(
-  ChoiceModalController<T> state,
+  ChoiceSelectionController<T> selection,
+  ChoiceModalController<T> modal,
+);
+
+typedef IndexedChoiceModalStateBuilder<T> = Widget Function(
+  ChoiceSelectionController<T> selection,
+  ChoiceModalController<T> modal,
+  int i,
 );
 
 typedef ChoiceFilterStateBuilder = Widget Function(
-  ChoiceFilterController state,
+  ChoiceFilterController filter,
 );
+
+typedef ChoiceModalClose = void Function({bool confirmed});

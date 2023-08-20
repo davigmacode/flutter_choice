@@ -30,16 +30,16 @@ class ChoiceModalHeader extends AppBar {
     bool automaticallyImplyLeading = true,
     List<ChoiceModalStateBuilder>? actionsBuilder,
   }) {
-    final filterBuilder = ChoiceFilter.createBuilder();
-    final filterToggleBuilder = ChoiceFilterToggle.createBuilder();
-    return (state) {
-      final filterable = state.filterable;
-      final filtering = state.filter.displayed;
-      final filter = filterBuilder(state);
+    final filterBuilder = ChoiceFilter.createBuilder<T>();
+    final filterToggleBuilder = ChoiceFilterToggle.createBuilder<T>();
+    return (selection, modal) {
+      final filterable = modal.filterable;
+      final filtering = modal.filter.displayed;
+      final filter = filterBuilder(selection, modal);
       final effectiveTitle =
-          title ?? (state.title != null ? Text(state.title!) : null);
-      final actions =
-          actionsBuilder?.map((actionBuilder) => actionBuilder(state));
+          title ?? (modal.title != null ? Text(modal.title!) : null);
+      final actions = actionsBuilder
+          ?.map((actionBuilder) => actionBuilder(selection, modal));
       return ChoiceModalHeader(
         key: key,
         shape: shape,
@@ -54,7 +54,7 @@ class ChoiceModalHeader extends AppBar {
             filterable && filtering ? ChoiceFilterToggle.defaultIconShow : null,
         title: filterable && filtering ? filter : effectiveTitle,
         actions: [
-          if (filterable) filterToggleBuilder(state),
+          if (filterable) filterToggleBuilder(selection, modal),
           if (!filtering) ...?actions,
         ],
       );

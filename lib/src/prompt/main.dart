@@ -36,11 +36,11 @@ class PromptedChoice<T> extends StatelessWidget {
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
   final int itemCount;
-  final IndexedChoiceStateBuilder<T> itemBuilder;
+  final IndexedChoiceModalStateBuilder<T> itemBuilder;
   final ChoiceSkipCallback? itemSkip;
-  final ChoiceStateBuilder<T>? dividerBuilder;
-  final ChoiceStateBuilder<T>? leadingBuilder;
-  final ChoiceStateBuilder<T>? trailingBuilder;
+  final ChoiceModalStateBuilder<T>? dividerBuilder;
+  final ChoiceModalStateBuilder<T>? leadingBuilder;
+  final ChoiceModalStateBuilder<T>? trailingBuilder;
   final ChoiceListBuilder? listBuilder;
   final ChoiceModalStateBuilder<T>? modalHeaderBuilder;
   final ChoiceModalStateBuilder<T>? modalFooterBuilder;
@@ -67,15 +67,21 @@ class PromptedChoice<T> extends StatelessWidget {
           headerBuilder: modalHeaderBuilder,
           footerBuilder: modalFooterBuilder,
           separatorBuilder: modalSeparatorBuilder,
-          bodyBuilder: (modal) {
+          bodyBuilder: (selection, modal) {
             return ChoiceList<T>(
               keyword: modal.filter.value,
-              itemCount: itemCount,
-              itemBuilder: itemBuilder,
               itemSkip: itemSkip,
-              dividerBuilder: dividerBuilder,
-              leadingBuilder: leadingBuilder,
-              trailingBuilder: trailingBuilder,
+              itemCount: itemCount,
+              itemBuilder: (selection, i) => itemBuilder(selection, modal, i),
+              dividerBuilder: dividerBuilder != null
+                  ? (selection) => dividerBuilder!(selection, modal)
+                  : null,
+              leadingBuilder: leadingBuilder != null
+                  ? (selection) => leadingBuilder!(selection, modal)
+                  : null,
+              trailingBuilder: trailingBuilder != null
+                  ? (selection) => trailingBuilder!(selection, modal)
+                  : null,
               builder: listBuilder ?? ChoiceList.createVirtualized(),
             );
           },
