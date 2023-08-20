@@ -59,9 +59,6 @@ class ChoiceFilterController extends ChangeNotifier {
   /// Debounce used in search text on changed
   final Debounce _debounce = Debounce();
 
-  /// Text controller
-  final TextEditingController controller = TextEditingController();
-
   bool _active = false;
 
   String _value = '';
@@ -104,7 +101,6 @@ class ChoiceFilterController extends ChangeNotifier {
 
   /// Just clear the filter text
   void clear() {
-    controller.clear();
     apply('');
   }
 
@@ -124,11 +120,5 @@ class ChoiceFilterController extends ChangeNotifier {
     } else {
       _apply(val);
     }
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }

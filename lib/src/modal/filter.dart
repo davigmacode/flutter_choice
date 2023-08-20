@@ -46,7 +46,7 @@ class ChoiceFilter extends StatelessWidget {
     return (selection, modal) {
       return ChoiceFilter(
         key: key,
-        controller: modal.filter.controller,
+        controller: controller,
         cursorColor: cursorColor,
         textStyle: textStyle,
         hintText: hintText ?? 'Search on ${modal.title}',
