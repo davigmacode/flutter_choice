@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
 import 'placeholder.dart';
@@ -9,7 +8,7 @@ class ChoiceList<T> extends StatelessWidget {
     super.key,
     required this.itemCount,
     required this.itemBuilder,
-    this.itemSkip = defaultItemSkip,
+    this.itemSkip,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
@@ -19,7 +18,7 @@ class ChoiceList<T> extends StatelessWidget {
 
   final int itemCount;
   final IndexedChoiceStateBuilder<T> itemBuilder;
-  final ChoiceSkipCallback itemSkip;
+  final ChoiceSkipCallback? itemSkip;
   final ChoiceStateBuilder<T>? dividerBuilder;
   final ChoiceStateBuilder<T>? leadingBuilder;
   final ChoiceStateBuilder<T>? trailingBuilder;
@@ -32,10 +31,7 @@ class ChoiceList<T> extends StatelessWidget {
 
   static final defaultBuilder = createWrapped();
 
-  static const ChoiceSkipCallback defaultItemSkip = _defaultItemSkip;
-  static bool _defaultItemSkip(String? keyword, int i) {
-    return false;
-  }
+  static bool defaultItemSkip(String? keyword, int i) => false;
 
   static ChoiceListBuilder createWrapped({
     Axis direction = Axis.horizontal,
@@ -65,7 +61,7 @@ class ChoiceList<T> extends StatelessWidget {
           children: List<Widget>.generate(
             itemCount,
             (i) => itemBuilder(i),
-          ).where((e) => e is! SizedBox).toList(),
+          ),
         ),
       );
     };
@@ -101,7 +97,7 @@ class ChoiceList<T> extends StatelessWidget {
           children: List<Widget>.generate(
             itemCount,
             (i) => itemBuilder(i),
-          ).where((e) => e is! SizedBox).toList(),
+          ),
         ),
       );
     };
@@ -156,73 +152,45 @@ class ChoiceList<T> extends StatelessWidget {
     };
   }
 
-  IndexedChoiceBuilder resolveItemBuilderWithAdditional(
+  List<Widget> _resolveDividedItems(
     ChoiceSelectionController<T> state,
+    List<Widget> items,
   ) {
-    return (i) {
-      if (hasLeading && i == 0) {
-        return leadingBuilder!(state);
-      }
-      if (hasTrailing && i == (resolveItemCount() - 1)) {
-        return trailingBuilder!(state);
-      }
-      if (!itemSkip(keyword, i)) {
-        return itemBuilder(state, hasLeading ? i - 1 : i);
-      }
-      return const SizedBox();
-    };
-  }
-
-  IndexedChoiceBuilder resolveItemBuilderWithDivider(
-    ChoiceSelectionController<T> state,
-  ) {
-    return (i) {
-      final int itemIndex = i ~/ 2;
-      if (i.isEven) {
-        return resolveItemBuilderWithAdditional(state)(itemIndex);
-      }
-      return dividerBuilder!(state);
-    };
-  }
-
-  IndexedChoiceBuilder resolveItemBuilder(
-    ChoiceSelectionController<T> state,
-  ) {
-    return (i) {
-      return hasDivider
-          ? resolveItemBuilderWithDivider(state)(i)
-          : resolveItemBuilderWithAdditional(state)(i);
-    };
-  }
-
-  int resolveSkippedItemCount() {
-    return List<bool>.generate(itemCount, (i) => itemSkip(keyword, i))
-        .where((e) => e == true)
-        .length;
-  }
-
-  int resolveItemCount() {
-    int count = itemCount;
-    if (hasLeading) {
-      count += 1;
-    }
-    if (hasTrailing) {
-      count += 1;
-    }
     if (hasDivider) {
-      count = count * 2 - 1;
+      final count = items.length;
+      for (var i = count - 1; i > 0; i--) {
+        items.insert(i, dividerBuilder!(state));
+      }
     }
-    return math.max(0, count);
+    return items;
+  }
+
+  List<Widget> _resolveFilteredItems(ChoiceSelectionController<T> state) {
+    final effectiveItemSkip = itemSkip ?? defaultItemSkip;
+    return List<Widget?>.generate(
+      itemCount,
+      (i) => !effectiveItemSkip(keyword, i) ? itemBuilder(state, i) : null,
+    ).whereType<Widget>().toList();
+  }
+
+  List<Widget> _resolveItems(ChoiceSelectionController<T> state) {
+    final items = [
+      if (hasLeading) leadingBuilder!(state),
+      ..._resolveFilteredItems(state),
+      if (hasTrailing) trailingBuilder!(state),
+    ];
+    return _resolveDividedItems(state, items);
   }
 
   @override
   Widget build(BuildContext context) {
     return ChoiceSelectionConsumer<T>(
       builder: (state, _) {
-        final itemCount = resolveItemCount();
-        return itemCount - resolveSkippedItemCount() > 0
+        final itemsPool = _resolveItems(state);
+        final itemCount = itemsPool.length;
+        return itemCount > 0
             ? (builder ?? defaultBuilder).call(
-                resolveItemBuilder(state),
+                (i) => itemsPool[i],
                 itemCount,
               )
             : const ChoiceListPlaceholder();

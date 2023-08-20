@@ -16,7 +16,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.onChanged,
     required this.itemCount,
     required this.itemBuilder,
-    this.itemSkip = ChoiceList.defaultItemSkip,
+    this.itemSkip,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
@@ -37,7 +37,7 @@ class PromptedChoice<T> extends StatelessWidget {
   final ValueChanged<List<T>>? onChanged;
   final int itemCount;
   final IndexedChoiceStateBuilder<T> itemBuilder;
-  final ChoiceSkipCallback itemSkip;
+  final ChoiceSkipCallback? itemSkip;
   final ChoiceStateBuilder<T>? dividerBuilder;
   final ChoiceStateBuilder<T>? leadingBuilder;
   final ChoiceStateBuilder<T>? trailingBuilder;
