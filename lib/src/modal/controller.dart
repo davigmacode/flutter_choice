@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:choice/selection.dart';
 import 'package:choice/utils.dart';
+import 'types.dart';
 
 class ChoiceModalController<T> extends ChangeNotifier {
   ChoiceModalController({
     this.title,
     this.filterable = false,
+    required this.closeModal,
   }) {
     this.filter = ChoiceFilterController()
       ..addListener(() {
@@ -15,22 +16,10 @@ class ChoiceModalController<T> extends ChangeNotifier {
 
   final String? title;
   final bool filterable;
+  final ChoiceModalClose closeModal;
 
   /// Filter controller
   late final ChoiceFilterController filter;
-
-  /// Function to close the choice modal
-  void closeModal(BuildContext context, {bool confirmed = true}) {
-    // pop the navigation
-    if (confirmed == true) {
-      // will call the onWillPop
-      final state = ChoiceSelectionProvider.of<T>(context);
-      Navigator.maybePop(context, state.value);
-    } else {
-      // no need to call the onWillPop
-      Navigator.pop(context, null);
-    }
-  }
 
   @override
   void dispose() {

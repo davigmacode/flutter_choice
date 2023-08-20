@@ -139,17 +139,35 @@ class ChoicePrompt<T> extends StatelessWidget {
           controller: state.copyWith(
             onChanged: (value) => state.replace(value),
           ),
-          child: ChoiceModalProvider<T>(
-            controller: ChoiceModalController<T>(
-              title: state.title,
-              filterable: filterable,
-            ),
-            child: modal,
-          ),
+          child: Builder(builder: (innerContext) {
+            return ChoiceModalProvider<T>(
+              controller: ChoiceModalController<T>(
+                title: state.title,
+                filterable: filterable,
+                closeModal: createCloseModal(innerContext),
+              ),
+              child: modal,
+            );
+          }),
         ),
       );
       if (res != null) {
         state.replace(res);
+      }
+    };
+  }
+
+  /// Function to close the choice modal
+  ChoiceModalClose createCloseModal(BuildContext context) {
+    return ({bool confirmed = true}) {
+      // pop the navigation
+      if (confirmed == true) {
+        // will call the onWillPop
+        final state = ChoiceSelectionProvider.of<T>(context);
+        Navigator.maybePop(context, state.value);
+      } else {
+        // no need to call the onWillPop
+        Navigator.pop(context, null);
       }
     };
   }
