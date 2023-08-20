@@ -9,7 +9,7 @@ class ChoiceText extends StatelessWidget {
   final TextStyle? style;
 
   /// The highlight data string
-  final String highlight;
+  final String? highlight;
 
   /// The highlight color
   final Color? highlightColor;
@@ -18,11 +18,11 @@ class ChoiceText extends StatelessWidget {
   final bool caseSensitive;
 
   /// Default constructor
-  const ChoiceText({
+  const ChoiceText(
+    this.text, {
     Key? key,
-    required this.text,
     this.style,
-    required this.highlight,
+    this.highlight,
     this.highlightColor,
     this.caseSensitive = false,
   }) : super(key: key);
@@ -34,13 +34,14 @@ class ChoiceText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (highlight.isEmpty || text.isEmpty) {
+    final q = highlight;
+    if (q == null || q.isEmpty || text.isEmpty) {
       return Text(text, style: style);
     }
 
     final TextStyle defaultTextStyle = DefaultTextStyle.of(context).style;
     final TextStyle textStyle = defaultTextStyle.merge(style);
-    final Pattern pattern = RegExp(highlight, caseSensitive: caseSensitive);
+    final Pattern pattern = RegExp(q, caseSensitive: caseSensitive);
     int start = 0;
     int indexOfHighlight;
     List<TextSpan> spans = [];
@@ -55,7 +56,7 @@ class ChoiceText extends StatelessWidget {
       }
       if (indexOfHighlight == start) {
         // start with highlight.
-        final highlightedText = text.substring(start, start + highlight.length);
+        final highlightedText = text.substring(start, start + q.length);
         spans.add(_highlightSpan(highlightedText, textStyle));
         start += highlightedText.length;
       } else {
