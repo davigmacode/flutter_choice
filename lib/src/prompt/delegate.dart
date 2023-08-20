@@ -130,22 +130,32 @@ class ChoicePrompt<T> extends StatelessWidget {
 
   VoidCallback createOpenModal(
     BuildContext context,
-    ChoiceSelectionController<T> state,
+    ChoiceSelectionController<T> rootSelection,
   ) {
     return () async {
       final res = await delegate(
         context,
         ChoiceSelectionProvider<T>(
-          controller: state.copyWith(
-            onChanged: (value) => state.replace(value),
+          controller: rootSelection.copyWith(
+            onChanged: (value) => rootSelection.replace(value),
           ),
           child: Builder(builder: (innerContext) {
+            final closeModal = createCloseModal(innerContext);
+            final innerSelection = ChoiceSelection.of<T>(innerContext);
             return ChoiceModalProvider<T>(
               controller: ChoiceModalController<T>(
                 innerContext,
-                title: state.title,
+                title: rootSelection.title,
                 filterable: filterable,
-                closeModal: createCloseModal(innerContext),
+                close: closeModal,
+                closeAndSelect: (choice) {
+                  innerSelection.select(choice, true);
+                  closeModal(confirmed: true);
+                },
+                closeAndSelectMany: (choices) {
+                  innerSelection.selectMany(choices, true);
+                  closeModal(confirmed: true);
+                },
               ),
               child: modal,
             );
@@ -153,22 +163,24 @@ class ChoicePrompt<T> extends StatelessWidget {
         ),
       );
       if (res != null) {
-        state.replace(res);
+        rootSelection.replace(res);
       }
     };
   }
 
   /// Function to close the choice modal
   ChoiceModalClose createCloseModal(BuildContext context) {
-    return ({bool confirmed = true}) {
+    return ({confirmed = true, onClosed}) {
       // pop the navigation
       if (confirmed == true) {
         // will call the onWillPop
         final state = ChoiceSelectionProvider.of<T>(context);
         Navigator.maybePop(context, state.value);
+        onClosed?.call();
       } else {
         // no need to call the onWillPop
         Navigator.pop(context, null);
+        onClosed?.call();
       }
     };
   }

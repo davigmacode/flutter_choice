@@ -7,8 +7,13 @@ class ChoiceModalController<T> extends ChangeNotifier {
     BuildContext context, {
     this.title,
     this.filterable = false,
-    required this.closeModal,
+    required ChoiceModalClose close,
+    required ValueSetter<T> closeAndSelect,
+    required ValueSetter<List<T>> closeAndSelectMany,
   }) {
+    this._close = close;
+    this._closeAndSelect = closeAndSelect;
+    this._closeAndSelectMany = closeAndSelectMany;
     this.filter = ChoiceFilterController(context)
       ..addListener(() {
         notifyListeners();
@@ -17,10 +22,27 @@ class ChoiceModalController<T> extends ChangeNotifier {
 
   final String? title;
   final bool filterable;
-  final ChoiceModalClose closeModal;
+  late final ChoiceModalClose _close;
+  late final ValueSetter<T> _closeAndSelect;
+  late final ValueSetter<List<T>> _closeAndSelectMany;
 
   /// Filter controller
   late final ChoiceFilterController filter;
+
+  void close({confirmed = true, VoidCallback? onClosed}) {
+    filter.hide();
+    _close(confirmed: confirmed, onClosed: onClosed);
+  }
+
+  void closeAndSelect(T choice) {
+    filter.hide();
+    _closeAndSelect(choice);
+  }
+
+  void closeAndSelectMany(List<T> choices) {
+    filter.hide();
+    _closeAndSelectMany(choices);
+  }
 
   @override
   void dispose() {
@@ -52,22 +74,26 @@ class ChoiceFilterController extends ChangeNotifier {
 
   /// Show the filter and add history to route
   void show() {
-    // add history to route, so back button will appear
-    // and when physical back button pressed
-    // will close the search bar instead of close the modal
-    LocalHistoryEntry entry = LocalHistoryEntry(onRemove: stop);
-    ModalRoute.of(context)?.addLocalHistoryEntry(entry);
+    if (!_displayed) {
+      // add history to route, so back button will appear
+      // and when physical back button pressed
+      // will close the search bar instead of close the modal
+      LocalHistoryEntry entry = LocalHistoryEntry(onRemove: stop);
+      ModalRoute.of(context)?.addLocalHistoryEntry(entry);
 
-    _displayed = true;
-    notifyListeners();
+      _displayed = true;
+      notifyListeners();
+    }
   }
 
   /// Hide the filter and remove history from route
   void hide() {
-    // close the filter
-    stop();
-    // remove filter from route history
-    Navigator.pop(context);
+    if (_displayed) {
+      // close the filter
+      stop();
+      // remove filter from route history
+      Navigator.pop(context);
+    }
   }
 
   /// Clear and close filter

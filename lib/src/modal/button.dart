@@ -42,7 +42,7 @@ class ChoiceConfirmButton extends StatelessWidget {
         margin: margin,
         brightness: brightness,
         onPressed: () {
-          modal.closeModal(confirmed: true);
+          modal.close(confirmed: true);
         },
       );
     };

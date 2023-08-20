@@ -22,4 +22,7 @@ typedef ChoiceFilterStateBuilder = Widget Function(
   ChoiceFilterController filter,
 );
 
-typedef ChoiceModalClose = void Function({bool confirmed});
+typedef ChoiceModalClose = void Function({
+  bool confirmed,
+  VoidCallback? onClosed,
+});
