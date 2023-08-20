@@ -36,6 +36,8 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
 
   List<T> get value => _value.toList();
 
+  T? get single => _value.elementAtOrNull(0);
+
   int get length => _value.length;
 
   bool get isEmpty => _value.isEmpty;
