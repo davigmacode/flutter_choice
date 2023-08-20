@@ -104,16 +104,14 @@ class ChoiceFilterToggle extends StatelessWidget {
     Widget? iconHide,
   }) {
     return (selection, modal) {
-      return Builder(builder: (context) {
-        return ChoiceFilterToggle(
-          key: key,
-          filtering: modal.filter.displayed,
-          onShow: () => modal.filter.show(context),
-          onHide: () => modal.filter.hide(context),
-          iconShow: iconShow,
-          iconHide: iconHide,
-        );
-      });
+      return ChoiceFilterToggle(
+        key: key,
+        filtering: modal.filter.displayed,
+        onShow: () => modal.filter.show(),
+        onHide: () => modal.filter.hide(),
+        iconShow: iconShow,
+        iconHide: iconHide,
+      );
     };
   }
 

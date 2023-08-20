@@ -142,6 +142,7 @@ class ChoicePrompt<T> extends StatelessWidget {
           child: Builder(builder: (innerContext) {
             return ChoiceModalProvider<T>(
               controller: ChoiceModalController<T>(
+                innerContext,
                 title: state.title,
                 filterable: filterable,
                 closeModal: createCloseModal(innerContext),

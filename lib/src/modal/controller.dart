@@ -3,12 +3,13 @@ import 'package:choice/utils.dart';
 import 'types.dart';
 
 class ChoiceModalController<T> extends ChangeNotifier {
-  ChoiceModalController({
+  ChoiceModalController(
+    BuildContext context, {
     this.title,
     this.filterable = false,
     required this.closeModal,
   }) {
-    this.filter = ChoiceFilterController()
+    this.filter = ChoiceFilterController(context)
       ..addListener(() {
         notifyListeners();
       });
@@ -29,14 +30,19 @@ class ChoiceModalController<T> extends ChangeNotifier {
 }
 
 class ChoiceFilterController extends ChangeNotifier {
-  bool _displayed = false;
-  String _value = '';
+  ChoiceFilterController(this.context);
+
+  final BuildContext context;
 
   /// Debounce used in search text on changed
   final Debounce debounce = Debounce();
 
   /// Text controller
   final TextEditingController ctrl = TextEditingController();
+
+  bool _displayed = false;
+
+  String _value = '';
 
   /// Returns `true` if the filter is displayed
   bool get displayed => _displayed;
@@ -45,7 +51,7 @@ class ChoiceFilterController extends ChangeNotifier {
   String get value => _value;
 
   /// Show the filter and add history to route
-  void show(BuildContext context) {
+  void show() {
     // add history to route, so back button will appear
     // and when physical back button pressed
     // will close the search bar instead of close the modal
@@ -57,7 +63,7 @@ class ChoiceFilterController extends ChangeNotifier {
   }
 
   /// Hide the filter and remove history from route
-  void hide(BuildContext context) {
+  void hide() {
     // close the filter
     stop();
     // remove filter from route history
