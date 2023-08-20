@@ -54,40 +54,49 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
           ? null
           : false;
 
-  ValueChanged<bool?> selectMany(
+  ValueChanged<bool?> onSelectedMany(
     List<T> choices, {
     ValueChanged<List<T>>? onChanged,
   }) {
     return (bool? active) {
-      active ??= false;
-      if (active) {
-        replace(choices);
-      } else {
-        clear();
-      }
+      selectMany(choices, active);
       onChanged?.call(value);
     };
   }
 
-  ValueChanged<bool?> select(
+  ValueChanged<bool?> onSelected(
     T choice, {
     ValueChanged<List<T>>? onChanged,
   }) {
     return (bool? active) {
       if (selected(choice) == active) return;
-      toggle(choice, active);
+      select(choice, active);
       onChanged?.call(value);
     };
   }
 
+  /// Mutator to mark a [List<T>] value as either active or inactive.
+  void selectMany(List<T> choices, [bool? active]) {
+    active ??= false;
+    if (active) {
+      replace(choices);
+    } else {
+      clear();
+    }
+  }
+
   /// Mutator to mark a [T] value as either active or inactive.
-  void toggle(T choice, [bool? active]) {
+  void select(T choice, [bool? active]) {
     active = active ?? !selected(choice);
-    return active
-        ? multiple
-            ? add(choice)
-            : replace([choice])
-        : remove(choice);
+    if (active) {
+      if (multiple) {
+        add(choice);
+      } else {
+        replace([choice]);
+      }
+    } else {
+      remove(choice);
+    }
   }
 
   /// Mutator to mark a [T] value as active.
