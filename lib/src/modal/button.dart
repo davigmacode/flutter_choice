@@ -33,7 +33,7 @@ class ChoiceConfirmButton extends StatelessWidget {
     EdgeInsetsGeometry? margin,
     Brightness brightness = Brightness.light,
   }) {
-    return (selection, modal) {
+    return (modal) {
       return ChoiceConfirmButton(
         key: key,
         icon: icon,

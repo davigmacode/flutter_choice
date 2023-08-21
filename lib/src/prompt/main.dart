@@ -12,6 +12,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.title,
     this.multiple = false,
     this.mandatory = false,
+    this.confirmation = false,
     this.value = const [],
     this.onChanged,
     required this.itemCount,
@@ -33,6 +34,7 @@ class PromptedChoice<T> extends StatelessWidget {
   final String? title;
   final bool multiple;
   final bool mandatory;
+  final bool confirmation;
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
   final int itemCount;
@@ -56,6 +58,7 @@ class PromptedChoice<T> extends StatelessWidget {
       title: title,
       multiple: multiple,
       mandatory: mandatory,
+      confirmation: confirmation,
       value: value,
       onChanged: onChanged,
       child: ChoicePrompt<T>(
@@ -67,20 +70,18 @@ class PromptedChoice<T> extends StatelessWidget {
           headerBuilder: modalHeaderBuilder,
           footerBuilder: modalFooterBuilder,
           separatorBuilder: modalSeparatorBuilder,
-          bodyBuilder: (selection, modal) {
+          bodyBuilder: (modal) {
             return ChoiceList<T>(
               keyword: modal.filter.value,
               itemSkip: itemSkip,
               itemCount: itemCount,
-              itemBuilder: (selection, i) => itemBuilder(selection, modal, i),
-              dividerBuilder: dividerBuilder != null
-                  ? (selection) => dividerBuilder!(selection, modal)
-                  : null,
-              leadingBuilder: leadingBuilder != null
-                  ? (selection) => leadingBuilder!(selection, modal)
-                  : null,
+              itemBuilder: (_, i) => itemBuilder(modal, i),
+              dividerBuilder:
+                  dividerBuilder != null ? (_) => dividerBuilder!(modal) : null,
+              leadingBuilder:
+                  leadingBuilder != null ? (_) => leadingBuilder!(modal) : null,
               trailingBuilder: trailingBuilder != null
-                  ? (selection) => trailingBuilder!(selection, modal)
+                  ? (_) => trailingBuilder!(modal)
                   : null,
               builder: listBuilder ?? ChoiceList.createVirtualized(),
             );

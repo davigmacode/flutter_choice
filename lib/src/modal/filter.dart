@@ -43,7 +43,7 @@ class ChoiceFilter extends StatelessWidget {
     bool autoSubmit = true,
     Duration? submitDelay,
   }) {
-    return (selection, modal) {
+    return (modal) {
       return ChoiceFilter(
         key: key,
         controller: controller,
@@ -103,7 +103,7 @@ class ChoiceFilterToggle extends StatelessWidget {
     Widget? iconShow,
     Widget? iconHide,
   }) {
-    return (selection, modal) {
+    return (modal) {
       return ChoiceFilterToggle(
         key: key,
         filtering: modal.filter.active,

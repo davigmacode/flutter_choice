@@ -10,6 +10,7 @@ class Choice<T> extends StatelessWidget {
     this.title,
     this.multiple = false,
     this.mandatory = false,
+    this.confirmation = false,
     this.value = const [],
     this.onChanged,
     required ChoiceSelectionBuilder<T> builder,
@@ -18,6 +19,7 @@ class Choice<T> extends StatelessWidget {
           title: title,
           multiple: multiple,
           mandatory: mandatory,
+          confirmation: confirmation,
           value: value,
           onChanged: onChanged,
           builder: builder,
@@ -38,7 +40,8 @@ class Choice<T> extends StatelessWidget {
     ChoiceStateBuilder<T>? leadingBuilder,
     ChoiceStateBuilder<T>? trailingBuilder,
     ChoiceListBuilder? listBuilder,
-  }) : child = InlineChoice(
+  })  : confirmation = false,
+        child = InlineChoice(
           title: title,
           multiple: multiple,
           mandatory: mandatory,
@@ -58,6 +61,7 @@ class Choice<T> extends StatelessWidget {
     this.title,
     this.multiple = false,
     this.mandatory = false,
+    this.confirmation = false,
     this.value = const [],
     this.onChanged,
     required int itemCount,
@@ -78,6 +82,7 @@ class Choice<T> extends StatelessWidget {
           title: title,
           multiple: multiple,
           mandatory: mandatory,
+          confirmation: confirmation,
           value: value,
           onChanged: onChanged,
           itemCount: itemCount,
@@ -99,6 +104,7 @@ class Choice<T> extends StatelessWidget {
   final String? title;
   final bool multiple;
   final bool mandatory;
+  final bool confirmation;
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
   final Widget child;

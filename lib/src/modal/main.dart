@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:choice/selection.dart';
 import 'provider.dart';
 import 'types.dart';
 
@@ -24,29 +23,25 @@ class ChoiceModal<T> extends StatelessWidget {
   static ChoiceModalStateBuilder<T> createBuilder<T>({
     required Widget child,
   }) {
-    return (selection, modal) => child;
+    return (modal) => child;
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillClose,
-      child: ChoiceSelectionConsumer<T>(builder: (selection, _) {
-        return ChoiceModalConsumer<T>(builder: (modal, _) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              headerBuilder?.call(selection, modal),
-              if (headerBuilder != null)
-                separatorBuilder?.call(selection, modal),
-              Flexible(fit: fit, child: bodyBuilder(selection, modal)),
-              if (footerBuilder != null)
-                separatorBuilder?.call(selection, modal),
-              footerBuilder?.call(selection, modal),
-            ].whereType<Widget>().toList(),
-          );
-        });
+      child: ChoiceModalConsumer<T>(builder: (modal, _) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            headerBuilder?.call(modal),
+            if (headerBuilder != null) separatorBuilder?.call(modal),
+            Flexible(fit: fit, child: bodyBuilder(modal)),
+            if (footerBuilder != null) separatorBuilder?.call(modal),
+            footerBuilder?.call(modal),
+          ].whereType<Widget>().toList(),
+        );
       }),
     );
   }

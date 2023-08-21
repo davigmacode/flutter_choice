@@ -36,14 +36,14 @@ class ChoiceModalHeader extends AppBar {
         filterBuilder ?? ChoiceFilter.createBuilder<T>();
     final effectiveFilterToggleBuilder =
         filterToggleBuilder ?? ChoiceFilterToggle.createBuilder<T>();
-    return (selection, modal) {
+    return (modal) {
       final filterable = modal.filterable;
       final filtering = modal.filter.active;
-      final filter = effectiveFilterBuilder(selection, modal);
+      final filter = effectiveFilterBuilder(modal);
       final effectiveTitle =
           title ?? (modal.title != null ? Text(modal.title!) : null);
-      final actions = actionsBuilder
-          ?.map((actionBuilder) => actionBuilder(selection, modal));
+      final actions =
+          actionsBuilder?.map((actionBuilder) => actionBuilder(modal));
       return ChoiceModalHeader(
         key: key,
         shape: shape,
@@ -58,7 +58,7 @@ class ChoiceModalHeader extends AppBar {
             filterable && filtering ? ChoiceFilterToggle.defaultIconShow : null,
         title: filterable && filtering ? filter : effectiveTitle,
         actions: [
-          if (filterable) effectiveFilterToggleBuilder(selection, modal),
+          if (filterable) effectiveFilterToggleBuilder(modal),
           if (!filtering) ...?actions,
         ],
       );
