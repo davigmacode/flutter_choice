@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
+import 'package:choice/modal.dart';
 import 'placeholder.dart';
 import 'types.dart';
 
@@ -184,17 +185,15 @@ class ChoiceList<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceSelectionConsumer<T>(
-      builder: (state, _) {
-        final itemsPool = _resolveItems(state);
-        final itemCount = itemsPool.length;
-        return itemCount > 0
-            ? (builder ?? defaultBuilder).call(
-                (i) => itemsPool[i],
-                itemCount,
-              )
-            : const ChoiceListPlaceholder();
-      },
-    );
+    final selection = ChoiceSelectionProvider.maybeOf<T>(context) ??
+        ChoiceModalProvider.of<T>(context).selection;
+    final itemsPool = _resolveItems(selection);
+    final itemCount = itemsPool.length;
+    return itemCount > 0
+        ? (builder ?? defaultBuilder).call(
+            (i) => itemsPool[i],
+            itemCount,
+          )
+        : const ChoiceListPlaceholder();
   }
 }

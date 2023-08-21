@@ -10,6 +10,20 @@ class ChoiceModalProvider<T>
     required Widget child,
   }) : super(notifier: controller, child: child);
 
+  ChoiceModalProvider.builder({
+    super.key,
+    required ChoiceModalController<T> controller,
+    required ChoiceModalProviderBuilder<T> builder,
+    Widget? child,
+  }) : super(
+          notifier: controller,
+          child: Builder(
+            builder: (context) {
+              return builder(ChoiceModalProvider.of<T>(context), child);
+            },
+          ),
+        );
+
   static ChoiceModalController<T> of<T>(BuildContext context) {
     final provider =
         context.dependOnInheritedWidgetOfExactType<ChoiceModalProvider<T>>();
@@ -26,7 +40,7 @@ class ChoiceModalConsumer<T> extends StatelessWidget {
   });
 
   /// Builder that gets called when the controller changes
-  final ChoiceModalBuilder<T> builder;
+  final ChoiceModalProviderBuilder<T> builder;
   final Widget? child;
 
   @override

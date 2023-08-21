@@ -1,19 +1,18 @@
 import 'package:flutter/widgets.dart';
+import 'package:choice/selection.dart';
 import 'package:choice/utils.dart';
-import 'types.dart';
 
 class ChoiceModalController<T> extends ChangeNotifier {
-  ChoiceModalController(
-    BuildContext context, {
+  ChoiceModalController({
+    required BuildContext context,
+    required ChoiceSelectionController<T> selection,
     this.title,
     this.filterable = false,
-    required ChoiceModalClose close,
-    required ValueSetter<T> closeAndSelect,
-    required ValueSetter<List<T>> closeAndSelectMany,
-  }) {
-    this._close = close;
-    this._closeAndSelect = closeAndSelect;
-    this._closeAndSelectMany = closeAndSelectMany;
+  }) : _context = context {
+    this.selection = selection.copyWith(parent: this)
+      ..addListener(() {
+        notifyListeners();
+      });
     this.filter = ChoiceFilterController(context)
       ..addListener(() {
         notifyListeners();
@@ -22,26 +21,24 @@ class ChoiceModalController<T> extends ChangeNotifier {
 
   final String? title;
   final bool filterable;
-  late final ChoiceModalClose _close;
-  late final ValueSetter<T> _closeAndSelect;
-  late final ValueSetter<List<T>> _closeAndSelectMany;
+  final BuildContext _context;
 
   /// Filter controller
   late final ChoiceFilterController filter;
 
+  late final ChoiceSelectionController<T> selection;
+
   void close({confirmed = true, VoidCallback? onClosed}) {
     filter.hide();
-    _close(confirmed: confirmed, onClosed: onClosed);
-  }
-
-  void closeAndSelect(T choice) {
-    filter.hide();
-    _closeAndSelect(choice);
-  }
-
-  void closeAndSelectMany(List<T> choices) {
-    filter.hide();
-    _closeAndSelectMany(choices);
+    // pop the navigation
+    if (confirmed == true) {
+      // will call the onWillPop
+      Navigator.maybePop(_context, selection.value);
+    } else {
+      // no need to call the onWillPop
+      Navigator.pop(_context, null);
+    }
+    onClosed?.call();
   }
 
   @override

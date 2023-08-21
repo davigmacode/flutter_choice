@@ -1,30 +1,40 @@
 import 'package:flutter/widgets.dart';
+import 'package:choice/modal.dart';
 
 class ChoiceSelectionController<T> extends ChangeNotifier {
   ChoiceSelectionController({
     List<T> value = const [],
-    this.onChanged,
+    ValueChanged<List<T>>? onChanged,
     this.multiple = false,
     this.mandatory = false,
+    this.confirmation = false,
     this.title,
-  }) : _value = Set.from(value);
+    this.parent,
+  })  : _onChanged = onChanged,
+        _value = Set.from(value);
 
   ChoiceSelectionController<T> copyWith({
     List<T>? value,
     ValueChanged<List<T>>? onChanged,
     bool? multiple,
     bool? mandatory,
+    bool? confirmation,
+    ChoiceModalController<T>? parent,
   }) {
     return ChoiceSelectionController<T>(
       value: value ?? this.value,
-      onChanged: onChanged ?? this.onChanged,
+      onChanged: onChanged ?? this._onChanged,
       multiple: multiple ?? this.multiple,
       mandatory: mandatory ?? this.mandatory,
+      confirmation: confirmation ?? this.confirmation,
+      parent: parent ?? this.parent,
     );
   }
 
   final Set<T> _value;
-  final ValueChanged<List<T>>? onChanged;
+  final ValueChanged<List<T>>? _onChanged;
+
+  final ChoiceModalController<T>? parent;
 
   final String? title;
 
@@ -33,6 +43,8 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
 
   /// will always have a value
   final bool mandatory;
+
+  final bool confirmation;
 
   List<T> get value => _value.toList();
 
@@ -99,13 +111,16 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
     } else {
       remove(choice);
     }
+    if (!confirmation && !multiple) {
+      parent?.close(confirmed: true);
+    }
   }
 
   /// Mutator to mark a [T] value as active.
   void add(T choice) {
     if (_value.add(choice)) {
       notifyListeners();
-      onChanged?.call(value);
+      _onChanged?.call(value);
     }
   }
 
@@ -115,7 +130,7 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
 
     if (_value.remove(choice)) {
       notifyListeners();
-      onChanged?.call(value);
+      _onChanged?.call(value);
     }
   }
 
@@ -124,12 +139,12 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
       ..clear()
       ..addAll(choices);
     notifyListeners();
-    onChanged?.call(value);
+    _onChanged?.call(value);
   }
 
   void clear() {
     _value.clear();
     notifyListeners();
-    onChanged?.call(value);
+    _onChanged?.call(value);
   }
 }

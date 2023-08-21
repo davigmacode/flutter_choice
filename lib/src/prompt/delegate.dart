@@ -135,52 +135,26 @@ class ChoicePrompt<T> extends StatelessWidget {
     return () async {
       final res = await delegate(
         context,
-        ChoiceSelectionProvider<T>(
-          controller: rootSelection.copyWith(
-            onChanged: (value) => rootSelection.replace(value),
-          ),
-          child: Builder(builder: (innerContext) {
-            final closeModal = createCloseModal(innerContext);
-            final innerSelection = ChoiceSelection.of<T>(innerContext);
-            return ChoiceModalProvider<T>(
-              controller: ChoiceModalController<T>(
-                innerContext,
-                title: rootSelection.title,
-                filterable: filterable,
-                close: closeModal,
-                closeAndSelect: (choice) {
-                  innerSelection.select(choice, true);
-                  closeModal(confirmed: true);
-                },
-                closeAndSelectMany: (choices) {
-                  innerSelection.selectMany(choices, true);
-                  closeModal(confirmed: true);
+        Builder(builder: (modalContext) {
+          return ChoiceModalProvider<T>(
+            controller: ChoiceModalController<T>(
+              context: modalContext,
+              title: rootSelection.title,
+              filterable: filterable,
+              selection: rootSelection.copyWith(
+                onChanged: (value) {
+                  if (!rootSelection.confirmation) {
+                    rootSelection.replace(value);
+                  }
                 },
               ),
-              child: modal,
-            );
-          }),
-        ),
+            ),
+            child: modal,
+          );
+        }),
       );
       if (res != null) {
         rootSelection.replace(res);
-      }
-    };
-  }
-
-  /// Function to close the choice modal
-  ChoiceModalClose createCloseModal(BuildContext context) {
-    return ({confirmed = true, onClosed}) {
-      // pop the navigation
-      if (confirmed == true) {
-        // will call the onWillPop
-        final state = ChoiceSelectionProvider.of<T>(context);
-        Navigator.maybePop(context, state.value);
-        onClosed?.call();
-      } else {
-        // no need to call the onWillPop
-        Navigator.pop(context, null);
-        onClosed?.call();
       }
     };
   }

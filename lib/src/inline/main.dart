@@ -34,7 +34,9 @@ class InlineChoice<T> extends ChoiceList<T> {
       mandatory: mandatory,
       value: value,
       onChanged: onChanged,
-      child: super.build(context),
+      child: Builder(
+        builder: (innerContext) => super.build(innerContext),
+      ),
     );
   }
 }
