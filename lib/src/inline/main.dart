@@ -20,6 +20,38 @@ class InlineChoice<T> extends ChoiceList<T> {
     ChoiceListBuilder? listBuilder,
   }) : super(builder: listBuilder);
 
+  InlineChoice.single({
+    super.key,
+    this.title,
+    this.mandatory = false,
+    T? value,
+    ValueChanged<T?>? onChanged,
+    required super.itemCount,
+    required super.itemBuilder,
+    super.itemSkip,
+    super.dividerBuilder,
+    super.leadingBuilder,
+    super.trailingBuilder,
+    ChoiceListBuilder? listBuilder,
+  })  : multiple = false,
+        value = ChoiceSingle.value(value),
+        onChanged = ChoiceSingle.onChanged(onChanged);
+
+  const InlineChoice.multiple({
+    super.key,
+    this.title,
+    this.mandatory = false,
+    this.value = const [],
+    this.onChanged,
+    required super.itemCount,
+    required super.itemBuilder,
+    super.itemSkip,
+    super.dividerBuilder,
+    super.leadingBuilder,
+    super.trailingBuilder,
+    ChoiceListBuilder? listBuilder,
+  }) : multiple = true;
+
   final String? title;
   final bool multiple;
   final bool mandatory;

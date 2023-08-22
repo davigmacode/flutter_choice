@@ -31,6 +31,54 @@ class PromptedChoice<T> extends StatelessWidget {
     this.filterable = false,
   });
 
+  PromptedChoice.single({
+    super.key,
+    this.title,
+    this.mandatory = false,
+    this.confirmation = false,
+    T? value,
+    ValueChanged<T?>? onChanged,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.itemSkip,
+    this.dividerBuilder,
+    this.leadingBuilder,
+    this.trailingBuilder,
+    this.listBuilder,
+    this.modalHeaderBuilder,
+    this.modalFooterBuilder,
+    this.modalSeparatorBuilder,
+    this.modalFit = FlexFit.loose,
+    this.triggerBuilder,
+    this.promptDelegate,
+    this.filterable = false,
+  })  : multiple = false,
+        value = ChoiceSingle.value(value),
+        onChanged = ChoiceSingle.onChanged(onChanged);
+
+  const PromptedChoice.multiple({
+    super.key,
+    this.title,
+    this.mandatory = false,
+    this.confirmation = false,
+    this.value = const [],
+    this.onChanged,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.itemSkip,
+    this.dividerBuilder,
+    this.leadingBuilder,
+    this.trailingBuilder,
+    this.listBuilder,
+    this.modalHeaderBuilder,
+    this.modalFooterBuilder,
+    this.modalSeparatorBuilder,
+    this.modalFit = FlexFit.loose,
+    this.triggerBuilder,
+    this.promptDelegate,
+    this.filterable = false,
+  }) : multiple = true;
+
   final String? title;
   final bool multiple;
   final bool mandatory;
