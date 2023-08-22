@@ -8,7 +8,7 @@ class ChoiceController<T> extends ChangeNotifier {
     ValueChanged<List<T>?>? onCloseModal,
     ChoiceFilterController? filter,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.title,
   })  : _onCloseModal = onCloseModal,
@@ -26,7 +26,7 @@ class ChoiceController<T> extends ChangeNotifier {
     ValueChanged<List<T>?>? onCloseModal,
     ChoiceFilterController? filter,
     bool? multiple,
-    bool? mandatory,
+    bool? clearable,
     bool? confirmation,
     String? title,
   }) {
@@ -35,7 +35,7 @@ class ChoiceController<T> extends ChangeNotifier {
       onChanged: onChanged ?? this._onChanged,
       onCloseModal: onCloseModal ?? this._onCloseModal,
       multiple: multiple ?? this.multiple,
-      mandatory: mandatory ?? this.mandatory,
+      clearable: clearable ?? this.clearable,
       confirmation: confirmation ?? this.confirmation,
       filter: filter ?? this.filter,
       title: title ?? this.title,
@@ -50,17 +50,19 @@ class ChoiceController<T> extends ChangeNotifier {
 
   final String? title;
 
-  /// allow to select multiple values
+  /// Whether the choice is multiple values or single value
   final bool multiple;
 
-  /// will always have a value
-  final bool mandatory;
+  /// Whether the choice is clearable or not
+  final bool clearable;
 
+  /// Whether the choice need confirmation to update or not
   final bool confirmation;
 
   /// Filter controller
   late final ChoiceFilterController? filter;
 
+  /// Whether the choice is filterable or not
   bool get filterable => filter != null;
 
   List<T> get value => _value.toList();
@@ -73,8 +75,6 @@ class ChoiceController<T> extends ChangeNotifier {
 
   bool get isNotEmpty => _value.isNotEmpty;
 
-  bool selected(T choice) => _value.contains(choice);
-
   bool any(List<T> choices) => choices.any((e) => _value.contains(e));
 
   bool every(List<T> choices) => choices.every((e) => _value.contains(e));
@@ -84,6 +84,8 @@ class ChoiceController<T> extends ChangeNotifier {
       : any(choices)
           ? null
           : false;
+
+  bool selected(T choice) => _value.contains(choice);
 
   ValueChanged<bool?> onSelectedMany(
     List<T> choices, {
@@ -106,17 +108,15 @@ class ChoiceController<T> extends ChangeNotifier {
     };
   }
 
-  /// Mutator to mark a [List<T>] value as either active or inactive.
   void selectMany(List<T> choices, [bool? active]) {
     active ??= false;
     if (active) {
       replace(choices);
     } else {
-      clear();
+      removeAll(choices);
     }
   }
 
-  /// Mutator to mark a [T] value as either active or inactive.
   void select(T choice, [bool? active]) {
     active = active ?? !selected(choice);
     if (active) {
@@ -133,7 +133,6 @@ class ChoiceController<T> extends ChangeNotifier {
     }
   }
 
-  /// Mutator to mark a [T] value as active.
   void add(T choice) {
     if (_value.add(choice)) {
       notifyListeners();
@@ -141,14 +140,21 @@ class ChoiceController<T> extends ChangeNotifier {
     }
   }
 
-  /// Mutator to mark a [T] value as inactive.
   void remove(T choice) {
-    if (mandatory && _value.length == 1) return;
+    if (!clearable && _value.length == 1) return;
 
     if (_value.remove(choice)) {
       notifyListeners();
       _onChanged?.call(value);
     }
+  }
+
+  void removeAll(List<T> choices) {
+    if (!clearable && every(choices)) return;
+
+    _value.removeAll(choices);
+    notifyListeners();
+    _onChanged?.call(value);
   }
 
   void replace(List<T> choices) {
@@ -160,9 +166,11 @@ class ChoiceController<T> extends ChangeNotifier {
   }
 
   void clear() {
-    _value.clear();
-    notifyListeners();
-    _onChanged?.call(value);
+    if (clearable) {
+      _value.clear();
+      notifyListeners();
+      _onChanged?.call(value);
+    }
   }
 
   void closeModal({confirmed = true, VoidCallback? onClosed}) {

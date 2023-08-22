@@ -8,7 +8,7 @@ class Choice<T> extends StatelessWidget {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
@@ -17,7 +17,7 @@ class Choice<T> extends StatelessWidget {
           controller: ChoiceController<T>(
             title: title,
             multiple: multiple,
-            mandatory: mandatory,
+            clearable: clearable,
             confirmation: confirmation,
             value: value,
             onChanged: onChanged,
@@ -29,7 +29,7 @@ class Choice<T> extends StatelessWidget {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
@@ -39,7 +39,7 @@ class Choice<T> extends StatelessWidget {
           controller: ChoiceController<T>(
             title: title,
             multiple: multiple,
-            mandatory: mandatory,
+            clearable: clearable,
             confirmation: confirmation,
             value: value,
             onChanged: onChanged,
@@ -52,7 +52,7 @@ class Choice<T> extends StatelessWidget {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.value = const [],
     this.onChanged,
     required int itemCount,
@@ -66,7 +66,7 @@ class Choice<T> extends StatelessWidget {
         child = InlineChoice<T>(
           title: title,
           multiple: multiple,
-          mandatory: mandatory,
+          clearable: clearable,
           value: value,
           onChanged: onChanged,
           itemCount: itemCount,
@@ -82,7 +82,7 @@ class Choice<T> extends StatelessWidget {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
@@ -103,7 +103,7 @@ class Choice<T> extends StatelessWidget {
   }) : child = PromptedChoice<T>(
           title: title,
           multiple: multiple,
-          mandatory: mandatory,
+          clearable: clearable,
           confirmation: confirmation,
           value: value,
           onChanged: onChanged,
@@ -125,7 +125,7 @@ class Choice<T> extends StatelessWidget {
 
   final String? title;
   final bool multiple;
-  final bool mandatory;
+  final bool clearable;
   final bool confirmation;
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;

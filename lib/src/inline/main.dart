@@ -8,7 +8,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.value = const [],
     this.onChanged,
     required super.itemCount,
@@ -23,7 +23,7 @@ class InlineChoice<T> extends ChoiceList<T> {
   InlineChoice.single({
     super.key,
     this.title,
-    this.mandatory = false,
+    this.clearable = false,
     T? value,
     ValueChanged<T?>? onChanged,
     required super.itemCount,
@@ -40,7 +40,7 @@ class InlineChoice<T> extends ChoiceList<T> {
   const InlineChoice.multiple({
     super.key,
     this.title,
-    this.mandatory = false,
+    this.clearable = false,
     this.value = const [],
     this.onChanged,
     required super.itemCount,
@@ -54,7 +54,7 @@ class InlineChoice<T> extends ChoiceList<T> {
 
   final String? title;
   final bool multiple;
-  final bool mandatory;
+  final bool clearable;
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
 
@@ -64,7 +64,7 @@ class InlineChoice<T> extends ChoiceList<T> {
       controller: ChoiceController<T>(
         title: title,
         multiple: multiple,
-        mandatory: mandatory,
+        clearable: clearable,
         value: value,
         onChanged: onChanged,
       ),

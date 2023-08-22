@@ -11,7 +11,7 @@ class PromptedChoice<T> extends StatelessWidget {
     super.key,
     this.title,
     this.multiple = false,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
@@ -34,7 +34,7 @@ class PromptedChoice<T> extends StatelessWidget {
   PromptedChoice.single({
     super.key,
     this.title,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     T? value,
     ValueChanged<T?>? onChanged,
@@ -59,7 +59,7 @@ class PromptedChoice<T> extends StatelessWidget {
   const PromptedChoice.multiple({
     super.key,
     this.title,
-    this.mandatory = false,
+    this.clearable = false,
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
@@ -81,7 +81,7 @@ class PromptedChoice<T> extends StatelessWidget {
 
   final String? title;
   final bool multiple;
-  final bool mandatory;
+  final bool clearable;
   final bool confirmation;
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
@@ -106,7 +106,7 @@ class PromptedChoice<T> extends StatelessWidget {
       controller: ChoiceController<T>(
         title: title,
         multiple: multiple,
-        mandatory: mandatory,
+        clearable: clearable,
         confirmation: confirmation,
         value: value,
         onChanged: onChanged,
