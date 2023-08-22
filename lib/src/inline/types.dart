@@ -8,6 +8,8 @@ typedef ChoiceListBuilder = Widget Function(
 
 typedef IndexedChoiceBuilder = Widget Function(int index);
 
+typedef ChoiceBuilder = Widget Function();
+
 typedef IndexedChoiceStateBuilder<T> = Widget Function(
   ChoiceSelectionController<T> state,
   int index,

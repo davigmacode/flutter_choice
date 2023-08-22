@@ -153,45 +153,53 @@ class ChoiceList<T> extends StatelessWidget {
     };
   }
 
-  List<Widget> _resolveDividedItems(
+  List<ChoiceBuilder> _resolveDividedItems(
     ChoiceSelectionController<T> state,
-    List<Widget> items,
+    List<ChoiceBuilder> items,
   ) {
     if (hasDivider) {
       final count = items.length;
       for (var i = count - 1; i > 0; i--) {
-        items.insert(i, dividerBuilder!(state));
+        items.insert(i, () => dividerBuilder!(state));
       }
     }
     return items;
   }
 
-  List<Widget> _resolveFilteredItems(ChoiceSelectionController<T> state) {
+  List<ChoiceBuilder> _resolveFilteredItems(
+      ChoiceSelectionController<T> state) {
     final effectiveItemSkip = itemSkip ?? defaultItemSkip;
-    return List<Widget?>.generate(
+    return List<ChoiceBuilder?>.generate(
       itemCount,
-      (i) => !effectiveItemSkip(keyword, i) ? itemBuilder(state, i) : null,
-    ).whereType<Widget>().toList();
+      (i) =>
+          !effectiveItemSkip(keyword, i) ? () => itemBuilder(state, i) : null,
+    ).whereType<ChoiceBuilder>().toList();
   }
 
-  List<Widget> _resolveItems(ChoiceSelectionController<T> state) {
-    final items = [
-      if (hasLeading) leadingBuilder!(state),
+  List<ChoiceBuilder> _resolveItems(ChoiceSelectionController<T> state) {
+    final items = <ChoiceBuilder>[
+      if (hasLeading) () => leadingBuilder!(state),
       ..._resolveFilteredItems(state),
-      if (hasTrailing) trailingBuilder!(state),
+      if (hasTrailing) () => trailingBuilder!(state),
     ];
     return _resolveDividedItems(state, items);
   }
 
+  ChoiceSelectionController<T> _getSelectionController(
+    BuildContext context,
+  ) {
+    return ChoiceSelectionProvider.maybeOf<T>(context) ??
+        ChoiceModalProvider.of<T>(context).selection;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final selection = ChoiceSelectionProvider.maybeOf<T>(context) ??
-        ChoiceModalProvider.of<T>(context).selection;
-    final itemsPool = _resolveItems(selection);
-    final itemCount = itemsPool.length;
+    final selection = _getSelectionController(context);
+    final itemBuildersPool = _resolveItems(selection);
+    final itemCount = itemBuildersPool.length;
     return itemCount > 0
         ? (builder ?? defaultBuilder).call(
-            (i) => itemsPool[i],
+            (i) => itemBuildersPool[i](),
             itemCount,
           )
         : const ChoiceListPlaceholder();
