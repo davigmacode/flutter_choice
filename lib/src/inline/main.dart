@@ -35,7 +35,8 @@ class InlineChoice<T> extends ChoiceList<T> {
     ChoiceListBuilder? listBuilder,
   })  : multiple = false,
         value = ChoiceSingle.value(value),
-        onChanged = ChoiceSingle.onChanged(onChanged);
+        onChanged = ChoiceSingle.onChanged(onChanged),
+        super(builder: listBuilder);
 
   const InlineChoice.multiple({
     super.key,
@@ -50,7 +51,8 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.leadingBuilder,
     super.trailingBuilder,
     ChoiceListBuilder? listBuilder,
-  }) : multiple = true;
+  })  : multiple = true,
+        super(builder: listBuilder);
 
   final String? title;
   final bool multiple;
