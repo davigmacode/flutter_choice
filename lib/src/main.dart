@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
 import 'package:choice/inline.dart';
 import 'package:choice/prompt.dart';
-import 'package:choice/modal.dart';
 
 class Choice<T> extends StatelessWidget {
   Choice({
@@ -13,15 +12,38 @@ class Choice<T> extends StatelessWidget {
     this.confirmation = false,
     this.value = const [],
     this.onChanged,
-    required ChoiceSelectionBuilder<T> builder,
+    required Widget child,
+  }) : child = ChoiceProvider<T>(
+          controller: ChoiceController<T>(
+            title: title,
+            multiple: multiple,
+            mandatory: mandatory,
+            confirmation: confirmation,
+            value: value,
+            onChanged: onChanged,
+          ),
+          child: child,
+        );
+
+  Choice.builder({
+    super.key,
+    this.title,
+    this.multiple = false,
+    this.mandatory = false,
+    this.confirmation = false,
+    this.value = const [],
+    this.onChanged,
+    required ChoiceBuilder<T> builder,
     Widget? child,
-  }) : child = ChoiceSelection.builder(
-          title: title,
-          multiple: multiple,
-          mandatory: mandatory,
-          confirmation: confirmation,
-          value: value,
-          onChanged: onChanged,
+  }) : child = ChoiceProvider<T>.builder(
+          controller: ChoiceController<T>(
+            title: title,
+            multiple: multiple,
+            mandatory: mandatory,
+            confirmation: confirmation,
+            value: value,
+            onChanged: onChanged,
+          ),
           builder: builder,
           child: child,
         );
@@ -41,7 +63,7 @@ class Choice<T> extends StatelessWidget {
     ChoiceStateBuilder<T>? trailingBuilder,
     ChoiceListBuilder? listBuilder,
   })  : confirmation = false,
-        child = InlineChoice(
+        child = InlineChoice<T>(
           title: title,
           multiple: multiple,
           mandatory: mandatory,
@@ -65,20 +87,20 @@ class Choice<T> extends StatelessWidget {
     this.value = const [],
     this.onChanged,
     required int itemCount,
-    required IndexedChoiceModalStateBuilder<T> itemBuilder,
+    required IndexedChoiceStateBuilder<T> itemBuilder,
     ChoiceSkipCallback itemSkip = ChoiceList.defaultItemSkip,
-    ChoiceModalStateBuilder<T>? dividerBuilder,
-    ChoiceModalStateBuilder<T>? leadingBuilder,
-    ChoiceModalStateBuilder<T>? trailingBuilder,
+    ChoiceStateBuilder<T>? dividerBuilder,
+    ChoiceStateBuilder<T>? leadingBuilder,
+    ChoiceStateBuilder<T>? trailingBuilder,
     ChoiceListBuilder? listBuilder,
-    ChoiceModalStateBuilder<T>? modalHeaderBuilder,
-    ChoiceModalStateBuilder<T>? modalFooterBuilder,
-    ChoiceModalStateBuilder<T>? modalSeparatorBuilder,
+    ChoiceStateBuilder<T>? modalHeaderBuilder,
+    ChoiceStateBuilder<T>? modalFooterBuilder,
+    ChoiceStateBuilder<T>? modalSeparatorBuilder,
     FlexFit modalFit = FlexFit.loose,
     ChoicePromptBuilder<T>? triggerBuilder,
     ChoicePromptDelegate<T>? promptDelegate,
     bool filterable = false,
-  }) : child = PromptedChoice(
+  }) : child = PromptedChoice<T>(
           title: title,
           multiple: multiple,
           mandatory: mandatory,

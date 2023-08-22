@@ -60,12 +60,14 @@ class InlineChoice<T> extends ChoiceList<T> {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceSelection(
-      title: title,
-      multiple: multiple,
-      mandatory: mandatory,
-      value: value,
-      onChanged: onChanged,
+    return ChoiceProvider<T>(
+      controller: ChoiceController<T>(
+        title: title,
+        multiple: multiple,
+        mandatory: mandatory,
+        value: value,
+        onChanged: onChanged,
+      ),
       child: Builder(
         builder: (innerContext) => super.build(innerContext),
       ),

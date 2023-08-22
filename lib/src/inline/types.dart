@@ -1,19 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:choice/selection.dart';
 
 typedef ChoiceListBuilder = Widget Function(
-  IndexedChoiceBuilder itemBuilder,
+  IndexedChoiceItemBuilder itemBuilder,
   int itemCount,
 );
 
-typedef IndexedChoiceBuilder = Widget Function(int index);
+typedef IndexedChoiceItemBuilder = Widget Function(int index);
 
-typedef ChoiceBuilder = Widget Function();
-
-typedef IndexedChoiceStateBuilder<T> = Widget Function(
-  ChoiceSelectionController<T> state,
-  int index,
-);
+typedef ChoiceItemBuilder = Widget Function();
 
 typedef ChoiceSkipCallback<T> = bool Function(
   String? keyword,

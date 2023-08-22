@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'types.dart';
+import 'package:choice/selection.dart';
 
 class ChoiceModalFooter extends StatelessWidget {
   const ChoiceModalFooter({
@@ -17,22 +17,22 @@ class ChoiceModalFooter extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final List<Widget> children;
 
-  static ChoiceModalStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> createBuilder<T>({
     Key? key,
     Color? color,
     EdgeInsetsGeometry? padding,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.end,
-    required List<ChoiceModalStateBuilder> children,
+    required List<ChoiceStateBuilder> children,
   }) {
-    return (modal) {
+    return (state) {
       return ChoiceModalFooter(
         key: key,
         color: color,
         padding: padding,
         crossAxisAlignment: crossAxisAlignment,
         mainAxisAlignment: mainAxisAlignment,
-        children: children.map((builder) => builder(modal)).toList(),
+        children: children.map((builder) => builder(state)).toList(),
       );
     };
   }

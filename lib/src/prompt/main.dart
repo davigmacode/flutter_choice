@@ -86,15 +86,15 @@ class PromptedChoice<T> extends StatelessWidget {
   final List<T> value;
   final ValueChanged<List<T>>? onChanged;
   final int itemCount;
-  final IndexedChoiceModalStateBuilder<T> itemBuilder;
+  final IndexedChoiceStateBuilder<T> itemBuilder;
   final ChoiceSkipCallback? itemSkip;
-  final ChoiceModalStateBuilder<T>? dividerBuilder;
-  final ChoiceModalStateBuilder<T>? leadingBuilder;
-  final ChoiceModalStateBuilder<T>? trailingBuilder;
+  final ChoiceStateBuilder<T>? dividerBuilder;
+  final ChoiceStateBuilder<T>? leadingBuilder;
+  final ChoiceStateBuilder<T>? trailingBuilder;
   final ChoiceListBuilder? listBuilder;
-  final ChoiceModalStateBuilder<T>? modalHeaderBuilder;
-  final ChoiceModalStateBuilder<T>? modalFooterBuilder;
-  final ChoiceModalStateBuilder<T>? modalSeparatorBuilder;
+  final ChoiceStateBuilder<T>? modalHeaderBuilder;
+  final ChoiceStateBuilder<T>? modalFooterBuilder;
+  final ChoiceStateBuilder<T>? modalSeparatorBuilder;
   final FlexFit modalFit;
   final ChoicePromptDelegate<T>? promptDelegate;
   final ChoicePromptBuilder<T>? triggerBuilder;
@@ -102,13 +102,15 @@ class PromptedChoice<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceSelection<T>(
-      title: title,
-      multiple: multiple,
-      mandatory: mandatory,
-      confirmation: confirmation,
-      value: value,
-      onChanged: onChanged,
+    return ChoiceProvider<T>(
+      controller: ChoiceController<T>(
+        title: title,
+        multiple: multiple,
+        mandatory: mandatory,
+        confirmation: confirmation,
+        value: value,
+        onChanged: onChanged,
+      ),
       child: ChoicePrompt<T>(
         filterable: filterable,
         delegate: promptDelegate,
@@ -120,7 +122,7 @@ class PromptedChoice<T> extends StatelessWidget {
           separatorBuilder: modalSeparatorBuilder,
           bodyBuilder: (modal) {
             return ChoiceList<T>(
-              keyword: modal.filter.value,
+              keyword: modal.filter?.value,
               itemSkip: itemSkip,
               itemCount: itemCount,
               itemBuilder: (_, i) => itemBuilder(modal, i),

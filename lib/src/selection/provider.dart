@@ -1,48 +1,55 @@
 import 'package:flutter/widgets.dart';
-import 'controller.dart';
+import 'controller/main.dart';
 import 'types.dart';
 
-class ChoiceSelectionProvider<T>
-    extends InheritedNotifier<ChoiceSelectionController<T>> {
-  const ChoiceSelectionProvider({
+class ChoiceProvider<T> extends InheritedNotifier<ChoiceController<T>> {
+  const ChoiceProvider({
     super.key,
-    required ChoiceSelectionController<T> controller,
+    required ChoiceController<T> controller,
     required Widget child,
   }) : super(notifier: controller, child: child);
 
-  ChoiceSelectionProvider.builder({
+  ChoiceProvider.builder({
     super.key,
-    required ChoiceSelectionController<T> controller,
-    required WidgetBuilder builder,
-  }) : super(notifier: controller, child: Builder(builder: builder));
+    required ChoiceController<T> controller,
+    required ChoiceBuilder<T> builder,
+    Widget? child,
+  }) : super(
+          notifier: controller,
+          child: Builder(
+            builder: (context) {
+              return builder(ChoiceProvider.of<T>(context), child);
+            },
+          ),
+        );
 
-  static ChoiceSelectionController<T> of<T>(BuildContext context) {
-    final provider = context
-        .dependOnInheritedWidgetOfExactType<ChoiceSelectionProvider<T>>();
+  static ChoiceController<T> of<T>(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ChoiceProvider<T>>();
     assert(provider != null, 'No ChoiceSelectionProvider found in context');
     return provider!.notifier!;
   }
 
-  static ChoiceSelectionController<T>? maybeOf<T>(BuildContext context) {
-    final provider = context
-        .dependOnInheritedWidgetOfExactType<ChoiceSelectionProvider<T>>();
+  static ChoiceController<T>? maybeOf<T>(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ChoiceProvider<T>>();
     return provider?.notifier;
   }
 }
 
-class ChoiceSelectionConsumer<T> extends StatelessWidget {
-  const ChoiceSelectionConsumer({
+class ChoiceConsumer<T> extends StatelessWidget {
+  const ChoiceConsumer({
     super.key,
     required this.builder,
     this.child,
   });
 
   /// Builder that gets called when the controller changes
-  final ChoiceSelectionBuilder<T> builder;
+  final ChoiceBuilder<T> builder;
   final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return builder(ChoiceSelectionProvider.of<T>(context), child);
+    return builder(ChoiceProvider.of<T>(context), child);
   }
 }

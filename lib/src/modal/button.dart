@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'types.dart';
+import 'package:choice/selection.dart';
 
 class ChoiceConfirmButton extends StatelessWidget {
   const ChoiceConfirmButton({
@@ -25,7 +25,7 @@ class ChoiceConfirmButton extends StatelessWidget {
   /// Returns true if the confirm button brightness is light
   bool get isLight => brightness == Brightness.light;
 
-  static ChoiceModalStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> createBuilder<T>({
     Key? key,
     Widget? icon,
     Widget? label,
@@ -33,7 +33,7 @@ class ChoiceConfirmButton extends StatelessWidget {
     EdgeInsetsGeometry? margin,
     Brightness brightness = Brightness.light,
   }) {
-    return (modal) {
+    return (state) {
       return ChoiceConfirmButton(
         key: key,
         icon: icon,
@@ -42,7 +42,7 @@ class ChoiceConfirmButton extends StatelessWidget {
         margin: margin,
         brightness: brightness,
         onPressed: () {
-          modal.close(confirmed: true);
+          state.closeModal(confirmed: true);
         },
       );
     };

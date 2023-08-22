@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'types.dart';
+import 'package:choice/selection.dart';
 
 class ChoiceModalSeparator extends Divider {
   const ChoiceModalSeparator({
@@ -11,7 +11,7 @@ class ChoiceModalSeparator extends Divider {
     super.thickness,
   });
 
-  static ChoiceModalStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> createBuilder<T>({
     Key? key,
     Color? color,
     double? endIndent,
@@ -19,7 +19,7 @@ class ChoiceModalSeparator extends Divider {
     double? indent,
     double? thickness,
   }) {
-    return (modal) {
+    return (_) {
       return ChoiceModalSeparator(
         key: key,
         color: color,

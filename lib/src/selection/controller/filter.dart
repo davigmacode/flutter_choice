@@ -1,52 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:choice/selection.dart';
 import 'package:choice/utils.dart';
-
-class ChoiceModalController<T> extends ChangeNotifier {
-  ChoiceModalController({
-    required BuildContext context,
-    required ChoiceSelectionController<T> selection,
-    this.title,
-    this.filterable = false,
-  }) : _context = context {
-    this.selection = selection.copyWith(parent: this)
-      ..addListener(() {
-        notifyListeners();
-      });
-    this.filter = ChoiceFilterController(context)
-      ..addListener(() {
-        notifyListeners();
-      });
-  }
-
-  final String? title;
-  final bool filterable;
-  final BuildContext _context;
-
-  /// Filter controller
-  late final ChoiceFilterController filter;
-
-  late final ChoiceSelectionController<T> selection;
-
-  void close({confirmed = true, VoidCallback? onClosed}) {
-    filter.hide();
-    // pop the navigation
-    if (confirmed == true) {
-      // will call the onWillPop
-      Navigator.maybePop(_context, selection.value);
-    } else {
-      // no need to call the onWillPop
-      Navigator.pop(_context, null);
-    }
-    onClosed?.call();
-  }
-
-  @override
-  void dispose() {
-    filter.dispose();
-    super.dispose();
-  }
-}
 
 class ChoiceFilterController extends ChangeNotifier {
   ChoiceFilterController(BuildContext context) : _context = context;

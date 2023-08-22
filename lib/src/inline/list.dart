@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
-import 'package:choice/modal.dart';
 import 'placeholder.dart';
 import 'types.dart';
 
@@ -153,9 +152,9 @@ class ChoiceList<T> extends StatelessWidget {
     };
   }
 
-  List<ChoiceBuilder> _resolveDividedItems(
-    ChoiceSelectionController<T> state,
-    List<ChoiceBuilder> items,
+  List<ChoiceItemBuilder> _resolveDividedItems(
+    ChoiceController<T> state,
+    List<ChoiceItemBuilder> items,
   ) {
     if (hasDivider) {
       final count = items.length;
@@ -166,18 +165,17 @@ class ChoiceList<T> extends StatelessWidget {
     return items;
   }
 
-  List<ChoiceBuilder> _resolveFilteredItems(
-      ChoiceSelectionController<T> state) {
+  List<ChoiceItemBuilder> _resolveFilteredItems(ChoiceController<T> state) {
     final effectiveItemSkip = itemSkip ?? defaultItemSkip;
-    return List<ChoiceBuilder?>.generate(
+    return List<ChoiceItemBuilder?>.generate(
       itemCount,
       (i) =>
           !effectiveItemSkip(keyword, i) ? () => itemBuilder(state, i) : null,
-    ).whereType<ChoiceBuilder>().toList();
+    ).whereType<ChoiceItemBuilder>().toList();
   }
 
-  List<ChoiceBuilder> _resolveItems(ChoiceSelectionController<T> state) {
-    final items = <ChoiceBuilder>[
+  List<ChoiceItemBuilder> _resolveItems(ChoiceController<T> state) {
+    final items = <ChoiceItemBuilder>[
       if (hasLeading) () => leadingBuilder!(state),
       ..._resolveFilteredItems(state),
       if (hasTrailing) () => trailingBuilder!(state),
@@ -185,16 +183,9 @@ class ChoiceList<T> extends StatelessWidget {
     return _resolveDividedItems(state, items);
   }
 
-  ChoiceSelectionController<T> _getSelectionController(
-    BuildContext context,
-  ) {
-    return ChoiceSelectionProvider.maybeOf<T>(context) ??
-        ChoiceModalProvider.of<T>(context).selection;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final selection = _getSelectionController(context);
+    final selection = ChoiceProvider.of<T>(context);
     final itemBuildersPool = _resolveItems(selection);
     final itemCount = itemBuildersPool.length;
     return itemCount > 0

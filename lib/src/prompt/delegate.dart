@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:choice/selection.dart';
-import 'package:choice/modal.dart';
 import 'types.dart';
 
 class ChoicePrompt<T> extends StatelessWidget {
@@ -130,24 +129,23 @@ class ChoicePrompt<T> extends StatelessWidget {
 
   VoidCallback createOpenModal(
     BuildContext context,
-    ChoiceSelectionController<T> rootSelection,
+    ChoiceController<T> rootSelection,
   ) {
     return () async {
       final res = await delegate(
         context,
         Builder(builder: (modalContext) {
-          return ChoiceModalProvider<T>(
-            controller: ChoiceModalController<T>(
-              context: modalContext,
-              title: rootSelection.title,
-              filterable: filterable,
-              selection: rootSelection.copyWith(
-                onChanged: (value) {
-                  if (!rootSelection.confirmation) {
-                    rootSelection.replace(value);
-                  }
-                },
-              ),
+          return ChoiceProvider<T>(
+            controller: rootSelection.copyWith(
+              filter: filterable ? ChoiceFilterController(context) : null,
+              onCloseModal: (value) {
+                Navigator.maybePop(context, value);
+              },
+              onChanged: (value) {
+                if (!rootSelection.confirmation) {
+                  rootSelection.replace(value);
+                }
+              },
             ),
             child: modal,
           );
@@ -161,7 +159,7 @@ class ChoicePrompt<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChoiceSelectionConsumer<T>(
+    return ChoiceConsumer<T>(
       builder: (state, _) {
         return builder(state, createOpenModal(context, state));
       },

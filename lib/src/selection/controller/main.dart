@@ -1,40 +1,52 @@
 import 'package:flutter/widgets.dart';
-import 'package:choice/modal.dart';
+import 'filter.dart';
 
-class ChoiceSelectionController<T> extends ChangeNotifier {
-  ChoiceSelectionController({
+class ChoiceController<T> extends ChangeNotifier {
+  ChoiceController({
     List<T> value = const [],
     ValueChanged<List<T>>? onChanged,
+    ValueChanged<List<T>?>? onCloseModal,
+    ChoiceFilterController? filter,
     this.multiple = false,
     this.mandatory = false,
     this.confirmation = false,
     this.title,
-    this.parent,
-  })  : _onChanged = onChanged,
-        _value = Set.from(value);
+  })  : _onCloseModal = onCloseModal,
+        _onChanged = onChanged,
+        _value = Set.from(value) {
+    this.filter = filter
+      ?..addListener(() {
+        notifyListeners();
+      });
+  }
 
-  ChoiceSelectionController<T> copyWith({
+  ChoiceController<T> copyWith({
     List<T>? value,
     ValueChanged<List<T>>? onChanged,
+    ValueChanged<List<T>?>? onCloseModal,
+    ChoiceFilterController? filter,
     bool? multiple,
     bool? mandatory,
     bool? confirmation,
-    ChoiceModalController<T>? parent,
+    String? title,
   }) {
-    return ChoiceSelectionController<T>(
+    return ChoiceController<T>(
       value: value ?? this.value,
       onChanged: onChanged ?? this._onChanged,
+      onCloseModal: onCloseModal ?? this._onCloseModal,
       multiple: multiple ?? this.multiple,
       mandatory: mandatory ?? this.mandatory,
       confirmation: confirmation ?? this.confirmation,
-      parent: parent ?? this.parent,
+      filter: filter ?? this.filter,
+      title: title ?? this.title,
     );
   }
 
   final Set<T> _value;
+
   final ValueChanged<List<T>>? _onChanged;
 
-  final ChoiceModalController<T>? parent;
+  late final ValueChanged<List<T>?>? _onCloseModal;
 
   final String? title;
 
@@ -45,6 +57,11 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
   final bool mandatory;
 
   final bool confirmation;
+
+  /// Filter controller
+  late final ChoiceFilterController? filter;
+
+  bool get filterable => filter != null;
 
   List<T> get value => _value.toList();
 
@@ -112,7 +129,7 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
       remove(choice);
     }
     if (!confirmation && !multiple) {
-      parent?.close(confirmed: true);
+      closeModal(confirmed: true);
     }
   }
 
@@ -146,5 +163,11 @@ class ChoiceSelectionController<T> extends ChangeNotifier {
     _value.clear();
     notifyListeners();
     _onChanged?.call(value);
+  }
+
+  void closeModal({confirmed = true, VoidCallback? onClosed}) {
+    filter?.hide();
+    _onCloseModal?.call(confirmed == true ? value : null);
+    onClosed?.call();
   }
 }

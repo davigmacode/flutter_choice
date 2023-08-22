@@ -1,11 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'controller.dart';
+import 'controller/main.dart';
 
-typedef ChoiceSelectionBuilder<T> = Widget Function(
-  ChoiceSelectionController<T> state,
+typedef ChoiceBuilder<T> = Widget Function(
+  ChoiceController<T> state,
   Widget? child,
 );
 
 typedef ChoiceStateBuilder<T> = Widget Function(
-  ChoiceSelectionController<T> state,
+  ChoiceController<T> state,
+);
+
+typedef IndexedChoiceStateBuilder<T> = Widget Function(
+  ChoiceController<T> state,
+  int index,
 );
