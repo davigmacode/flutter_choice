@@ -46,21 +46,23 @@ class ChoiceList<T> extends StatelessWidget {
     Clip clipBehavior = Clip.none,
   }) {
     return (itemBuilder, itemCount) {
-      return Padding(
-        padding: padding,
-        child: Wrap(
-          direction: direction,
-          alignment: alignment,
-          spacing: spacing,
-          runAlignment: runAlignment,
-          runSpacing: runSpacing,
-          crossAxisAlignment: crossAxisAlignment,
-          textDirection: textDirection,
-          verticalDirection: verticalDirection,
-          clipBehavior: clipBehavior,
-          children: List<Widget>.generate(
-            itemCount,
-            (i) => itemBuilder(i),
+      return IntrinsicWidth(
+        child: Padding(
+          padding: padding,
+          child: Wrap(
+            direction: direction,
+            alignment: alignment,
+            spacing: spacing,
+            runAlignment: runAlignment,
+            runSpacing: runSpacing,
+            crossAxisAlignment: crossAxisAlignment,
+            textDirection: textDirection,
+            verticalDirection: verticalDirection,
+            clipBehavior: clipBehavior,
+            children: List<Widget>.generate(
+              itemCount,
+              (i) => itemBuilder(i),
+            ),
           ),
         ),
       );
