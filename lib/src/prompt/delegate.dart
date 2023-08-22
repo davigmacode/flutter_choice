@@ -52,8 +52,9 @@ class ChoicePrompt<T> extends StatelessWidget {
     Color? surfaceTintColor,
     Clip clipBehavior = Clip.antiAlias,
     ShapeBorder? shape,
-    double maxWidthFactor = 1,
-    double maxHeightFactor = 1,
+    BoxConstraints? constraints,
+    double? maxWidthFactor,
+    double? maxHeightFactor,
   }) {
     return (context, modal) {
       return showDialog(
@@ -61,17 +62,20 @@ class ChoicePrompt<T> extends StatelessWidget {
         useSafeArea: useSafeArea,
         barrierDismissible: barrierDismissible,
         barrierColor: barrierColor,
-        builder: (_) => Dialog(
-          shape: shape,
-          clipBehavior: clipBehavior,
-          backgroundColor: backgroundColor,
-          surfaceTintColor: surfaceTintColor,
-          shadowColor: shadowColor,
-          elevation: elevation,
-          child: FractionallySizedBox(
-            widthFactor: maxWidthFactor,
-            heightFactor: maxHeightFactor,
-            child: modal,
+        builder: (_) => FractionallySizedBox(
+          widthFactor: maxWidthFactor,
+          heightFactor: maxHeightFactor,
+          child: Dialog(
+            shape: shape,
+            clipBehavior: clipBehavior,
+            backgroundColor: backgroundColor,
+            surfaceTintColor: surfaceTintColor,
+            shadowColor: shadowColor,
+            elevation: elevation,
+            child: Container(
+              constraints: constraints,
+              child: modal,
+            ),
           ),
         ),
       );
