@@ -96,7 +96,7 @@ class ChoiceTrigger extends StatelessWidget {
       subtitle: inline == true ? null : value,
       trailing: _trailing,
       dense: dense,
-      onTap: loading == false ? onTap : null,
+      onTap: loading != true ? onTap : null,
     );
   }
 }
