@@ -59,11 +59,14 @@ class ChoiceTrigger extends StatelessWidget {
   );
 
   /// Returns default loading indicator widget
-  static const Widget defaultTrailingSpinner = SizedBox(
-    height: 16.0,
-    width: 16.0,
-    child: CircularProgressIndicator(
-      strokeWidth: 1.5,
+  static const Widget defaultTrailingSpinner = Padding(
+    padding: EdgeInsets.only(left: 8, top: 2),
+    child: SizedBox(
+      height: 16.0,
+      width: 16.0,
+      child: CircularProgressIndicator(
+        strokeWidth: 1.5,
+      ),
     ),
   );
 
@@ -93,7 +96,7 @@ class ChoiceTrigger extends StatelessWidget {
       subtitle: inline == true ? null : value,
       trailing: _trailing,
       dense: dense,
-      onTap: onTap,
+      onTap: loading == false ? onTap : null,
     );
   }
 }
