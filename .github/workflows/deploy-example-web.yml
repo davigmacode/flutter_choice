@@ -47,9 +47,8 @@ jobs:
         flutter pub get
         flutter build web --release --base-href="/flutter_choice/"
     - name: Upload production-ready build example
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-pages-artifact@v2
       with:
-        name: production-example
         path: ./example/build/web
 
   deploy:
@@ -62,4 +61,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
