@@ -1,7 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/utils.dart';
 
+/// {@template choice.filter}
+/// Controller of the filter value and how it behaves
+/// {@endtemplate}
 class ChoiceFilterController extends ChangeNotifier {
+  /// Create a controller of the filter value and how it behaves
   ChoiceFilterController(BuildContext context) : _context = context;
 
   final BuildContext _context;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Default widget for empty choices list
+/// Default widget for empty choice
 class ChoiceListPlaceholder extends StatelessWidget {
   /// Default constructor
   const ChoiceListPlaceholder({super.key});
