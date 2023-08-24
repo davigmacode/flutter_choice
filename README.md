@@ -1,6 +1,6 @@
 ![Pub Version](https://img.shields.io/pub/v/choice) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_choice) [![GitHub](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&color=yellow&label)](https://www.buymeacoffee.com/davigmacode)
 
-A successor to smart_select and chips_choice with cleaner, more flexible, and composable API for creating inline or prompted single or multiple choice widgets.
+The successor to smart_select and chips_choice with cleaner, more flexible, and composable API for creating inline or prompted choice widgets with single or multiple selection.
 
 ## Features
 
