@@ -14,10 +14,12 @@ class FutureChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Future Inline Choice',
+          source: 'future/inline.dart',
           child: FutureInline(),
         ),
         SamplePanel(
           title: 'Future Prompted Choice',
+          source: 'future/prompt.dart',
           child: FuturePrompt(),
         ),
       ],

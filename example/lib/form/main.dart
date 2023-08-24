@@ -14,10 +14,12 @@ class FormChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Inline Choice Form',
+          source: 'form/inline.dart',
           child: FormInline(),
         ),
         SamplePanel(
           title: 'Prompted Choice Form',
+          source: 'form/prompt.dart',
           child: FormPrompt(),
         ),
       ],

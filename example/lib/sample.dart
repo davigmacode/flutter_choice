@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SamplePanel extends StatelessWidget {
   const SamplePanel({
     super.key,
     required this.title,
+    required this.source,
     required this.child,
   });
 
   final String title;
+  final String source;
   final Widget child;
 
   @override
@@ -39,7 +42,14 @@ class SamplePanel extends StatelessWidget {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   tooltip: 'Code',
-                  onPressed: () {},
+                  onPressed: () async {
+                    const prefix =
+                        'https://github.com/davigmacode/flutter_choice/blob/main/example/lib/';
+                    final Uri url = Uri.parse(prefix + source);
+                    if (!await launchUrl(url)) {
+                      throw Exception('Could not launch $url');
+                    }
+                  },
                   icon: const Icon(Icons.code),
                 ),
               ],

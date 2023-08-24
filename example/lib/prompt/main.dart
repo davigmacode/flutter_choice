@@ -24,30 +24,37 @@ class _PromptedChoicePageState extends State<PromptedChoicePage> {
       children: <Widget>[
         SamplePanel(
           title: 'Popup Dialog',
+          source: 'prompt/popup_dialog.dart',
           child: PromptedPopupDialog(),
         ),
         SamplePanel(
           title: 'Bottom Sheet',
+          source: 'prompt/bottom_sheet.dart',
           child: PromptedBottomSheet(),
         ),
         SamplePanel(
           title: 'New Page',
+          source: 'prompt/new_page.dart',
           child: PromptedNewPage(),
         ),
         SamplePanel(
           title: 'Modal Header, Footer, and Separator',
+          source: 'prompt/modal_composition.dart',
           child: PromptedModal(),
         ),
         SamplePanel(
           title: 'Confirmation',
+          source: 'prompt/confirmation.dart',
           child: PromptedConfirmation(),
         ),
         SamplePanel(
           title: 'Filterable and Highlighted Result',
+          source: 'prompt/filterable.dart',
           child: PromptedFilterable(),
         ),
         SamplePanel(
           title: 'Trigger Widget',
+          source: 'prompt/trigger.dart',
           child: PromptedTrigger(),
         ),
       ],

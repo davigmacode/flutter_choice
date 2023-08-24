@@ -16,18 +16,22 @@ class InlineChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Wrapped List',
+          source: 'inline/wrapped.dart',
           child: InlineWrapped(),
         ),
         SamplePanel(
           title: 'Scrollable Horizontal',
+          source: 'inline/scrollable_x.dart',
           child: InlineScrollableX(),
         ),
         SamplePanel(
           title: 'Scrollable Vertical',
+          source: 'inline/scrollable_y.dart',
           child: InlineScrollableY(),
         ),
         SamplePanel(
           title: 'Grid View',
+          source: 'inline/grid.dart',
           child: InlineGrid(),
         ),
       ],

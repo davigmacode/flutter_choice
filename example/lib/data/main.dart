@@ -15,14 +15,17 @@ class DataChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'String as Choice Value',
+          source: 'data/string.dart',
           child: DataString(),
         ),
         SamplePanel(
           title: 'Number as Choice Value',
+          source: 'data/number.dart',
           child: DataNumber(),
         ),
         SamplePanel(
           title: 'Object as Choice Value',
+          source: 'data/object.dart',
           child: DataObject(),
         ),
       ],

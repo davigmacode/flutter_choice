@@ -14,10 +14,12 @@ class SingleChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Inline Single Choice',
+          source: 'single/inline.dart',
           child: SingleInline(),
         ),
         SamplePanel(
           title: 'Prompted Single Choice',
+          source: 'single/prompt.dart',
           child: SinglePrompted(),
         ),
       ],

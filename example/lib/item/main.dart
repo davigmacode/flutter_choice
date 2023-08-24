@@ -17,22 +17,27 @@ class ItemChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Chips Item',
+          source: 'item/chip.dart',
           child: ItemChip(),
         ),
         SamplePanel(
           title: 'Radios Item',
+          source: 'item/radio.dart',
           child: ItemRadio(),
         ),
         SamplePanel(
           title: 'Checkboxes Item',
+          source: 'item/checkbox.dart',
           child: ItemCheckbox(),
         ),
         SamplePanel(
           title: 'Switches Item',
+          source: 'item/switch.dart',
           child: ItemSwitch(),
         ),
         SamplePanel(
           title: 'Item Leading, Trailing, and Divider',
+          source: 'item/composition.dart',
           child: ItemComposition(),
         ),
       ],

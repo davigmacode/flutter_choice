@@ -14,10 +14,12 @@ class MultipleChoicePage extends StatelessWidget {
       children: <Widget>[
         SamplePanel(
           title: 'Inline Multiple Choice',
+          source: 'multiple/inline.dart',
           child: MultipleInline(),
         ),
         SamplePanel(
           title: 'Prompted Multiple Choice',
+          source: 'multiple/prompt.dart',
           child: MultiplePrompted(),
         ),
       ],
