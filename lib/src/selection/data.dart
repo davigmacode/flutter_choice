@@ -73,7 +73,7 @@ class ChoiceData<T> {
     );
   }
 
-  /// Creates a copy of this [S2Choice] but with
+  /// Creates a copy of this [ChoiceData] but with
   /// the given fields replaced with the new values.
   ChoiceData<T> merge(ChoiceData<T>? other) {
     // if null return current object
@@ -94,9 +94,9 @@ class ChoiceData<T> {
 /// Builder for option prop
 typedef ChoiceDataProp<E, R> = R? Function(int index, E item);
 
-/// Helper to create choice data from any list
+/// Helper to create list of [ChoiceData] from any list
 extension ChoiceDataGeneration<T> on List<T> {
-  List<ChoiceData<R>> toChoiceData<R>({
+  List<ChoiceData<R>> asChoiceData<R>({
     required R Function(int index, T item) value,
     required String Function(int index, T item) title,
     ChoiceDataProp<T, String>? subtitle,

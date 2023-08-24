@@ -24,7 +24,7 @@ class _DataObjectState extends State<DataObject> {
           "https://randomuser.me/api/?inc=name,picture,email&results=25";
       final res = await Dio().get(url);
       final data = res.data['results'] as List;
-      return Future.value(data.toChoiceData(
+      return Future.value(data.asChoiceData(
         value: (i, e) => e['email'],
         title: (i, e) => e['name']['first'] + ' ' + e['name']['last'],
         image: (i, e) => e['picture']['thumbnail'],
