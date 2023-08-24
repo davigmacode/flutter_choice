@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:choice/selection.dart';
+import 'header.dart';
+import 'filter.dart';
+import 'footer.dart';
+import 'separator.dart';
+import 'button.dart';
 
 class ChoiceModal<T> extends StatelessWidget {
   const ChoiceModal({
@@ -24,6 +29,18 @@ class ChoiceModal<T> extends StatelessWidget {
   }) {
     return (_) => child;
   }
+
+  static const createHeader = ChoiceModalHeader.createBuilder;
+
+  static const crateFilter = ChoiceFilter.createBuilder;
+
+  static const crateFilterToggle = ChoiceFilterToggle.createBuilder;
+
+  static const createFooter = ChoiceModalFooter.createBuilder;
+
+  static const createSeparator = ChoiceModalSeparator.createBuilder;
+
+  static const createConfirmButton = ChoiceConfirmButton.createBuilder;
 
   @override
   Widget build(BuildContext context) {
