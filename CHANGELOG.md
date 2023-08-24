@@ -1,3 +1,9 @@
+## 1.0.0-dev.3
+
+* Fixed strange navigator behavior of filterable prompted choice
+* Added example screenshots
+* Improved example
+
 ## 1.0.0-dev.2
 
 * Provides API documentation
