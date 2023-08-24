@@ -23,23 +23,19 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  String? selectedValue;
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(String? value) {
+    setState(() => selectedValue = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return Choice<String>.inline(
       clearable: true,
-      value: ChoiceSingle.value(singleSelected),
-      onChanged: ChoiceSingle.onChanged(setSingleSelected),
+      value: ChoiceSingle.value(selectedValue),
+      onChanged: ChoiceSingle.onChanged(setSelectedValue),
       itemCount: choices.length,
       itemBuilder: (state, i) {
         return ChoiceChip(

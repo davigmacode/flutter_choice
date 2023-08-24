@@ -23,15 +23,11 @@ class _PromptedBottomSheetState extends State<PromptedBottomSheet> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
+
   List<String> multipleSelected = [];
 
   void setMultipleSelected(List<String> value) {
     setState(() => multipleSelected = value);
-  }
-
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
   }
 
   @override
@@ -43,7 +39,6 @@ class _PromptedBottomSheetState extends State<PromptedBottomSheet> {
         child: Choice<String>.prompt(
           title: 'Categories',
           multiple: true,
-          confirmation: true,
           value: multipleSelected,
           onChanged: setMultipleSelected,
           itemCount: choices.length,
@@ -60,12 +55,6 @@ class _PromptedBottomSheetState extends State<PromptedBottomSheet> {
           },
           modalHeaderBuilder: ChoiceModalHeader.createBuilder(
             automaticallyImplyLeading: false,
-            actionsBuilder: [
-              ChoiceConfirmButton.createBuilder(),
-              ChoiceModal.createBuilder(
-                child: const SizedBox(width: 20),
-              ),
-            ],
           ),
           promptDelegate: ChoicePrompt.delegateBottomSheet(),
         ),

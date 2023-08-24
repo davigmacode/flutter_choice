@@ -23,15 +23,11 @@ class _InlineWrappedState extends State<InlineWrapped> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  List<String> selectedValue = [];
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(List<String> value) {
+    setState(() => selectedValue = value);
   }
 
   @override
@@ -39,8 +35,8 @@ class _InlineWrappedState extends State<InlineWrapped> {
     return InlineChoice<String>(
       multiple: true,
       clearable: true,
-      value: multipleSelected,
-      onChanged: setMultipleSelected,
+      value: selectedValue,
+      onChanged: setSelectedValue,
       itemCount: choices.length,
       itemBuilder: (selection, i) {
         return ChoiceChip(

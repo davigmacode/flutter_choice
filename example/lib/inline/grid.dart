@@ -24,15 +24,11 @@ class _InlineGridState extends State<InlineGrid> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  List<String> selectedValue = [];
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(List<String> value) {
+    setState(() => selectedValue = value);
   }
 
   @override
@@ -45,8 +41,8 @@ class _InlineGridState extends State<InlineGrid> {
       child: Choice<String>.inline(
         clearable: true,
         multiple: true,
-        value: multipleSelected,
-        onChanged: setMultipleSelected,
+        value: selectedValue,
+        onChanged: setSelectedValue,
         itemCount: choices.length,
         itemBuilder: (state, i) {
           return CustomChoiceItem(

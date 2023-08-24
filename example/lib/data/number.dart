@@ -10,23 +10,23 @@ class DataNumber extends StatefulWidget {
 
 class _DataNumberState extends State<DataNumber> {
   List<int> choices = Iterable<int>.generate(10).toList();
-  int? singleSelected;
+  int? selectedValue;
 
-  void setSingleSelected(int? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(int? value) {
+    setState(() => selectedValue = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return InlineChoice<int>.single(
       clearable: true,
-      value: singleSelected,
-      onChanged: setSingleSelected,
+      value: selectedValue,
+      onChanged: setSelectedValue,
       itemCount: choices.length,
-      itemBuilder: (selection, i) {
+      itemBuilder: (state, i) {
         return ChoiceChip(
-          selected: selection.selected(choices[i]),
-          onSelected: selection.onSelected(choices[i]),
+          selected: state.selected(choices[i]),
+          onSelected: state.onSelected(choices[i]),
           label: Text(choices[i].toString()),
         );
       },

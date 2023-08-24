@@ -23,15 +23,11 @@ class _ItemCheckboxState extends State<ItemCheckbox> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  List<String> selectedValue = [];
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(List<String> value) {
+    setState(() => selectedValue = value);
   }
 
   @override
@@ -39,8 +35,8 @@ class _ItemCheckboxState extends State<ItemCheckbox> {
     return SizedBox(
       height: 200,
       child: InlineChoice<String>(
-        value: multipleSelected,
-        onChanged: setMultipleSelected,
+        value: selectedValue,
+        onChanged: setSelectedValue,
         itemCount: choices.length,
         itemBuilder: (state, i) {
           return CheckboxListTile(

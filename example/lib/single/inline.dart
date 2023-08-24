@@ -23,6 +23,7 @@ class _SingleInlineState extends State<SingleInline> {
     'Science',
     'Arts'
   ];
+
   String? singleSelected;
 
   void setSingleSelected(String? value) {

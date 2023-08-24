@@ -23,6 +23,7 @@ class _MultiplePromptedState extends State<MultiplePrompted> {
     'Science',
     'Arts'
   ];
+
   List<String> multipleSelected = [];
 
   void setMultipleSelected(List<String> value) {

@@ -23,15 +23,17 @@ class _PromptedTriggerState extends State<PromptedTrigger> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  String? singleSelected;
+
+  List<String> multipleSelected = [];
 
   void setSingleSelected(String? value) {
     setState(() => singleSelected = value);
+  }
+
+  void setMultipleSelected(List<String> value) {
+    setState(() => multipleSelected = value);
   }
 
   @override

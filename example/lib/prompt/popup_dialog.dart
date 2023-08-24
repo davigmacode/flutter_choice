@@ -23,12 +23,8 @@ class _PromptedPopupDialogState extends State<PromptedPopupDialog> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String> value) {
-    setState(() => multipleSelected = value);
-  }
+  String? singleSelected;
 
   void setSingleSelected(String? value) {
     setState(() => singleSelected = value);

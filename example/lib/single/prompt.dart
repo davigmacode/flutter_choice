@@ -23,6 +23,7 @@ class _SinglePromptedState extends State<SinglePrompted> {
     'Science',
     'Arts'
   ];
+
   String? singleSelected;
 
   void setSingleSelected(String? value) {

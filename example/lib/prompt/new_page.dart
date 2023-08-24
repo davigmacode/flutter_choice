@@ -58,7 +58,14 @@ class _PromptedNewPageState extends State<PromptedNewPage> {
               ),
             );
           },
-          modalHeaderBuilder: ChoiceModalHeader.createBuilder(),
+          modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+            actionsBuilder: [
+              ChoiceConfirmButton.createBuilder(),
+              ChoiceModal.createBuilder(
+                child: const SizedBox(width: 20),
+              ),
+            ],
+          ),
           promptDelegate: ChoicePrompt.delegateNewPage(),
         ),
       ),

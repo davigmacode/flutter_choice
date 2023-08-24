@@ -23,15 +23,11 @@ class _ItemSwitchState extends State<ItemSwitch> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
+
   List<String> multipleSelected = [];
 
   void setMultipleSelected(List<String> value) {
     setState(() => multipleSelected = value);
-  }
-
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
   }
 
   @override

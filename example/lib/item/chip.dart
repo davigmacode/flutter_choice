@@ -23,15 +23,11 @@ class _ItemChipState extends State<ItemChip> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
+
   List<String> multipleSelected = [];
 
   void setMultipleSelected(List<String> value) {
     setState(() => multipleSelected = value);
-  }
-
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
   }
 
   @override

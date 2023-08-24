@@ -30,15 +30,11 @@ class _FormPromptState extends State<FormPrompt> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
-  List<String> multipleSelected = [];
 
-  void setMultipleSelected(List<String>? value) {
-    setState(() => multipleSelected = value ?? []);
-  }
+  String? selectedValue;
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  void setSelectedValue(String? value) {
+    setState(() => selectedValue = value);
   }
 
   @override
@@ -49,8 +45,8 @@ class _FormPromptState extends State<FormPrompt> {
         children: [
           FormField<String>(
             autovalidateMode: AutovalidateMode.always,
-            initialValue: singleSelected,
-            onSaved: setSingleSelected,
+            initialValue: selectedValue,
+            onSaved: setSelectedValue,
             validator: (value) {
               if (value?.isEmpty ?? value == null) {
                 return 'Please select a category';
@@ -120,7 +116,7 @@ class _FormPromptState extends State<FormPrompt> {
                     children: <Widget>[
                       const Text('Submitted Value:'),
                       const SizedBox(height: 5),
-                      Text(singleSelected.toString())
+                      Text(selectedValue.toString())
                     ],
                   ),
                 ),

@@ -23,23 +23,24 @@ class _DataStringState extends State<DataString> {
     'Science',
     'Arts'
   ];
-  String? singleSelected;
 
-  void setSingleSelected(String? value) {
-    setState(() => singleSelected = value);
+  String? selectedValue;
+
+  void setSelectedValue(String? value) {
+    setState(() => selectedValue = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return InlineChoice<String>.single(
       clearable: true,
-      value: singleSelected,
-      onChanged: setSingleSelected,
+      value: selectedValue,
+      onChanged: setSelectedValue,
       itemCount: choices.length,
-      itemBuilder: (selection, i) {
+      itemBuilder: (state, i) {
         return ChoiceChip(
-          selected: selection.selected(choices[i]),
-          onSelected: selection.onSelected(choices[i]),
+          selected: state.selected(choices[i]),
+          onSelected: state.onSelected(choices[i]),
           label: Text(choices[i]),
         );
       },
