@@ -141,9 +141,9 @@ class ChoicePrompt<T> extends StatelessWidget {
         Builder(builder: (modalContext) {
           return ChoiceProvider<T>(
             controller: rootSelection.copyWith(
-              filter: filterable ? ChoiceFilterController(context) : null,
+              filter: filterable ? ChoiceFilterController(modalContext) : null,
               onCloseModal: (value) {
-                Navigator.maybePop(context, value);
+                Navigator.maybePop(modalContext, value);
               },
               onChanged: (value) {
                 if (!rootSelection.confirmation) {
