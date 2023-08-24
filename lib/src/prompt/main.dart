@@ -122,7 +122,6 @@ class PromptedChoice<T> extends StatelessWidget {
           separatorBuilder: modalSeparatorBuilder,
           bodyBuilder: (modal) {
             return ChoiceList<T>(
-              keyword: modal.filter?.value,
               itemSkip: itemSkip,
               itemCount: itemCount,
               itemBuilder: (_, i) => itemBuilder(modal, i),

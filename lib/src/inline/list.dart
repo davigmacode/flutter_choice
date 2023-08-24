@@ -13,20 +13,50 @@ class ChoiceList<T> extends StatelessWidget {
     this.leadingBuilder,
     this.trailingBuilder,
     this.builder,
-    this.keyword,
   });
 
+  /// {@template choice.list.itemCount}
+  /// The total number of item, this choice list can provide
+  /// {@endtemplate}
   final int itemCount;
-  final IndexedChoiceStateBuilder<T> itemBuilder;
-  final ChoiceSkipCallback? itemSkip;
-  final ChoiceStateBuilder<T>? dividerBuilder;
-  final ChoiceStateBuilder<T>? leadingBuilder;
-  final ChoiceStateBuilder<T>? trailingBuilder;
-  final ChoiceListBuilder? builder;
-  final String? keyword;
 
+  /// {@template choice.list.itemBuilder}
+  /// Called to build choice item
+  /// {@endtemplate}
+  final IndexedChoiceStateBuilder<T> itemBuilder;
+
+  /// {@template choice.list.itemSkip}
+  /// Called to specify which indices to skip when building choice item
+  /// {@endtemplate}
+  final ChoiceSkipCallback? itemSkip;
+
+  /// {@template choice.list.dividerBuilder}
+  /// Called to build divider item
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? dividerBuilder;
+
+  /// {@template choice.list.leadingBuilder}
+  /// Called to build leading item of the item collection
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? leadingBuilder;
+
+  /// {@template choice.list.trailingBuilder}
+  /// Called to build trailing item of the item collection
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? trailingBuilder;
+
+  /// {@template choice.list.builder}
+  /// Called to build the list of choice items
+  /// {@endtemplate}
+  final ChoiceListBuilder? builder;
+
+  /// Indicates whether the choice list has divider item
   bool get hasDivider => dividerBuilder != null;
+
+  /// Indicates whether the choice list has leading item
   bool get hasLeading => leadingBuilder != null;
+
+  /// Indicates whether the choice list has trailing item
   bool get hasTrailing => trailingBuilder != null;
 
   static final defaultBuilder = createWrapped();
@@ -171,8 +201,9 @@ class ChoiceList<T> extends StatelessWidget {
     final effectiveItemSkip = itemSkip ?? defaultItemSkip;
     return List<ChoiceItemBuilder?>.generate(
       itemCount,
-      (i) =>
-          !effectiveItemSkip(keyword, i) ? () => itemBuilder(state, i) : null,
+      (i) => !effectiveItemSkip(state.filter?.value, i)
+          ? () => itemBuilder(state, i)
+          : null,
     ).whereType<ChoiceItemBuilder>().toList();
   }
 
