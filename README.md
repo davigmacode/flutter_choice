@@ -33,7 +33,7 @@ There are a few constructors to create a single selection choice widget:
 * [`PromptedChoice`](https://pub.dev/documentation/choice/latest/choice_prompt/PromptedChoice/PromptedChoice.html)
 * [`PromptedChoice.single`](https://pub.dev/documentation/choice/latest/choice_prompt/PromptedChoice/PromptedChoice.single.html)
 
-By default, the choice controller maintains the selection state within a `List`. Any constructors other than those dedicated to single choice will have a `List<T>` for their `value` and `onChanged` prop. If we want to use a single value of `T`, we can use `ChoiceSingle.value` adapter to fill the `value` prop and `ChoiceSingle.onChange` adapter to fill the `onChanged` prop.
+By default, the choice controller maintains the selection state within a `List`. Any constructors other than those dedicated to single choice will have a `List<T>` for their `value` and `onChanged` prop. If we want to use a single value of `T`, we can use `ChoiceSingle.value` adapter to fill the `value` prop and `ChoiceSingle.onChanged` adapter to fill the `onChanged` prop.
 
 Here is an example of how to use the `ChoiceSingle.value` and `ChoiceSingle.onChanged` adapters
 
