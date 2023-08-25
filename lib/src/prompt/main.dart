@@ -120,6 +120,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.triggerBuilder,
     this.promptDelegate,
     this.filterable = false,
+    this.onFilter,
   });
 
   /// Create prompted choice widget with single selection
@@ -217,6 +218,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.triggerBuilder,
     this.promptDelegate,
     this.filterable = false,
+    this.onFilter,
   })  : multiple = false,
         value = ChoiceSingle.value(value),
         onChanged = ChoiceSingle.onChanged(onChanged);
@@ -313,6 +315,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.triggerBuilder,
     this.promptDelegate,
     this.filterable = false,
+    this.onFilter,
   }) : multiple = true;
 
   /// {@macro choice.title}
@@ -379,6 +382,11 @@ class PromptedChoice<T> extends StatelessWidget {
   /// {@macro choice.filterable}
   final bool filterable;
 
+  /// {@template choice.onFilter}
+  /// Called when filter value changed
+  /// {@endtemplate}
+  final ValueSetter<String>? onFilter;
+
   @override
   Widget build(BuildContext context) {
     return ChoiceProvider<T>(
@@ -392,6 +400,7 @@ class PromptedChoice<T> extends StatelessWidget {
       ),
       child: ChoicePrompt<T>(
         filterable: filterable,
+        onFilter: onFilter,
         delegate: promptDelegate,
         builder: triggerBuilder ?? ChoiceTrigger.createBuilder(),
         modal: ChoiceModal<T>(
@@ -399,17 +408,17 @@ class PromptedChoice<T> extends StatelessWidget {
           headerBuilder: modalHeaderBuilder,
           footerBuilder: modalFooterBuilder,
           separatorBuilder: modalSeparatorBuilder,
-          bodyBuilder: (modal) {
+          bodyBuilder: (state) {
             return ChoiceList<T>(
               itemSkip: itemSkip,
               itemCount: itemCount,
-              itemBuilder: (_, i) => itemBuilder(modal, i),
+              itemBuilder: (_, i) => itemBuilder(state, i),
               dividerBuilder:
-                  dividerBuilder != null ? (_) => dividerBuilder!(modal) : null,
+                  dividerBuilder != null ? (_) => dividerBuilder!(state) : null,
               leadingBuilder:
-                  leadingBuilder != null ? (_) => leadingBuilder!(modal) : null,
+                  leadingBuilder != null ? (_) => leadingBuilder!(state) : null,
               trailingBuilder: trailingBuilder != null
-                  ? (_) => trailingBuilder!(modal)
+                  ? (_) => trailingBuilder!(state)
                   : null,
               builder: listBuilder ?? ChoiceList.createVirtualized(),
             );

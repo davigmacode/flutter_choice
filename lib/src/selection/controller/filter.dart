@@ -6,9 +6,43 @@ import 'package:choice/utils.dart';
 /// {@endtemplate}
 class ChoiceFilterController extends ChangeNotifier {
   /// Create a controller of the filter value and how it behaves
-  ChoiceFilterController(BuildContext context) : _context = context;
+  ChoiceFilterController({
+    required this.onAttach,
+    required this.onDetach,
+    this.onChanged,
+  });
 
-  final BuildContext _context;
+  /// Called when filter attached
+  ///
+  /// Usually function to add history to route
+  /// ```dart
+  /// ChoiceFilterController(
+  ///   onAttach: (state) {
+  ///     // add history to route, so back button will appear
+  ///     // and when physical back button pressed
+  ///     // will close the search bar instead of close the modal
+  ///     LocalHistoryEntry entry = LocalHistoryEntry(onRemove: state.deactivate);
+  ///     ModalRoute.of(context)?.addLocalHistoryEntry(entry);
+  ///   }
+  /// )
+  /// ```
+  final ValueSetter<ChoiceFilterController> onAttach;
+
+  /// Called when filter attached
+  ///
+  /// Usually function to remove history from route
+  /// ```dart
+  /// ChoiceFilterController(
+  ///   onDetach: (state) {
+  ///     // remove filter from route history
+  ///     Navigator.pop(context);
+  ///   }
+  /// )
+  /// ```
+  final ValueSetter<ChoiceFilterController> onDetach;
+
+  /// Called when filter value changed
+  final ValueSetter<String>? onChanged;
 
   /// Debounce used in search text on changed
   final Debounce _debounce = Debounce();
@@ -23,32 +57,30 @@ class ChoiceFilterController extends ChangeNotifier {
   /// Returns the current filter value
   String get value => _value;
 
-  /// Show the filter and add history to route
-  void show() {
+  /// Call [activate] and [onAttach]
+  void attach() {
     if (!_active) {
-      // add history to route, so back button will appear
-      // and when physical back button pressed
-      // will close the search bar instead of close the modal
-      LocalHistoryEntry entry = LocalHistoryEntry(onRemove: _close);
-      ModalRoute.of(_context)?.addLocalHistoryEntry(entry);
-
-      _active = true;
-      notifyListeners();
+      onAttach(this);
+      activate();
     }
   }
 
-  /// Hide the filter and remove history from route
-  void hide() {
+  /// Call [deactivate] and [onDetach]
+  void detach() {
     if (_active) {
-      // close the filter
-      _close();
-      // remove filter from route history
-      Navigator.pop(_context);
+      onDetach(this);
+      deactivate();
     }
   }
 
-  /// Clear and close filter
-  void _close() {
+  /// Set filter active to `true`
+  void activate() {
+    _active = true;
+    notifyListeners();
+  }
+
+  /// Set filter active to `false` and clear value
+  void deactivate() {
     _active = false;
     clear();
   }
@@ -61,6 +93,7 @@ class ChoiceFilterController extends ChangeNotifier {
   /// Apply new value to filter query
   void _apply(String val) {
     _value = val;
+    onChanged?.call(val);
     notifyListeners();
   }
 

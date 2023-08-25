@@ -302,7 +302,7 @@ class ChoiceController<T> extends ChangeNotifier {
   }
 
   void closeModal({confirmed = true, VoidCallback? onClosed}) {
-    filter?.hide();
+    filter?.detach();
     _onCloseModal?.call(confirmed == true ? value : null);
     onClosed?.call();
   }

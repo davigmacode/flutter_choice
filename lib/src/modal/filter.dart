@@ -82,18 +82,18 @@ class ChoiceFilter extends StatelessWidget {
 class ChoiceFilterToggle extends StatelessWidget {
   const ChoiceFilterToggle({
     super.key,
-    required this.filtering,
-    required this.onShow,
-    required this.onHide,
+    this.filtering,
+    this.onShow,
+    this.onHide,
     this.iconShow,
     this.iconHide,
   });
 
-  final bool filtering;
+  final bool? filtering;
   final Widget? iconShow;
   final Widget? iconHide;
-  final VoidCallback onShow;
-  final VoidCallback onHide;
+  final VoidCallback? onShow;
+  final VoidCallback? onHide;
 
   static const defaultIconShow = Icon(Icons.search);
   static const defaultIconHide = Icon(Icons.clear);
@@ -107,8 +107,8 @@ class ChoiceFilterToggle extends StatelessWidget {
       return ChoiceFilterToggle(
         key: key,
         filtering: modal.filter?.active ?? false,
-        onShow: () => modal.filter?.show(),
-        onHide: () => modal.filter?.hide(),
+        onShow: modal.filter?.attach,
+        onHide: modal.filter?.detach,
         iconShow: iconShow,
         iconHide: iconHide,
       );
@@ -117,7 +117,7 @@ class ChoiceFilterToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !filtering
+    return filtering != true
         ? IconButton(
             icon: iconShow ?? defaultIconShow,
             onPressed: onShow,

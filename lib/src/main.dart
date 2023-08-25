@@ -263,7 +263,7 @@ class Choice<T> extends StatelessWidget {
     this.onChanged,
     required int itemCount,
     required IndexedChoiceStateBuilder<T> itemBuilder,
-    ChoiceSkipCallback itemSkip = ChoiceList.defaultItemSkip,
+    ChoiceSkipCallback? itemSkip,
     ChoiceStateBuilder<T>? dividerBuilder,
     ChoiceStateBuilder<T>? leadingBuilder,
     ChoiceStateBuilder<T>? trailingBuilder,
@@ -275,6 +275,7 @@ class Choice<T> extends StatelessWidget {
     ChoicePromptBuilder<T>? triggerBuilder,
     ChoicePromptDelegate<T>? promptDelegate,
     bool filterable = false,
+    ValueSetter<String>? onFilter,
   }) : child = PromptedChoice<T>(
           title: title,
           multiple: multiple,
@@ -296,6 +297,7 @@ class Choice<T> extends StatelessWidget {
           triggerBuilder: triggerBuilder,
           promptDelegate: promptDelegate,
           filterable: filterable,
+          onFilter: onFilter,
         );
 
   /// {@macro choice.title}
