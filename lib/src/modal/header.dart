@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:choice/selection.dart';
-import 'filter.dart';
+import 'search.dart';
 
 class ChoiceModalHeader extends AppBar {
   ChoiceModalHeader({

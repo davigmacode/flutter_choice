@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'filter.dart';
+import 'search.dart';
 
 /// {@template choice.selection}
 /// Controller of the selection value and how it behaves

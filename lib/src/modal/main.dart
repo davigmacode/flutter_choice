@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:choice/selection.dart';
 import 'header.dart';
-import 'filter.dart';
+import 'search.dart';
 import 'footer.dart';
 import 'separator.dart';
 import 'button.dart';
