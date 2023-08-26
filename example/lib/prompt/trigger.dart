@@ -60,7 +60,7 @@ class _PromptedTriggerState extends State<PromptedTrigger> {
                     },
                     title: ChoiceText(
                       choices[i],
-                      highlight: state.filter?.value,
+                      highlight: state.search?.value,
                     ),
                   );
                 },
@@ -85,7 +85,7 @@ class _PromptedTriggerState extends State<PromptedTrigger> {
                     onChanged: state.onSelected(choices[i]),
                     title: ChoiceText(
                       choices[i],
-                      highlight: state.filter?.value,
+                      highlight: state.search?.value,
                     ),
                   );
                 },

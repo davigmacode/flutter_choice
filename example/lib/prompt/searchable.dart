@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:choice/choice.dart';
 
-class PromptedFilterable extends StatefulWidget {
-  const PromptedFilterable({super.key});
+class PromptedSearchable extends StatefulWidget {
+  const PromptedSearchable({super.key});
 
   @override
-  State<PromptedFilterable> createState() => _PromptedFilterableState();
+  State<PromptedSearchable> createState() => _PromptedSearchableState();
 }
 
-class _PromptedFilterableState extends State<PromptedFilterable> {
+class _PromptedSearchableState extends State<PromptedSearchable> {
   List<String> choices = [
     'News',
     'Entertainment',
@@ -48,12 +48,12 @@ class _PromptedFilterableState extends State<PromptedFilterable> {
               clipBehavior: Clip.antiAlias,
               child: PromptedChoice<String>.single(
                 title: 'Category',
-                filterable: true,
+                searchable: true,
                 confirmation: true,
                 value: singleSelected,
                 onChanged: setSingleSelected,
                 itemCount: choices.length,
-                itemSkip: (q, i) => !ChoiceFilter.test(choices[i], q),
+                itemSkip: (q, i) => !ChoiceSearch.match(choices[i], q),
                 itemBuilder: (state, i) {
                   return RadioListTile(
                     value: choices[i],
@@ -63,7 +63,7 @@ class _PromptedFilterableState extends State<PromptedFilterable> {
                     },
                     title: ChoiceText(
                       choices[i],
-                      highlight: state.filter?.value,
+                      highlight: state.search?.value,
                     ),
                   );
                 },
@@ -114,18 +114,18 @@ class _PromptedFilterableState extends State<PromptedFilterable> {
                 title: 'Category',
                 clearable: true,
                 confirmation: true,
-                filterable: true,
+                searchable: true,
                 value: multipleSelected,
                 onChanged: setMultipleSelected,
                 itemCount: choices.length,
-                itemSkip: (q, i) => !ChoiceFilter.test(choices[i], q),
+                itemSkip: (q, i) => !ChoiceSearch.match(choices[i], q),
                 itemBuilder: (state, i) {
                   return ChoiceChip(
                     selected: state.selected(choices[i]),
                     onSelected: state.onSelected(choices[i]),
                     label: ChoiceText(
                       choices[i],
-                      highlight: state.filter?.value,
+                      highlight: state.search?.value,
                     ),
                   );
                 },

@@ -1,22 +1,22 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/utils.dart';
 
-/// {@template choice.filter}
-/// Controller of the filter value and how it behaves
+/// {@template choice.search}
+/// Controller of the search value and how it behaves
 /// {@endtemplate}
-class ChoiceFilterController extends ChangeNotifier {
-  /// Create a controller of the filter value and how it behaves
-  ChoiceFilterController({
+class ChoiceSearchController extends ChangeNotifier {
+  /// Create a controller of the search value and how it behaves
+  ChoiceSearchController({
     required this.onAttach,
     required this.onDetach,
     this.onChanged,
   });
 
-  /// Called when filter attached
+  /// Called when search attached
   ///
   /// Usually function to add history to route
   /// ```dart
-  /// ChoiceFilterController(
+  /// ChoiceSearchController(
   ///   onAttach: (state) {
   ///     // add history to route, so back button will appear
   ///     // and when physical back button pressed
@@ -26,22 +26,22 @@ class ChoiceFilterController extends ChangeNotifier {
   ///   }
   /// )
   /// ```
-  final ValueSetter<ChoiceFilterController> onAttach;
+  final ValueSetter<ChoiceSearchController> onAttach;
 
-  /// Called when filter attached
+  /// Called when search attached
   ///
   /// Usually function to remove history from route
   /// ```dart
-  /// ChoiceFilterController(
+  /// ChoiceSearchController(
   ///   onDetach: (state) {
-  ///     // remove filter from route history
+  ///     // remove search from route history
   ///     Navigator.pop(context);
   ///   }
   /// )
   /// ```
-  final ValueSetter<ChoiceFilterController> onDetach;
+  final ValueSetter<ChoiceSearchController> onDetach;
 
-  /// Called when filter value changed
+  /// Called when search value changed
   final ValueSetter<String>? onChanged;
 
   /// Debounce used in search text on changed
@@ -51,10 +51,10 @@ class ChoiceFilterController extends ChangeNotifier {
 
   String _value = '';
 
-  /// Returns `true` if the filter is displayed
+  /// Returns `true` if the search is displayed
   bool get active => _active;
 
-  /// Returns the current filter value
+  /// Returns the current search value
   String get value => _value;
 
   /// Call [activate] and [onAttach]
@@ -73,31 +73,31 @@ class ChoiceFilterController extends ChangeNotifier {
     }
   }
 
-  /// Set filter active to `true`
+  /// Set search active to `true`
   void activate() {
     _active = true;
     notifyListeners();
   }
 
-  /// Set filter active to `false` and clear value
+  /// Set search active to `false` and clear value
   void deactivate() {
     _active = false;
     clear();
   }
 
-  /// Just clear the filter text
+  /// Just clear the search text
   void clear() {
     apply('');
   }
 
-  /// Apply new value to filter query
+  /// Apply new value to search query
   void _apply(String val) {
     _value = val;
     onChanged?.call(val);
     notifyListeners();
   }
 
-  /// Apply new value to filter query
+  /// Apply new value to search query
   void apply(String val, [Duration? delay]) {
     if (delay != null) {
       _debounce.run(

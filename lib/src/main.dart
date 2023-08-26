@@ -238,7 +238,7 @@ class Choice<T> extends StatelessWidget {
   ///               },
   ///               title: ChoiceText(
   ///                 choices[i],
-  ///                 highlight: state.filter?.value,
+  ///                 highlight: state.search?.value,
   ///               ),
   ///             );
   ///           },
@@ -274,8 +274,8 @@ class Choice<T> extends StatelessWidget {
     FlexFit modalFit = FlexFit.loose,
     ChoicePromptBuilder<T>? triggerBuilder,
     ChoicePromptDelegate<T>? promptDelegate,
-    bool filterable = false,
-    ValueSetter<String>? onFilter,
+    bool searchable = false,
+    ValueSetter<String>? onSearch,
   }) : child = PromptedChoice<T>(
           title: title,
           multiple: multiple,
@@ -296,8 +296,8 @@ class Choice<T> extends StatelessWidget {
           modalFit: modalFit,
           triggerBuilder: triggerBuilder,
           promptDelegate: promptDelegate,
-          filterable: filterable,
-          onFilter: onFilter,
+          searchable: searchable,
+          onSearch: onSearch,
         );
 
   /// {@macro choice.title}

@@ -50,7 +50,7 @@ class _PromptedModalState extends State<PromptedModal> {
               onChanged: state.onSelected(choices[i]),
               title: ChoiceText(
                 choices[i],
-                highlight: state.filter?.value,
+                highlight: state.search?.value,
               ),
             );
           },

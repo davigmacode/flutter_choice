@@ -28,18 +28,18 @@ class ChoiceModalHeader extends AppBar {
     IconThemeData? iconTheme,
     bool? centerTitle,
     bool automaticallyImplyLeading = true,
-    ChoiceStateBuilder<T>? filterBuilder,
-    ChoiceStateBuilder<T>? filterToggleBuilder,
+    ChoiceStateBuilder<T>? searchBuilder,
+    ChoiceStateBuilder<T>? searchToggleBuilder,
     List<ChoiceStateBuilder<T>>? actionsBuilder,
   }) {
-    final effectiveFilterBuilder =
-        filterBuilder ?? ChoiceFilter.createBuilder<T>();
-    final effectiveFilterToggleBuilder =
-        filterToggleBuilder ?? ChoiceFilterToggle.createBuilder<T>();
+    final effectiveSearchBuilder =
+        searchBuilder ?? ChoiceSearch.createBuilder<T>();
+    final effectiveSearchToggleBuilder =
+        searchToggleBuilder ?? ChoiceSearchToggle.createBuilder<T>();
     return (state) {
-      final filterable = state.filterable;
-      final filtering = state.filter?.active ?? false;
-      final filter = effectiveFilterBuilder(state);
+      final searchable = state.searchable;
+      final searching = state.search?.active ?? false;
+      final searchWidget = effectiveSearchBuilder(state);
       final effectiveTitle =
           title ?? (state.title != null ? Text(state.title!) : null);
       final actions =
@@ -53,13 +53,13 @@ class ChoiceModalHeader extends AppBar {
         iconTheme: iconTheme,
         centerTitle: centerTitle,
         automaticallyImplyLeading:
-            automaticallyImplyLeading || (filterable && filtering),
+            automaticallyImplyLeading || (searchable && searching),
         leading:
-            filterable && filtering ? ChoiceFilterToggle.defaultIconShow : null,
-        title: filterable && filtering ? filter : effectiveTitle,
+            searchable && searching ? ChoiceSearchToggle.defaultIconShow : null,
+        title: searchable && searching ? searchWidget : effectiveTitle,
         actions: [
-          if (filterable) effectiveFilterToggleBuilder(state),
-          if (!filtering) ...?actions,
+          if (searchable) effectiveSearchToggleBuilder(state),
+          if (!searching) ...?actions,
         ],
       );
     };

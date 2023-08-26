@@ -43,14 +43,14 @@ class _MultiplePromptedState extends State<MultiplePrompted> {
           value: multipleSelected,
           onChanged: setMultipleSelected,
           itemCount: choices.length,
-          itemSkip: (q, i) => !ChoiceFilter.test(choices[i], q),
+          itemSkip: (q, i) => !ChoiceSearch.match(choices[i], q),
           itemBuilder: (state, i) {
             return CheckboxListTile(
               value: state.selected(choices[i]),
               onChanged: state.onSelected(choices[i]),
               title: ChoiceText(
                 choices[i],
-                highlight: state.filter?.value,
+                highlight: state.search?.value,
               ),
             );
           },

@@ -103,6 +103,11 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 25),
+            Image.network(
+              'https://raster.shields.io/pub/v/choice.png',
+              height: 17,
+            ),
           ],
         ),
       ),

@@ -203,11 +203,11 @@ class ChoiceList<T> extends StatelessWidget {
     return items;
   }
 
-  List<ChoiceItemBuilder> _resolveFilteredItems(ChoiceController<T> state) {
+  List<ChoiceItemBuilder> _resolveSearchedItems(ChoiceController<T> state) {
     final effectiveItemSkip = itemSkip ?? defaultItemSkip;
     return List<ChoiceItemBuilder?>.generate(
       itemCount,
-      (i) => !effectiveItemSkip(state.filter?.value, i)
+      (i) => !effectiveItemSkip(state.search?.value, i)
           ? () => itemBuilder(state, i)
           : null,
     ).whereType<ChoiceItemBuilder>().toList();
@@ -216,7 +216,7 @@ class ChoiceList<T> extends StatelessWidget {
   List<ChoiceItemBuilder> _resolveItems(ChoiceController<T> state) {
     final items = <ChoiceItemBuilder>[
       if (hasLeading) () => leadingBuilder!(state),
-      ..._resolveFilteredItems(state),
+      ..._resolveSearchedItems(state),
       if (hasTrailing) () => trailingBuilder!(state),
     ];
     return _resolveDividedItems(state, items);

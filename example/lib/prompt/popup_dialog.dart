@@ -50,7 +50,7 @@ class _PromptedPopupDialogState extends State<PromptedPopupDialog> {
               },
               title: ChoiceText(
                 choices[i],
-                highlight: state.filter?.value,
+                highlight: state.search?.value,
               ),
             );
           },

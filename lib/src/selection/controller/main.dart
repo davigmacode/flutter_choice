@@ -22,20 +22,20 @@ class ChoiceController<T> extends ChangeNotifier {
   /// {@template choice.params.prompt}
   /// The [confirmation] prop specifies whether the choice selection needs to be confirmed
   ///
-  /// The [filterable] prop specifies whether the choice can be filtered
+  /// The [searchable] prop specifies whether the choice can be searched
   ///
   /// The [title] prop is primary text of the modal and trigger widget
   /// {@endtemplate}
   ///
-  /// The [filter] is
-  /// {@macro choice.filter}
+  /// The [search] is
+  /// {@macro choice.search}
   ///
   /// The [onCloseModal] is called to close modal
   ChoiceController({
     List<T> value = const [],
     ValueChanged<List<T>>? onChanged,
     ValueChanged<List<T>?>? onCloseModal,
-    ChoiceFilterController? filter,
+    ChoiceSearchController? search,
     this.multiple = false,
     this.clearable = false,
     this.confirmation = false,
@@ -43,7 +43,7 @@ class ChoiceController<T> extends ChangeNotifier {
   })  : _onCloseModal = onCloseModal,
         _onChanged = onChanged,
         _value = Set.from(value) {
-    this.filter = filter
+    this.search = search
       ?..addListener(() {
         notifyListeners();
       });
@@ -55,7 +55,7 @@ class ChoiceController<T> extends ChangeNotifier {
     List<T>? value,
     ValueChanged<List<T>>? onChanged,
     ValueChanged<List<T>?>? onCloseModal,
-    ChoiceFilterController? filter,
+    ChoiceSearchController? search,
     bool? multiple,
     bool? clearable,
     bool? confirmation,
@@ -68,7 +68,7 @@ class ChoiceController<T> extends ChangeNotifier {
       multiple: multiple ?? this.multiple,
       clearable: clearable ?? this.clearable,
       confirmation: confirmation ?? this.confirmation,
-      filter: filter ?? this.filter,
+      search: search ?? this.search,
       title: title ?? this.title,
     );
   }
@@ -167,13 +167,13 @@ class ChoiceController<T> extends ChangeNotifier {
   /// {@endtemplate}
   final bool confirmation;
 
-  /// {@macro choice.filter}
-  late final ChoiceFilterController? filter;
+  /// {@macro choice.search}
+  late final ChoiceSearchController? search;
 
-  /// {@template choice.filterable}
-  /// Specifies whether the choice can be filtered
+  /// {@template choice.searchable}
+  /// Specifies whether the choice can be searched
   /// {@endtemplate}
-  bool get filterable => filter != null;
+  bool get searchable => search != null;
 
   /// Returns a list of type `T` of the selection value
   List<T> get value => _value.toList();
@@ -302,7 +302,7 @@ class ChoiceController<T> extends ChangeNotifier {
   }
 
   void closeModal({confirmed = true, VoidCallback? onClosed}) {
-    filter?.detach();
+    search?.detach();
     _onCloseModal?.call(confirmed == true ? value : null);
     onClosed?.call();
   }

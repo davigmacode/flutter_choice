@@ -42,14 +42,13 @@ class _PromptedBottomSheetState extends State<PromptedBottomSheet> {
           value: multipleSelected,
           onChanged: setMultipleSelected,
           itemCount: choices.length,
-          itemSkip: (q, i) => !ChoiceFilter.test(choices[i], q),
           itemBuilder: (state, i) {
             return CheckboxListTile(
               value: state.selected(choices[i]),
               onChanged: state.onSelected(choices[i]),
               title: ChoiceText(
                 choices[i],
-                highlight: state.filter?.value,
+                highlight: state.search?.value,
               ),
             );
           },

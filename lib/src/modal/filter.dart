@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:choice/utils.dart';
 import 'package:choice/selection.dart';
 
-class ChoiceFilter extends StatelessWidget {
-  const ChoiceFilter({
+class ChoiceSearch extends StatelessWidget {
+  const ChoiceSearch({
     super.key,
     this.controller,
     this.cursorColor,
@@ -24,7 +24,7 @@ class ChoiceFilter extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final ValueChanged<String>? onChanged;
 
-  static bool test(String? value, String? query) {
+  static bool match(String? value, String? query) {
     return value != null
         ? query != null
             ? normalized(value).contains(normalized(query))
@@ -44,7 +44,7 @@ class ChoiceFilter extends StatelessWidget {
     Duration? submitDelay,
   }) {
     return (state) {
-      return ChoiceFilter(
+      return ChoiceSearch(
         key: key,
         controller: controller,
         cursorColor: cursorColor,
@@ -52,9 +52,9 @@ class ChoiceFilter extends StatelessWidget {
         hintText: hintText ?? 'Search on ${state.title}',
         hintStyle: hintStyle,
         textAlign: textAlign,
-        onSubmitted: !autoSubmit ? state.filter?.apply : null,
+        onSubmitted: !autoSubmit ? state.search?.apply : null,
         onChanged: autoSubmit
-            ? (query) => state.filter?.apply(query, submitDelay)
+            ? (query) => state.search?.apply(query, submitDelay)
             : null,
       );
     };
@@ -79,17 +79,17 @@ class ChoiceFilter extends StatelessWidget {
   }
 }
 
-class ChoiceFilterToggle extends StatelessWidget {
-  const ChoiceFilterToggle({
+class ChoiceSearchToggle extends StatelessWidget {
+  const ChoiceSearchToggle({
     super.key,
-    this.filtering,
+    this.searching,
     this.onShow,
     this.onHide,
     this.iconShow,
     this.iconHide,
   });
 
-  final bool? filtering;
+  final bool? searching;
   final Widget? iconShow;
   final Widget? iconHide;
   final VoidCallback? onShow;
@@ -104,11 +104,11 @@ class ChoiceFilterToggle extends StatelessWidget {
     Widget? iconHide,
   }) {
     return (modal) {
-      return ChoiceFilterToggle(
+      return ChoiceSearchToggle(
         key: key,
-        filtering: modal.filter?.active ?? false,
-        onShow: modal.filter?.attach,
-        onHide: modal.filter?.detach,
+        searching: modal.search?.active ?? false,
+        onShow: modal.search?.attach,
+        onHide: modal.search?.detach,
         iconShow: iconShow,
         iconHide: iconHide,
       );
@@ -117,7 +117,7 @@ class ChoiceFilterToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return filtering != true
+    return searching != true
         ? IconButton(
             icon: iconShow ?? defaultIconShow,
             onPressed: onShow,

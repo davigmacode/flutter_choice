@@ -50,7 +50,7 @@ class _SinglePromptedState extends State<SinglePrompted> {
               },
               title: ChoiceText(
                 choices[i],
-                highlight: state.filter?.value,
+                highlight: state.search?.value,
               ),
             );
           },

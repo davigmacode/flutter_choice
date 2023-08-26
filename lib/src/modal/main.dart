@@ -63,9 +63,9 @@ class ChoiceModal<T> extends StatelessWidget {
 
   static const createHeader = ChoiceModalHeader.createBuilder;
 
-  static const crateFilter = ChoiceFilter.createBuilder;
+  static const createSearch = ChoiceSearch.createBuilder;
 
-  static const crateFilterToggle = ChoiceFilterToggle.createBuilder;
+  static const createSearchToggle = ChoiceSearchToggle.createBuilder;
 
   static const createFooter = ChoiceModalFooter.createBuilder;
 

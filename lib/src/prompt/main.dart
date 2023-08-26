@@ -83,7 +83,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///               },
   ///               title: ChoiceText(
   ///                 choices[i],
-  ///                 highlight: state.filter?.value,
+  ///                 highlight: state.search?.value,
   ///               ),
   ///             );
   ///           },
@@ -120,8 +120,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFit = FlexFit.loose,
     this.triggerBuilder,
     this.promptDelegate,
-    this.filterable = false,
-    this.onFilter,
+    this.searchable = false,
+    this.onSearch,
   });
 
   /// Create prompted choice widget with single selection
@@ -183,7 +183,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///               },
   ///               title: ChoiceText(
   ///                 choices[i],
-  ///                 highlight: state.filter?.value,
+  ///                 highlight: state.search?.value,
   ///               ),
   ///             );
   ///           },
@@ -219,8 +219,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFit = FlexFit.loose,
     this.triggerBuilder,
     this.promptDelegate,
-    this.filterable = false,
-    this.onFilter,
+    this.searchable = false,
+    this.onSearch,
   })  : multiple = false,
         value = ChoiceSingle.value(value),
         onChanged = ChoiceSingle.onChanged(onChanged);
@@ -276,7 +276,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///               onChanged: state.onSelected(choices[i]),
   ///               title: ChoiceText(
   ///                 choices[i],
-  ///                 highlight: state.filter?.value,
+  ///                 highlight: state.search?.value,
   ///               ),
   ///             );
   ///           },
@@ -317,8 +317,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFit = FlexFit.loose,
     this.triggerBuilder,
     this.promptDelegate,
-    this.filterable = false,
-    this.onFilter,
+    this.searchable = false,
+    this.onSearch,
   }) : multiple = true;
 
   /// {@macro choice.title}
@@ -385,13 +385,13 @@ class PromptedChoice<T> extends StatelessWidget {
   /// {@endtemplate}
   final ChoicePromptBuilder<T>? triggerBuilder;
 
-  /// {@macro choice.filterable}
-  final bool filterable;
+  /// {@macro choice.searchable}
+  final bool searchable;
 
-  /// {@template choice.onFilter}
-  /// Called when filter value changed
+  /// {@template choice.onSearch}
+  /// Called when search value changed
   /// {@endtemplate}
-  final ValueSetter<String>? onFilter;
+  final ValueSetter<String>? onSearch;
 
   static final defaultListBuilder = ChoiceList.createVirtualized();
 
@@ -407,8 +407,8 @@ class PromptedChoice<T> extends StatelessWidget {
         onChanged: onChanged,
       ),
       child: ChoicePrompt<T>(
-        filterable: filterable,
-        onFilter: onFilter,
+        searchable: searchable,
+        onSearch: onSearch,
         delegate: promptDelegate,
         builder: triggerBuilder ?? ChoiceTrigger.createBuilder(),
         modal: ChoiceModal<T>(

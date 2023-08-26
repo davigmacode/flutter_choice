@@ -8,15 +8,15 @@ class ChoicePrompt<T> extends StatelessWidget {
     required this.builder,
     required this.modal,
     ChoicePromptDelegate<T>? delegate,
-    this.filterable = false,
-    this.onFilter,
+    this.searchable = false,
+    this.onSearch,
   }) : delegate = delegate ?? delegatePopupDialog();
 
   final ChoicePromptBuilder<T> builder;
   final Widget modal;
   final ChoicePromptDelegate<T> delegate;
-  final bool filterable;
-  final ValueSetter<String>? onFilter;
+  final bool searchable;
+  final ValueSetter<String>? onSearch;
 
   static ChoicePromptDelegate<T> delegateNewPage<T>({
     Color? backgroundColor,
@@ -133,8 +133,8 @@ class ChoicePrompt<T> extends StatelessWidget {
     };
   }
 
-  ChoiceFilterController createFilterController(BuildContext context) {
-    return ChoiceFilterController(
+  ChoiceSearchController createSearchController(BuildContext context) {
+    return ChoiceSearchController(
       onAttach: (state) {
         // add history to route, so back button will appear
         // and when physical back button pressed
@@ -145,10 +145,10 @@ class ChoicePrompt<T> extends StatelessWidget {
         ModalRoute.of(context)?.addLocalHistoryEntry(entry);
       },
       onDetach: (state) {
-        // remove filter from route history
+        // remove search from route history
         Navigator.pop(context);
       },
-      onChanged: onFilter,
+      onChanged: onSearch,
     );
   }
 
@@ -162,7 +162,7 @@ class ChoicePrompt<T> extends StatelessWidget {
         Builder(builder: (modalContext) {
           return ChoiceProvider<T>(
             controller: rootSelection.copyWith(
-              filter: filterable ? createFilterController(modalContext) : null,
+              search: searchable ? createSearchController(modalContext) : null,
               onCloseModal: (value) {
                 Navigator.maybePop(modalContext, value);
               },

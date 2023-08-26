@@ -74,7 +74,7 @@ class _FormPromptState extends State<FormPrompt> {
                             },
                             title: ChoiceText(
                               choices[i],
-                              highlight: state.filter?.value,
+                              highlight: state.search?.value,
                             ),
                           );
                         },

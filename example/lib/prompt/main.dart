@@ -6,7 +6,7 @@ import 'bottom_sheet.dart';
 import 'new_page.dart';
 import 'modal_composition.dart';
 import 'confirmation.dart';
-import 'filterable.dart';
+import 'searchable.dart';
 import 'trigger.dart';
 
 class PromptedChoicePage extends StatefulWidget {
@@ -48,9 +48,9 @@ class _PromptedChoicePageState extends State<PromptedChoicePage> {
           child: PromptedConfirmation(),
         ),
         SamplePanel(
-          title: 'Filterable and Highlighted Result',
-          source: 'prompt/filterable.dart',
-          child: PromptedFilterable(),
+          title: 'Searchable and Highlighted Result',
+          source: 'prompt/searchable.dart',
+          child: PromptedSearchable(),
         ),
         SamplePanel(
           title: 'Trigger Widget',

@@ -61,7 +61,7 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                     },
                     title: ChoiceText(
                       choices[i],
-                      highlight: state.filter?.value,
+                      highlight: state.search?.value,
                     ),
                   );
                 },
