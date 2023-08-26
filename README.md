@@ -130,7 +130,7 @@ There are a few constructors to create a prompted choice widget:
 ### Choice Item
 [![Preview](https://github.com/davigmacode/flutter_choice/raw/main/media/choice-item.gif)](https://davigmacode.github.io/flutter_choice)
 
-### Future Builder
+### With Future Builder
 [![Preview](https://github.com/davigmacode/flutter_choice/raw/main/media/choice-future.gif)](https://davigmacode.github.io/flutter_choice)
 
 ### With Form and FormField
