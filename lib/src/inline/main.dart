@@ -24,6 +24,8 @@ class InlineChoice<T> extends ChoiceList<T> {
   ///
   /// The [trailingBuilder] prop called to build trailing item of the item collection
   ///
+  /// The [placeholderBuilder] prop called to build placeholder when there are no choice items
+  ///
   /// The [listBuilder] prop called to build the list of choice items
   /// {@endtemplate}
   ///
@@ -93,6 +95,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.dividerBuilder,
     super.leadingBuilder,
     super.trailingBuilder,
+    super.placeholderBuilder,
     ChoiceListBuilder? listBuilder,
   }) : super(builder: listBuilder);
 
@@ -166,6 +169,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.dividerBuilder,
     super.leadingBuilder,
     super.trailingBuilder,
+    super.placeholderBuilder,
     ChoiceListBuilder? listBuilder,
   })  : multiple = false,
         value = ChoiceSingle.value(value),
@@ -242,6 +246,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.dividerBuilder,
     super.leadingBuilder,
     super.trailingBuilder,
+    super.placeholderBuilder,
     ChoiceListBuilder? listBuilder,
   })  : multiple = true,
         super(builder: listBuilder);

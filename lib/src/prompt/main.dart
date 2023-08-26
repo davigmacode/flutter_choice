@@ -112,6 +112,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
+    this.placeholderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -210,6 +211,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
+    this.placeholderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -307,6 +309,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
+    this.placeholderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -354,6 +357,9 @@ class PromptedChoice<T> extends StatelessWidget {
   /// {@macro choice.list.trailingBuilder}
   final ChoiceStateBuilder<T>? trailingBuilder;
 
+  /// {@macro choice.list.placeholderBuilder}
+  final ChoiceStateBuilder<T>? placeholderBuilder;
+
   /// {@macro choice.list.builder}
   final ChoiceListBuilder? listBuilder;
 
@@ -387,6 +393,8 @@ class PromptedChoice<T> extends StatelessWidget {
   /// {@endtemplate}
   final ValueSetter<String>? onFilter;
 
+  static final defaultListBuilder = ChoiceList.createVirtualized();
+
   @override
   Widget build(BuildContext context) {
     return ChoiceProvider<T>(
@@ -412,15 +420,12 @@ class PromptedChoice<T> extends StatelessWidget {
             return ChoiceList<T>(
               itemSkip: itemSkip,
               itemCount: itemCount,
-              itemBuilder: (_, i) => itemBuilder(state, i),
-              dividerBuilder:
-                  dividerBuilder != null ? (_) => dividerBuilder!(state) : null,
-              leadingBuilder:
-                  leadingBuilder != null ? (_) => leadingBuilder!(state) : null,
-              trailingBuilder: trailingBuilder != null
-                  ? (_) => trailingBuilder!(state)
-                  : null,
-              builder: listBuilder ?? ChoiceList.createVirtualized(),
+              itemBuilder: itemBuilder,
+              dividerBuilder: dividerBuilder,
+              leadingBuilder: leadingBuilder,
+              trailingBuilder: trailingBuilder,
+              placeholderBuilder: placeholderBuilder,
+              builder: listBuilder ?? defaultListBuilder,
             );
           },
         ),

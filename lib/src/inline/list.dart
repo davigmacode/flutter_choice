@@ -12,6 +12,7 @@ class ChoiceList<T> extends StatelessWidget {
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
+    this.placeholderBuilder,
     this.builder,
   });
 
@@ -44,6 +45,11 @@ class ChoiceList<T> extends StatelessWidget {
   /// Called to build trailing item of the item collection
   /// {@endtemplate}
   final ChoiceStateBuilder<T>? trailingBuilder;
+
+  /// {@template choice.list.placeholderBuilder}
+  /// Called to build placeholder when there are no choice items
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? placeholderBuilder;
 
   /// {@template choice.list.builder}
   /// Called to build the list of choice items
@@ -218,14 +224,14 @@ class ChoiceList<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selection = ChoiceProvider.of<T>(context);
-    final itemBuildersPool = _resolveItems(selection);
+    final state = ChoiceProvider.of<T>(context);
+    final itemBuildersPool = _resolveItems(state);
     final itemCount = itemBuildersPool.length;
     return itemCount > 0
         ? (builder ?? defaultBuilder).call(
             (i) => itemBuildersPool[i](),
             itemCount,
           )
-        : const ChoiceListPlaceholder();
+        : placeholderBuilder?.call(state) ?? const ChoiceListPlaceholder();
   }
 }
