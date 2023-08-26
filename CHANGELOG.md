@@ -1,3 +1,8 @@
+## 1.0.0
+
+* Optional placeholder widget when there are no choice items
+* Renamed the term `filter` to `search` and all related files
+
 ## 1.0.0-dev.4
 
 * Added onFilter option to catch filter value when changed
