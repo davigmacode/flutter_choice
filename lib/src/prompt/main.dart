@@ -104,6 +104,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.multiple = false,
     this.clearable = false,
     this.confirmation = false,
+    this.loading = false,
     this.value = const [],
     this.onChanged,
     required this.itemCount,
@@ -113,6 +114,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
+    this.errorBuilder,
+    this.loaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -203,6 +206,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.title,
     this.clearable = false,
     this.confirmation = false,
+    this.loading = false,
     T? value,
     ValueChanged<T?>? onChanged,
     required this.itemCount,
@@ -212,6 +216,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
+    this.errorBuilder,
+    this.loaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -301,6 +307,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.title,
     this.clearable = false,
     this.confirmation = false,
+    this.loading = false,
     this.value = const [],
     this.onChanged,
     required this.itemCount,
@@ -310,6 +317,8 @@ class PromptedChoice<T> extends StatelessWidget {
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
+    this.errorBuilder,
+    this.loaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -332,6 +341,9 @@ class PromptedChoice<T> extends StatelessWidget {
 
   /// {@macro choice.confirmation}
   final bool confirmation;
+
+  /// {@macro choice.loading}
+  final bool loading;
 
   /// {@macro choice.value}
   final List<T> value;
@@ -359,6 +371,12 @@ class PromptedChoice<T> extends StatelessWidget {
 
   /// {@macro choice.list.placeholderBuilder}
   final ChoiceStateBuilder<T>? placeholderBuilder;
+
+  /// {@macro choice.list.errorBuilder}
+  final ChoiceStateBuilder<T>? errorBuilder;
+
+  /// {@macro choice.list.loaderBuilder}
+  final ChoiceStateBuilder<T>? loaderBuilder;
 
   /// {@macro choice.list.builder}
   final ChoiceListBuilder? listBuilder;
@@ -403,6 +421,7 @@ class PromptedChoice<T> extends StatelessWidget {
         multiple: multiple,
         clearable: clearable,
         confirmation: confirmation,
+        loading: loading,
         value: value,
         onChanged: onChanged,
       ),
@@ -418,6 +437,7 @@ class PromptedChoice<T> extends StatelessWidget {
           separatorBuilder: modalSeparatorBuilder,
           bodyBuilder: (state) {
             return ChoiceList<T>(
+              loading: loading,
               itemSkip: itemSkip,
               itemCount: itemCount,
               itemBuilder: itemBuilder,
@@ -425,6 +445,8 @@ class PromptedChoice<T> extends StatelessWidget {
               leadingBuilder: leadingBuilder,
               trailingBuilder: trailingBuilder,
               placeholderBuilder: placeholderBuilder,
+              errorBuilder: errorBuilder,
+              loaderBuilder: loaderBuilder,
               builder: listBuilder ?? defaultListBuilder,
             );
           },
