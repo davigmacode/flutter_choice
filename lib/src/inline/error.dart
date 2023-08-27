@@ -18,6 +18,7 @@ class ChoiceListError extends StatelessWidget {
     EdgeInsetsGeometry? padding,
     BoxConstraints? constraints,
     Color? color = Colors.red,
+    TextAlign? textAlign = TextAlign.center,
     required String message,
   }) {
     return (state) {
@@ -27,6 +28,7 @@ class ChoiceListError extends StatelessWidget {
         constraints: constraints,
         child: Text(
           message,
+          textAlign: textAlign,
           style: TextStyle(color: color),
         ),
       );
