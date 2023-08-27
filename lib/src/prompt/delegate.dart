@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:choice/selection.dart';
+import 'package:choice/utils.dart';
 import 'types.dart';
 
-class ChoicePrompt<T> extends StatelessWidget {
+class ChoicePrompt<T> extends StatefulWidget {
   ChoicePrompt({
     super.key,
     required this.builder,
@@ -133,6 +134,15 @@ class ChoicePrompt<T> extends StatelessWidget {
     };
   }
 
+  @override
+  State<ChoicePrompt<T>> createState() => _ChoicePromptState<T>();
+}
+
+class _ChoicePromptState<T> extends State<ChoicePrompt<T>> {
+  // ChoiceController<T>? _state;
+
+  StateSetter? _rerenderModal;
+
   ChoiceSearchController createSearchController(BuildContext context) {
     return ChoiceSearchController(
       onAttach: (state) {
@@ -148,45 +158,73 @@ class ChoicePrompt<T> extends StatelessWidget {
         // remove search from route history
         Navigator.pop(context);
       },
-      onChanged: onSearch,
+      onChanged: widget.onSearch,
     );
   }
 
   VoidCallback createOpenModal(
     BuildContext context,
-    ChoiceController<T> rootSelection,
+    ChoiceController<T> state,
   ) {
     return () async {
-      final res = await delegate(
+      final res = await widget.delegate(
         context,
-        Builder(builder: (modalContext) {
-          return ChoiceProvider<T>(
-            controller: rootSelection.copyWith(
-              search: searchable ? createSearchController(modalContext) : null,
-              onCloseModal: (value) {
-                Navigator.maybePop(modalContext, value);
-              },
-              onChanged: (value) {
-                if (!rootSelection.confirmation) {
-                  rootSelection.replace(value);
-                }
-              },
-            ),
-            child: modal,
-          );
-        }),
+        wrapModalWithNewController(state),
       );
       if (res != null) {
-        rootSelection.replace(res);
+        state.replace(res);
       }
     };
   }
+
+  Widget wrapModalWithNewController(ChoiceController<T> state) {
+    return Builder(
+      builder: (modalContext) {
+        return ChoiceProvider<T>(
+          controller: state.copyWith(
+            search:
+                widget.searchable ? createSearchController(modalContext) : null,
+            onCloseModal: (value) {
+              Navigator.maybePop(modalContext, value);
+            },
+            onChanged: (value) {
+              if (!state.confirmation) {
+                state.replace(value);
+              }
+            },
+          ),
+          child: SafeStatefulBuilder(builder: (context, setModalState) {
+            _rerenderModal = setModalState;
+            return widget.modal;
+          }),
+        );
+      },
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant ChoicePrompt<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.modal != oldWidget.modal) {
+      Future.delayed(Duration.zero, () async {
+        _rerenderModal?.call(() {});
+      });
+    }
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _state = ChoiceProvider.of<T>(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return ChoiceConsumer<T>(
       builder: (state, _) {
-        return builder(state, createOpenModal(context, state));
+        // _state = state;
+        return widget.builder(state, createOpenModal(context, state));
       },
     );
   }
