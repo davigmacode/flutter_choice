@@ -27,6 +27,7 @@ class _DataObjectState extends State<DataObject> {
       return Future.value(data.asChoiceData(
         value: (i, e) => e['email'],
         title: (i, e) => e['name']['first'] + ' ' + e['name']['last'],
+        subtitle: (i, e) => e['email'],
         image: (i, e) => e['picture']['thumbnail'],
       ));
     } on DioException catch (e) {
