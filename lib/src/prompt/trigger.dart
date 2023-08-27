@@ -42,7 +42,7 @@ class ChoiceTrigger extends StatelessWidget {
         ),
         leading: leading,
         trailing: trailing,
-        loading: loading,
+        loading: loading ?? state.loading,
         inline: inline,
         onTap: openModal,
       );
