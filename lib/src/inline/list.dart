@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
 import 'placeholder.dart';
+import 'loader.dart';
 import 'types.dart';
 
 class ChoiceList<T> extends StatelessWidget {
@@ -13,8 +14,14 @@ class ChoiceList<T> extends StatelessWidget {
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
+    this.errorBuilder,
+    this.loaderBuilder,
     this.builder,
+    this.loading = false,
   });
+
+  /// {@macro choice.loading}
+  final bool loading;
 
   /// {@template choice.list.itemCount}
   /// The total number of item, this choice list can provide
@@ -51,6 +58,16 @@ class ChoiceList<T> extends StatelessWidget {
   /// {@endtemplate}
   final ChoiceStateBuilder<T>? placeholderBuilder;
 
+  /// {@template choice.list.errorBuilder}
+  /// Called to build an error indicator widget when choice list cannot be shown
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? errorBuilder;
+
+  /// {@template choice.list.loaderBuilder}
+  /// Called to build loading indicator when [loading] is true
+  /// {@endtemplate}
+  final ChoiceStateBuilder<T>? loaderBuilder;
+
   /// {@template choice.list.builder}
   /// Called to build the list of choice items
   /// {@endtemplate}
@@ -64,6 +81,9 @@ class ChoiceList<T> extends StatelessWidget {
 
   /// Indicates whether the choice list has trailing item
   bool get hasTrailing => trailingBuilder != null;
+
+  /// Indicates whether the choice list has error
+  bool get hasError => errorBuilder != null;
 
   static final defaultBuilder = createWrapped();
 
@@ -222,16 +242,28 @@ class ChoiceList<T> extends StatelessWidget {
     return _resolveDividedItems(state, items);
   }
 
+  ChoiceStateBuilder<T> get effectiveLoadingBuilder {
+    return loaderBuilder ?? ChoiceListLoader.createCircularLoader();
+  }
+
+  ChoiceStateBuilder<T> get effectivePlaceholderBuilder {
+    return placeholderBuilder ?? ChoiceListPlaceholder.createBuilder();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ChoiceProvider.of<T>(context);
     final itemBuildersPool = _resolveItems(state);
     final itemCount = itemBuildersPool.length;
-    return itemCount > 0
-        ? (builder ?? defaultBuilder).call(
-            (i) => itemBuildersPool[i](),
-            itemCount,
-          )
-        : placeholderBuilder?.call(state) ?? const ChoiceListPlaceholder();
+    return !loading
+        ? !hasError
+            ? itemCount > 0
+                ? (builder ?? defaultBuilder).call(
+                    (i) => itemBuildersPool[i](),
+                    itemCount,
+                  )
+                : effectivePlaceholderBuilder(state)
+            : errorBuilder!(state)
+        : effectiveLoadingBuilder(state);
   }
 }

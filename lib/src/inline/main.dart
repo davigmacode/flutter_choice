@@ -89,6 +89,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     this.onChanged,
     this.multiple = false,
     this.clearable = false,
+    super.loading = false,
     required super.itemCount,
     required super.itemBuilder,
     super.itemSkip,
@@ -96,6 +97,8 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.leadingBuilder,
     super.trailingBuilder,
     super.placeholderBuilder,
+    super.loaderBuilder,
+    super.errorBuilder,
     ChoiceListBuilder? listBuilder,
   }) : super(builder: listBuilder);
 
@@ -163,6 +166,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     T? value,
     ValueChanged<T?>? onChanged,
     this.clearable = false,
+    super.loading = false,
     required super.itemCount,
     required super.itemBuilder,
     super.itemSkip,
@@ -170,6 +174,8 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.leadingBuilder,
     super.trailingBuilder,
     super.placeholderBuilder,
+    super.loaderBuilder,
+    super.errorBuilder,
     ChoiceListBuilder? listBuilder,
   })  : multiple = false,
         value = ChoiceSingle.value(value),
@@ -240,6 +246,7 @@ class InlineChoice<T> extends ChoiceList<T> {
     this.value = const [],
     this.onChanged,
     this.clearable = false,
+    super.loading = false,
     required super.itemCount,
     required super.itemBuilder,
     super.itemSkip,
@@ -247,6 +254,8 @@ class InlineChoice<T> extends ChoiceList<T> {
     super.leadingBuilder,
     super.trailingBuilder,
     super.placeholderBuilder,
+    super.loaderBuilder,
+    super.errorBuilder,
     ChoiceListBuilder? listBuilder,
   })  : multiple = true,
         super(builder: listBuilder);
@@ -256,6 +265,8 @@ class InlineChoice<T> extends ChoiceList<T> {
 
   /// {@macro choice.clearable}
   final bool clearable;
+
+  // final bool loading;
 
   /// {@macro choice.value}
   final List<T> value;
@@ -269,6 +280,7 @@ class InlineChoice<T> extends ChoiceList<T> {
       controller: ChoiceController<T>(
         multiple: multiple,
         clearable: clearable,
+        loading: loading,
         value: value,
         onChanged: onChanged,
       ),
