@@ -40,7 +40,7 @@ class ChoiceSearch extends StatelessWidget {
     String? hintText,
     TextStyle? hintStyle,
     TextAlign textAlign = TextAlign.start,
-    bool autoSubmit = true,
+    bool autoSubmit = false,
     Duration? submitDelay,
   }) {
     return (state) {
