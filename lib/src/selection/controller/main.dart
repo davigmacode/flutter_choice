@@ -39,6 +39,7 @@ class ChoiceController<T> extends ChangeNotifier {
     this.multiple = false,
     this.clearable = false,
     this.confirmation = false,
+    this.loading = false,
     this.title,
   })  : _onCloseModal = onCloseModal,
         _onChanged = onChanged,
@@ -59,6 +60,7 @@ class ChoiceController<T> extends ChangeNotifier {
     bool? multiple,
     bool? clearable,
     bool? confirmation,
+    bool? loading,
     String? title,
   }) {
     return ChoiceController<T>(
@@ -68,8 +70,26 @@ class ChoiceController<T> extends ChangeNotifier {
       multiple: multiple ?? this.multiple,
       clearable: clearable ?? this.clearable,
       confirmation: confirmation ?? this.confirmation,
+      loading: loading ?? this.loading,
       search: search ?? this.search,
       title: title ?? this.title,
+    );
+  }
+
+  /// Creates a copy of this [ChoiceController] but with
+  /// the given fields replaced with the new values.
+  ChoiceController<T> merge(ChoiceController<T>? other) {
+    // if null return current object
+    if (other == null) return this;
+
+    return copyWith(
+      value: other.value,
+      multiple: other.multiple,
+      clearable: other.clearable,
+      confirmation: other.confirmation,
+      loading: other.loading,
+      search: other.search,
+      title: other.title,
     );
   }
 
@@ -166,6 +186,11 @@ class ChoiceController<T> extends ChangeNotifier {
   /// Specifies whether the choice selection needs to be confirmed
   /// {@endtemplate}
   final bool confirmation;
+
+  /// {@template choice.loading}
+  /// Specify whether the choice items is in loading state
+  /// {@endtemplate}
+  final bool loading;
 
   /// {@macro choice.search}
   late final ChoiceSearchController? search;
