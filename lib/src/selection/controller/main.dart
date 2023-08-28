@@ -40,6 +40,7 @@ class ChoiceController<T> extends ChangeNotifier {
     this.clearable = false,
     this.confirmation = false,
     this.loading = false,
+    this.error = false,
     this.title,
   })  : _onCloseModal = onCloseModal,
         _onChanged = onChanged,
@@ -61,6 +62,7 @@ class ChoiceController<T> extends ChangeNotifier {
     bool? clearable,
     bool? confirmation,
     bool? loading,
+    bool? error,
     String? title,
   }) {
     return ChoiceController<T>(
@@ -71,6 +73,7 @@ class ChoiceController<T> extends ChangeNotifier {
       clearable: clearable ?? this.clearable,
       confirmation: confirmation ?? this.confirmation,
       loading: loading ?? this.loading,
+      error: error ?? this.error,
       search: search ?? this.search,
       title: title ?? this.title,
     );
@@ -88,6 +91,7 @@ class ChoiceController<T> extends ChangeNotifier {
       clearable: other.clearable,
       confirmation: other.confirmation,
       loading: other.loading,
+      error: other.error,
       search: other.search,
       title: other.title,
     );
@@ -191,6 +195,11 @@ class ChoiceController<T> extends ChangeNotifier {
   /// Specify whether the choice items is in loading state
   /// {@endtemplate}
   final bool loading;
+
+  /// {@template choice.error}
+  /// Specifies whether the choice list has error
+  /// {@endtemplate}
+  final bool error;
 
   /// {@macro choice.search}
   late final ChoiceSearchController? search;

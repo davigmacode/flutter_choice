@@ -105,6 +105,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.clearable = false,
     this.confirmation = false,
     this.loading = false,
+    this.error = false,
     this.value = const [],
     this.onChanged,
     required this.itemCount,
@@ -207,6 +208,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.clearable = false,
     this.confirmation = false,
     this.loading = false,
+    this.error = false,
     T? value,
     ValueChanged<T?>? onChanged,
     required this.itemCount,
@@ -308,6 +310,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.clearable = false,
     this.confirmation = false,
     this.loading = false,
+    this.error = false,
     this.value = const [],
     this.onChanged,
     required this.itemCount,
@@ -344,6 +347,9 @@ class PromptedChoice<T> extends StatelessWidget {
 
   /// {@macro choice.loading}
   final bool loading;
+
+  /// {@macro choice.error}
+  final bool error;
 
   /// {@macro choice.value}
   final List<T> value;
@@ -422,6 +428,7 @@ class PromptedChoice<T> extends StatelessWidget {
         clearable: clearable,
         confirmation: confirmation,
         loading: loading,
+        error: error,
         value: value,
         onChanged: onChanged,
       ),
@@ -438,6 +445,7 @@ class PromptedChoice<T> extends StatelessWidget {
           bodyBuilder: (state) {
             return ChoiceList<T>(
               loading: loading,
+              error: error,
               itemSkip: itemSkip,
               itemCount: itemCount,
               itemBuilder: itemBuilder,

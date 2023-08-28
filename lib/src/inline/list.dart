@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
 import 'placeholder.dart';
+import 'error.dart';
 import 'loader.dart';
 import 'types.dart';
 
@@ -18,10 +19,14 @@ class ChoiceList<T> extends StatelessWidget {
     this.loaderBuilder,
     this.builder,
     this.loading = false,
+    this.error = false,
   });
 
   /// {@macro choice.loading}
   final bool loading;
+
+  /// {@macro choice.error}
+  final bool error;
 
   /// {@template choice.list.itemCount}
   /// The total number of item, this choice list can provide
@@ -81,9 +86,6 @@ class ChoiceList<T> extends StatelessWidget {
 
   /// Indicates whether the choice list has trailing item
   bool get hasTrailing => trailingBuilder != null;
-
-  /// Indicates whether the choice list has error
-  bool get hasError => errorBuilder != null;
 
   static final defaultBuilder = createWrapped();
 
@@ -250,20 +252,27 @@ class ChoiceList<T> extends StatelessWidget {
     return placeholderBuilder ?? ChoiceListPlaceholder.createBuilder();
   }
 
+  ChoiceStateBuilder<T> get effectiveErrorBuilder {
+    return errorBuilder ??
+        ChoiceListError.createBuilder(
+          message: 'The choice list failed to load',
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ChoiceProvider.of<T>(context);
     final itemBuildersPool = _resolveItems(state);
     final itemCount = itemBuildersPool.length;
     return !loading
-        ? !hasError
+        ? !error
             ? itemCount > 0
                 ? (builder ?? defaultBuilder).call(
                     (i) => itemBuildersPool[i](),
                     itemCount,
                   )
                 : effectivePlaceholderBuilder(state)
-            : errorBuilder!(state)
+            : effectiveErrorBuilder(state)
         : effectiveLoadingBuilder(state);
   }
 }
