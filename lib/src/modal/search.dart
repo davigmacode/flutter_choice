@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:choice/utils.dart';
 import 'package:choice/selection.dart';
 
 class ChoiceSearchField extends StatelessWidget {
@@ -23,14 +22,6 @@ class ChoiceSearchField extends StatelessWidget {
   final TextAlign textAlign;
   final ValueChanged<String>? onSubmitted;
   final ValueChanged<String>? onChanged;
-
-  static bool match(String? value, String? query) {
-    return value != null
-        ? query != null
-            ? normalized(value).contains(normalized(query))
-            : true
-        : false;
-  }
 
   static ChoiceStateBuilder<T> create<T>({
     Key? key,

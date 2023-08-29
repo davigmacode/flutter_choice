@@ -1,6 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:choice/utils.dart';
 
+abstract class ChoiceSearch {
+  static bool match(String? value, String? query) {
+    return value != null
+        ? query != null
+            ? normalized(value).contains(normalized(query))
+            : true
+        : false;
+  }
+}
+
 /// {@template choice.search}
 /// Controller of the search value and how it behaves
 /// {@endtemplate}
