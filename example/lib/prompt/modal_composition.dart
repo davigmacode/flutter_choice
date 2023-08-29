@@ -54,16 +54,14 @@ class _PromptedModalState extends State<PromptedModal> {
               ),
             );
           },
-          modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+          modalHeaderBuilder: ChoiceModal.createHeader(
             automaticallyImplyLeading: false,
             actionsBuilder: [
-              ChoiceConfirmButton.createBuilder(),
-              ChoiceModal.createBuilder(
-                child: const SizedBox(width: 20),
-              ),
+              ChoiceModal.createConfirmButton(),
+              ChoiceModal.createSpacer(width: 20),
             ],
           ),
-          modalSeparatorBuilder: ChoiceModalSeparator.createBuilder(),
+          modalSeparatorBuilder: ChoiceModal.createSeparator(),
           modalFooterBuilder: (state) {
             return Container(
               color: Colors.white,
@@ -76,8 +74,8 @@ class _PromptedModalState extends State<PromptedModal> {
             );
           },
           listBuilder: ChoiceList.createGrid(childAspectRatio: 1 / .25),
-          anchorBuilder: ChoiceAnchor.createDefault(),
           promptDelegate: ChoicePrompt.delegateBottomSheet(),
+          anchorBuilder: ChoiceAnchor.create(),
         ),
       ),
     );

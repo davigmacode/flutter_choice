@@ -55,7 +55,7 @@ class _SinglePromptedState extends State<SinglePrompted> {
             );
           },
           promptDelegate: ChoicePrompt.delegateBottomSheet(),
-          anchorBuilder: ChoiceAnchor.createDefault(inline: true),
+          anchorBuilder: ChoiceAnchor.create(inline: true),
         ),
       ),
     );

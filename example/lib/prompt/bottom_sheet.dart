@@ -52,7 +52,7 @@ class _PromptedBottomSheetState extends State<PromptedBottomSheet> {
               ),
             );
           },
-          modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+          modalHeaderBuilder: ChoiceModal.createHeader(
             automaticallyImplyLeading: false,
           ),
           promptDelegate: ChoicePrompt.delegateBottomSheet(),

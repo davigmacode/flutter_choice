@@ -65,7 +65,7 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                     ),
                   );
                 },
-                modalFooterBuilder: ChoiceModalFooter.createBuilder(
+                modalFooterBuilder: ChoiceModalFooter.create(
                   color: Colors.white,
                   mainAxisAlignment: MainAxisAlignment.center,
                   padding: const EdgeInsets.symmetric(
@@ -91,7 +91,7 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                   maxHeightFactor: .5,
                   constraints: const BoxConstraints(maxWidth: 300),
                 ),
-                anchorBuilder: ChoiceAnchor.createDefault(inline: true),
+                anchorBuilder: ChoiceAnchor.create(inline: true),
               ),
             ),
           ),
@@ -119,19 +119,17 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                   spacing: 10,
                   runSpacing: 10,
                 ),
-                modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+                modalHeaderBuilder: ChoiceModal.createHeader(
                   automaticallyImplyLeading: false,
                   actionsBuilder: [
-                    ChoiceConfirmButton.createBuilder(),
-                    ChoiceModal.createBuilder(
-                      child: const SizedBox(width: 10),
-                    ),
+                    ChoiceModal.createConfirmButton(),
+                    ChoiceModal.createSpacer(width: 10),
                   ],
                 ),
                 promptDelegate: ChoicePrompt.delegatePopupDialog(
                   constraints: const BoxConstraints(maxWidth: 400),
                 ),
-                anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
               ),
             ),
           ),

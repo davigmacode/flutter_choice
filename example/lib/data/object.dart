@@ -81,7 +81,7 @@ class _DataObjectState extends State<DataObject> {
                       : null,
                 );
               },
-              modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+              modalHeaderBuilder: ChoiceModal.createHeader(
                 title: const Text('Select Users'),
                 actionsBuilder: [
                   (state) {
@@ -92,13 +92,11 @@ class _DataObjectState extends State<DataObject> {
                       tristate: true,
                     );
                   },
-                  ChoiceModal.createBuilder(
-                    child: const SizedBox(width: 25),
-                  ),
+                  ChoiceModal.createSpacer(width: 25),
                 ],
               ),
               promptDelegate: ChoicePrompt.delegateBottomSheet(),
-              anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
+              anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
             ),
           ),
         );

@@ -47,7 +47,7 @@ class _FuturePromptState extends State<FuturePrompt> {
               title: 'Users',
               clearable: true,
               error: snapshot.hasError,
-              errorBuilder: ChoiceListError.createBuilder(
+              errorBuilder: ChoiceListError.create(
                 message: snapshot.error.toString(),
               ),
               loading: snapshot.connectionState == ConnectionState.waiting,
@@ -74,7 +74,7 @@ class _FuturePromptState extends State<FuturePrompt> {
                       : null,
                 );
               },
-              modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+              modalHeaderBuilder: ChoiceModal.createHeader(
                 title: const Text('Select Users'),
                 actionsBuilder: [
                   (state) {
@@ -85,13 +85,11 @@ class _FuturePromptState extends State<FuturePrompt> {
                       tristate: true,
                     );
                   },
-                  ChoiceModal.createBuilder(
-                    child: const SizedBox(width: 25),
-                  ),
+                  ChoiceModal.createSpacer(width: 25),
                 ],
               ),
               promptDelegate: ChoicePrompt.delegateBottomSheet(),
-              anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
+              anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
             ),
           ),
         );

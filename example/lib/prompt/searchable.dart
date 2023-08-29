@@ -67,15 +67,13 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                     ),
                   );
                 },
-                modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+                modalHeaderBuilder: ChoiceModal.createHeader(
                   automaticallyImplyLeading: false,
                   actionsBuilder: [
-                    ChoiceModal.createBuilder(
-                      child: const SizedBox(width: 5),
-                    ),
+                    ChoiceModal.createSpacer(width: 5),
                   ],
                 ),
-                modalFooterBuilder: ChoiceModalFooter.createBuilder(
+                modalFooterBuilder: ChoiceModal.createFooter(
                   color: Colors.white,
                   mainAxisAlignment: MainAxisAlignment.center,
                   padding: const EdgeInsets.symmetric(
@@ -101,7 +99,7 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                   maxHeightFactor: .7,
                   constraints: const BoxConstraints(maxWidth: 300),
                 ),
-                anchorBuilder: ChoiceAnchor.createDefault(inline: true),
+                anchorBuilder: ChoiceAnchor.create(inline: true),
               ),
             ),
           ),
@@ -134,19 +132,17 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                   spacing: 10,
                   runSpacing: 10,
                 ),
-                modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+                modalHeaderBuilder: ChoiceModal.createHeader(
                   automaticallyImplyLeading: false,
                   actionsBuilder: [
-                    ChoiceConfirmButton.createBuilder(),
-                    ChoiceModal.createBuilder(
-                      child: const SizedBox(width: 10),
-                    ),
+                    ChoiceModal.createConfirmButton(),
+                    ChoiceModal.createSpacer(width: 10),
                   ],
                 ),
                 promptDelegate: ChoicePrompt.delegatePopupDialog(
                   constraints: const BoxConstraints(maxWidth: 400),
                 ),
-                anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
               ),
             ),
           ),

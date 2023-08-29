@@ -64,7 +64,7 @@ class _PromptedAnchorState extends State<PromptedAnchor> {
                     ),
                   );
                 },
-                anchorBuilder: ChoiceAnchor.createDefault(inline: true),
+                anchorBuilder: ChoiceAnchor.create(inline: true),
               ),
             ),
           ),
@@ -89,7 +89,7 @@ class _PromptedAnchorState extends State<PromptedAnchor> {
                     ),
                   );
                 },
-                anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
               ),
             ),
           ),

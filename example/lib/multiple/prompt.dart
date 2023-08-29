@@ -54,13 +54,11 @@ class _MultiplePromptedState extends State<MultiplePrompted> {
               ),
             );
           },
-          modalHeaderBuilder: ChoiceModalHeader.createBuilder(
+          modalHeaderBuilder: ChoiceModal.createHeader(
             automaticallyImplyLeading: false,
             actionsBuilder: [
-              ChoiceConfirmButton.createBuilder(),
-              ChoiceModal.createBuilder(
-                child: const SizedBox(width: 20),
-              ),
+              ChoiceModal.createConfirmButton(),
+              ChoiceModal.createSpacer(width: 10),
             ],
           ),
           modalFooterBuilder: (state) {
