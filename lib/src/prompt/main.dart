@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:choice/selection.dart';
 import 'package:choice/inline.dart';
 import 'package:choice/modal.dart';
+import 'package:choice/anchor.dart';
 import 'delegate.dart';
-import 'trigger.dart';
 import 'types.dart';
 
 /// Widget to create prompted choice with single or multiple selection
@@ -29,7 +29,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///
   /// The [modalFit] prop is how a flexible modal body is inscribed into the available space.
   ///
-  /// The [triggerBuilder] prop called to build trigger widget to invoke modal prompt
+  /// The [anchorBuilder] prop called to build trigger widget to invoke modal prompt
   ///
   /// The [promptDelegate] prop called to specify ways to invoke modal prompt
   /// {@endtemplate}
@@ -122,7 +122,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFooterBuilder,
     this.modalSeparatorBuilder,
     this.modalFit = FlexFit.loose,
-    this.triggerBuilder,
+    this.anchorBuilder,
     this.promptDelegate,
     this.searchable = false,
     this.onSearch,
@@ -225,7 +225,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFooterBuilder,
     this.modalSeparatorBuilder,
     this.modalFit = FlexFit.loose,
-    this.triggerBuilder,
+    this.anchorBuilder,
     this.promptDelegate,
     this.searchable = false,
     this.onSearch,
@@ -327,7 +327,7 @@ class PromptedChoice<T> extends StatelessWidget {
     this.modalFooterBuilder,
     this.modalSeparatorBuilder,
     this.modalFit = FlexFit.loose,
-    this.triggerBuilder,
+    this.anchorBuilder,
     this.promptDelegate,
     this.searchable = false,
     this.onSearch,
@@ -407,7 +407,7 @@ class PromptedChoice<T> extends StatelessWidget {
   /// {@template choice.prompt.trigger}
   /// Called to build trigger widget to invoke modal prompt
   /// {@endtemplate}
-  final ChoicePromptBuilder<T>? triggerBuilder;
+  final ChoicePromptBuilder<T>? anchorBuilder;
 
   /// {@macro choice.searchable}
   final bool searchable;
@@ -436,7 +436,7 @@ class PromptedChoice<T> extends StatelessWidget {
         searchable: searchable,
         onSearch: onSearch,
         delegate: promptDelegate,
-        builder: triggerBuilder ?? ChoiceTrigger.createBuilder(),
+        builder: anchorBuilder ?? ChoiceAnchor.createDefault(),
         modal: ChoiceModal<T>(
           fit: modalFit,
           headerBuilder: modalHeaderBuilder,
