@@ -1,4 +1,4 @@
-![Pub Version](https://img.shields.io/pub/v/choice) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_choice) [![GitHub](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&color=yellow&label)](https://www.buymeacoffee.com/davigmacode) [![GitHub](https://badgen.net/badge/icon/ko-fi?icon=kofi&color=red&label)](https://ko-fi.com/davigmacode)
+[![Pub Version](https://img.shields.io/pub/v/choice)](https://pub.dev/packages/choice) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_choice) [![GitHub](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&color=yellow&label)](https://www.buymeacoffee.com/davigmacode) [![GitHub](https://badgen.net/badge/icon/ko-fi?icon=kofi&color=red&label)](https://ko-fi.com/davigmacode)
 
 The successor to `smart_select` and `chips_choice` with cleaner, more flexible, and composable API for creating inline or prompted choice widgets with single or multiple selection.
 
@@ -72,25 +72,50 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
 
   @override
   Widget build(BuildContext context) {
-    return Choice<String>.inline(
-      clearable: true,
-      value: ChoiceSingle.value(selectedValue),
-      onChanged: ChoiceSingle.onChanged(setSelectedValue),
-      itemCount: choices.length,
-      itemBuilder: (state, i) {
-        return ChoiceChip(
-          selected: state.selected(choices[i]),
-          onSelected: state.onSelected(choices[i]),
-          label: Text(choices[i]),
-        );
-      },
-      listBuilder: ChoiceList.createScrollable(
-        spacing: 10,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 25,
+    return Column(
+      children: [
+        Choice<String>.inline(
+          clearable: true,
+          value: ChoiceSingle.value(selectedValue),
+          onChanged: ChoiceSingle.onChanged(setSelectedValue),
+          itemCount: choices.length,
+          itemBuilder: (state, i) {
+            return ChoiceChip(
+              selected: state.selected(choices[i]),
+              onSelected: state.onSelected(choices[i]),
+              label: Text(choices[i]),
+            );
+          },
+          listBuilder: ChoiceList.createScrollable(
+            spacing: 10,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 25,
+            ),
+          ),
         ),
-      ),
+        InlineChoice<String>.single(
+          clearable: true,
+          value: selectedValue,
+          onChanged: setSelectedValue,
+          itemCount: choices.length,
+          itemBuilder: (state, i) {
+            return ChoiceChip(
+              selected: state.selected(choices[i]),
+              onSelected: state.onSelected(choices[i]),
+              label: Text(choices[i]),
+            );
+          },
+          listBuilder: ChoiceList.createWrapped(
+            spacing: 10,
+            runSpacing: 10,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 25,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -148,4 +173,4 @@ There are a few constructors to create a prompted choice widget:
 <a href="https://www.buymeacoffee.com/davigmacode" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="45"></a>
 <a href="https://ko-fi.com/davigmacode" target="_blank"><img src="https://storage.ko-fi.com/cdn/brandasset/kofi_s_tag_white.png" alt="Ko-Fi" height="45"></a>
 
-I'm working on my packages on my free-time, but I don't have as much time as I would. If this package or any other package I created is helping you, please consider to sponsor me so that I can take time to read the issues, fix bugs, merge pull requests and add features to these packages.
+If this package or any other package I created is helping you, please consider to sponsor me so that I can take time to read the issues, fix bugs, merge pull requests and add features to these packages.

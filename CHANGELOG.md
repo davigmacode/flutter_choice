@@ -1,3 +1,11 @@
+## 1.3.2
+
+* Re-render-able modal widget
+* Changed default to manual search submit
+* Added loading indicator to controller so it can access everywhere
+* The trigger widget notices the loading state from the choice controller
+* Improved inline and prompted choice with placeholder, error and loading indicator
+
 ## 1.0.0
 
 * Optional placeholder widget when there are no choice items
