@@ -7,7 +7,7 @@ import 'new_page.dart';
 import 'modal_composition.dart';
 import 'confirmation.dart';
 import 'searchable.dart';
-import 'trigger.dart';
+import 'anchor.dart';
 
 class PromptedChoicePage extends StatefulWidget {
   const PromptedChoicePage({super.key});
@@ -53,9 +53,9 @@ class _PromptedChoicePageState extends State<PromptedChoicePage> {
           child: PromptedSearchable(),
         ),
         SamplePanel(
-          title: 'Trigger Widget',
-          source: 'prompt/trigger.dart',
-          child: PromptedTrigger(),
+          title: 'Anchor/Trigger Widget',
+          source: 'prompt/anchor.dart',
+          child: PromptedAnchor(),
         ),
       ],
     );

@@ -76,7 +76,7 @@ class _PromptedModalState extends State<PromptedModal> {
             );
           },
           listBuilder: ChoiceList.createGrid(childAspectRatio: 1 / .25),
-          triggerBuilder: ChoiceTrigger.createBuilder(),
+          anchorBuilder: ChoiceAnchor.createDefault(),
           promptDelegate: ChoicePrompt.delegateBottomSheet(),
         ),
       ),

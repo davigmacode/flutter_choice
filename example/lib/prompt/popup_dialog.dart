@@ -58,7 +58,7 @@ class _PromptedPopupDialogState extends State<PromptedPopupDialog> {
             maxHeightFactor: .5,
             constraints: const BoxConstraints(maxWidth: 300),
           ),
-          triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+          anchorBuilder: ChoiceAnchor.createDefault(inline: true),
         ),
       ),
     );

@@ -40,22 +40,17 @@ class _FuturePromptState extends State<FuturePrompt> {
       initialData: const [],
       future: choicesMemoizer.runOnce(getChoices),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Container(
-            padding: const EdgeInsets.all(25),
-            constraints: const BoxConstraints(maxHeight: 200),
-            child: Text(
-              snapshot.error.toString(),
-              style: const TextStyle(color: Colors.red),
-            ),
-          );
-        }
         return SizedBox(
           width: 300,
           child: Card(
             child: PromptedChoice<ChoiceData<String>>.multiple(
               title: 'Users',
               clearable: true,
+              error: snapshot.hasError,
+              errorBuilder: ChoiceListError.createBuilder(
+                message: snapshot.error.toString(),
+              ),
+              loading: snapshot.connectionState == ConnectionState.waiting,
               value: choicesValue,
               onChanged: setChoicesValue,
               itemCount: snapshot.data?.length ?? 0,
@@ -96,10 +91,7 @@ class _FuturePromptState extends State<FuturePrompt> {
                 ],
               ),
               promptDelegate: ChoicePrompt.delegateBottomSheet(),
-              triggerBuilder: ChoiceTrigger.createBuilder(
-                loading: snapshot.connectionState == ConnectionState.waiting,
-                valueTruncate: 1,
-              ),
+              anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
             ),
           ),
         );

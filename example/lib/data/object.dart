@@ -57,6 +57,7 @@ class _DataObjectState extends State<DataObject> {
             child: PromptedChoice<ChoiceData<String>>.multiple(
               title: 'Users',
               clearable: true,
+              loading: snapshot.connectionState == ConnectionState.waiting,
               value: choicesValue,
               onChanged: setChoicesValue,
               itemCount: snapshot.data?.length ?? 0,
@@ -97,10 +98,7 @@ class _DataObjectState extends State<DataObject> {
                 ],
               ),
               promptDelegate: ChoicePrompt.delegateBottomSheet(),
-              triggerBuilder: ChoiceTrigger.createBuilder(
-                loading: snapshot.connectionState == ConnectionState.waiting,
-                valueTruncate: 1,
-              ),
+              anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
             ),
           ),
         );

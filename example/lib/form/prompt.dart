@@ -82,7 +82,7 @@ class _FormPromptState extends State<FormPrompt> {
                           maxHeightFactor: .5,
                           constraints: const BoxConstraints(maxWidth: 300),
                         ),
-                        triggerBuilder: ChoiceTrigger.createBuilder(
+                        anchorBuilder: ChoiceAnchor.createDefault(
                           inline: true,
                         ),
                       ),

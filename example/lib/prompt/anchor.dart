@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:choice/choice.dart';
 
-class PromptedTrigger extends StatefulWidget {
-  const PromptedTrigger({super.key});
+class PromptedAnchor extends StatefulWidget {
+  const PromptedAnchor({super.key});
 
   @override
-  State<PromptedTrigger> createState() => _PromptedTriggerState();
+  State<PromptedAnchor> createState() => _PromptedAnchorState();
 }
 
-class _PromptedTriggerState extends State<PromptedTrigger> {
+class _PromptedAnchorState extends State<PromptedAnchor> {
   List<String> choices = [
     'News',
     'Entertainment',
@@ -64,7 +64,7 @@ class _PromptedTriggerState extends State<PromptedTrigger> {
                     ),
                   );
                 },
-                triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+                anchorBuilder: ChoiceAnchor.createDefault(inline: true),
               ),
             ),
           ),
@@ -89,7 +89,7 @@ class _PromptedTriggerState extends State<PromptedTrigger> {
                     ),
                   );
                 },
-                triggerBuilder: ChoiceTrigger.createBuilder(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
               ),
             ),
           ),

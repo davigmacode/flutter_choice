@@ -91,7 +91,7 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                   maxHeightFactor: .5,
                   constraints: const BoxConstraints(maxWidth: 300),
                 ),
-                triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+                anchorBuilder: ChoiceAnchor.createDefault(inline: true),
               ),
             ),
           ),
@@ -131,7 +131,7 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                 promptDelegate: ChoicePrompt.delegatePopupDialog(
                   constraints: const BoxConstraints(maxWidth: 400),
                 ),
-                triggerBuilder: ChoiceTrigger.createBuilder(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.createDefault(valueTruncate: 1),
               ),
             ),
           ),
