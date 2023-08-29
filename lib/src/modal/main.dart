@@ -55,10 +55,18 @@ class ChoiceModal<T> extends StatelessWidget {
   /// {@endtemplate}
   final FlexFit fit;
 
-  static ChoiceStateBuilder<T> createWidget<T>({
-    required Widget child,
+  static ChoiceStateBuilder<T> createSpacer<T>({
+    Key? key,
+    double? width,
+    double? height,
+    Widget? child,
   }) {
-    return (_) => child;
+    return (_) => SizedBox(
+          key: key,
+          width: width,
+          height: height,
+          child: child,
+        );
   }
 
   static const createHeader = ChoiceModalHeader.create;
