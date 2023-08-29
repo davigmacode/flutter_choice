@@ -17,7 +17,7 @@ class ChoiceModalFooter extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final List<Widget> children;
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Color? color,
     EdgeInsetsGeometry? padding,

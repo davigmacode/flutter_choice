@@ -55,23 +55,23 @@ class ChoiceModal<T> extends StatelessWidget {
   /// {@endtemplate}
   final FlexFit fit;
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> createWidget<T>({
     required Widget child,
   }) {
     return (_) => child;
   }
 
-  static const createHeader = ChoiceModalHeader.createBuilder;
+  static const createHeader = ChoiceModalHeader.create;
 
-  static const createSearch = ChoiceSearch.createBuilder;
+  static const createSearchField = ChoiceSearchField.create;
 
-  static const createSearchToggle = ChoiceSearchToggle.createBuilder;
+  static const createSearchToggle = ChoiceSearchToggle.create;
 
-  static const createFooter = ChoiceModalFooter.createBuilder;
+  static const createFooter = ChoiceModalFooter.create;
 
-  static const createSeparator = ChoiceModalSeparator.createBuilder;
+  static const createSeparator = ChoiceModalSeparator.create;
 
-  static const createConfirmButton = ChoiceConfirmButton.createBuilder;
+  static const createConfirmButton = ChoiceConfirmButton.create;
 
   @override
   Widget build(BuildContext context) {

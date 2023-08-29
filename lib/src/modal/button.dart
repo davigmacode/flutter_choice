@@ -25,7 +25,7 @@ class ChoiceConfirmButton extends StatelessWidget {
   /// Returns true if the confirm button brightness is light
   bool get isLight => brightness == Brightness.light;
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Widget? icon,
     Widget? label,

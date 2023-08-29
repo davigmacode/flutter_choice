@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:choice/utils.dart';
 import 'package:choice/selection.dart';
 
-class ChoiceSearch extends StatelessWidget {
-  const ChoiceSearch({
+class ChoiceSearchField extends StatelessWidget {
+  const ChoiceSearchField({
     super.key,
     this.controller,
     this.cursorColor,
@@ -32,7 +32,7 @@ class ChoiceSearch extends StatelessWidget {
         : false;
   }
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     TextEditingController? controller,
     Color? cursorColor,
@@ -44,7 +44,7 @@ class ChoiceSearch extends StatelessWidget {
     Duration? submitDelay,
   }) {
     return (state) {
-      return ChoiceSearch(
+      return ChoiceSearchField(
         key: key,
         controller: controller,
         cursorColor: cursorColor,
@@ -98,7 +98,7 @@ class ChoiceSearchToggle extends StatelessWidget {
   static const defaultIconShow = Icon(Icons.search);
   static const defaultIconHide = Icon(Icons.clear);
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Widget? iconShow,
     Widget? iconHide,

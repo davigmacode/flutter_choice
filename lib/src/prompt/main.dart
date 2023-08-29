@@ -91,7 +91,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///             maxHeightFactor: .5,
   ///             constraints: const BoxConstraints(maxWidth: 300),
   ///           ),
-  ///           triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+  ///           anchorBuilder: ChoiceAnchor.create(inline: true),
   ///         ),
   ///       ),
   ///     );
@@ -195,7 +195,7 @@ class PromptedChoice<T> extends StatelessWidget {
   ///             maxHeightFactor: .5,
   ///             constraints: const BoxConstraints(maxWidth: 300),
   ///           ),
-  ///           triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+  ///           anchorBuilder: ChoiceAnchor.create(inline: true),
   ///         ),
   ///       ),
   ///     );
@@ -436,7 +436,7 @@ class PromptedChoice<T> extends StatelessWidget {
         searchable: searchable,
         onSearch: onSearch,
         delegate: promptDelegate,
-        builder: anchorBuilder ?? ChoiceAnchor.createDefault(),
+        builder: anchorBuilder ?? ChoiceAnchor.create(),
         modal: ChoiceModal<T>(
           fit: modalFit,
           headerBuilder: modalHeaderBuilder,

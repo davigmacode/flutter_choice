@@ -246,7 +246,7 @@ class Choice<T> extends StatelessWidget {
   ///             maxHeightFactor: .5,
   ///             constraints: const BoxConstraints(maxWidth: 300),
   ///           ),
-  ///           triggerBuilder: ChoiceTrigger.createBuilder(inline: true),
+  ///           anchorBuilder: ChoiceAnchor.create(inline: true),
   ///         ),
   ///       ),
   ///     );

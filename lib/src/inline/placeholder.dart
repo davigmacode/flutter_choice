@@ -18,7 +18,7 @@ class ChoiceListPlaceholder extends StatelessWidget {
   final Widget icon;
   final Widget text;
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     EdgeInsetsGeometry? padding,
     BoxConstraints? constraints,

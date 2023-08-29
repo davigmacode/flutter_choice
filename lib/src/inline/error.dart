@@ -13,7 +13,7 @@ class ChoiceListError extends StatelessWidget {
   final BoxConstraints? constraints;
   final Widget child;
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     EdgeInsetsGeometry? padding,
     BoxConstraints? constraints,

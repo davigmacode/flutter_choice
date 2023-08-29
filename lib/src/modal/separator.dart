@@ -11,7 +11,7 @@ class ChoiceModalSeparator extends Divider {
     super.thickness,
   });
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Color? color,
     double? endIndent,

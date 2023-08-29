@@ -18,7 +18,7 @@ class ChoiceModalHeader extends AppBar {
     super.actions,
   });
 
-  static ChoiceStateBuilder<T> createBuilder<T>({
+  static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Widget? title,
     ShapeBorder? shape,
@@ -28,14 +28,14 @@ class ChoiceModalHeader extends AppBar {
     IconThemeData? iconTheme,
     bool? centerTitle,
     bool automaticallyImplyLeading = true,
-    ChoiceStateBuilder<T>? searchBuilder,
+    ChoiceStateBuilder<T>? searchFieldBuilder,
     ChoiceStateBuilder<T>? searchToggleBuilder,
     List<ChoiceStateBuilder<T>>? actionsBuilder,
   }) {
     final effectiveSearchBuilder =
-        searchBuilder ?? ChoiceSearch.createBuilder<T>();
+        searchFieldBuilder ?? ChoiceSearchField.create<T>();
     final effectiveSearchToggleBuilder =
-        searchToggleBuilder ?? ChoiceSearchToggle.createBuilder<T>();
+        searchToggleBuilder ?? ChoiceSearchToggle.create<T>();
     return (state) {
       final searchable = state.searchable;
       final searching = state.search?.active ?? false;

@@ -13,7 +13,7 @@ class ChoiceAnchor extends ListTile {
     super.onTap,
   });
 
-  static ChoiceAnchorBuilder<T> createDefault<T>({
+  static ChoiceAnchorBuilder<T> create<T>({
     Widget? title,
     Widget? leading,
     Widget? trailing,

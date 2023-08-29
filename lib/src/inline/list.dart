@@ -249,12 +249,12 @@ class ChoiceList<T> extends StatelessWidget {
   }
 
   ChoiceStateBuilder<T> get effectivePlaceholderBuilder {
-    return placeholderBuilder ?? ChoiceListPlaceholder.createBuilder();
+    return placeholderBuilder ?? ChoiceListPlaceholder.create();
   }
 
   ChoiceStateBuilder<T> get effectiveErrorBuilder {
     return errorBuilder ??
-        ChoiceListError.createBuilder(
+        ChoiceListError.create(
           message: 'The choice list failed to load',
         );
   }
