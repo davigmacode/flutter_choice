@@ -51,6 +51,29 @@ class ChoiceController<T> extends ChangeNotifier {
       });
   }
 
+  static ChoiceController<T> createModalController<T>({
+    required BuildContext modalContext,
+    required ChoiceController<T> rootController,
+    bool searchable = false,
+    ValueChanged<String>? onSearch,
+  }) {
+    return rootController.copyWith(
+      search: ChoiceSearchController.create(
+        context: modalContext,
+        searchable: searchable,
+        onChanged: onSearch,
+      ),
+      onCloseModal: (value) {
+        Navigator.maybePop(modalContext, value);
+      },
+      onChanged: (value) {
+        if (!rootController.confirmation) {
+          rootController.replace(value);
+        }
+      },
+    );
+  }
+
   /// Creates a copy of this [ChoiceController] but with
   /// the given fields replaced with the new values
   ChoiceController<T> copyWith({
@@ -169,6 +192,9 @@ class ChoiceController<T> extends ChangeNotifier {
   /// {@endtemplate}
   final ValueChanged<List<T>>? _onChanged;
 
+  /// {@template choice.onCloseModal}
+  /// Called to close modal
+  /// {@endtemplate}
   late final ValueChanged<List<T>?>? _onCloseModal;
 
   /// {@template choice.title}

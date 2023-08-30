@@ -118,4 +118,42 @@ class ChoiceSearchController extends ChangeNotifier {
       _apply(val);
     }
   }
+
+  /// Create a nullable search controller with build context
+  static ChoiceSearchController? create({
+    required BuildContext context,
+    bool searchable = false,
+    ValueSetter<String>? onChanged,
+  }) {
+    return searchable
+        ? ChoiceSearchController(
+            onAttach: defaultOnAttach(context),
+            onDetach: defaultOnDetach(context),
+            onChanged: onChanged,
+          )
+        : null;
+  }
+
+  static ValueChanged<ChoiceSearchController> defaultOnAttach(
+    BuildContext context,
+  ) {
+    return (state) {
+      // add history to route, so back button will appear
+      // and when physical back button pressed
+      // will close the search bar instead of close the modal
+      LocalHistoryEntry entry = LocalHistoryEntry(
+        onRemove: state.deactivate,
+      );
+      ModalRoute.of(context)?.addLocalHistoryEntry(entry);
+    };
+  }
+
+  static ValueChanged<ChoiceSearchController> defaultOnDetach(
+    BuildContext context,
+  ) {
+    return (state) {
+      // remove search from route history
+      Navigator.pop(context);
+    };
+  }
 }

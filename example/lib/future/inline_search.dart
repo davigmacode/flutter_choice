@@ -81,10 +81,7 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 5,
-          ),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: ChoiceValueText(
             value: choicesValue,
             truncate: 5,
@@ -115,7 +112,7 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
                 runSpacing: 10,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 5,
+                  vertical: 20,
                 ),
               ),
             );

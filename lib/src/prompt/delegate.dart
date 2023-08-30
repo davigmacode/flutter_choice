@@ -141,26 +141,7 @@ class ChoicePrompt<T> extends StatefulWidget {
 class _ChoicePromptState<T> extends State<ChoicePrompt<T>> {
   // ChoiceController<T>? _state;
 
-  StateSetter? _rerenderModal;
-
-  ChoiceSearchController createSearchController(BuildContext context) {
-    return ChoiceSearchController(
-      onAttach: (state) {
-        // add history to route, so back button will appear
-        // and when physical back button pressed
-        // will close the search bar instead of close the modal
-        LocalHistoryEntry entry = LocalHistoryEntry(
-          onRemove: state.deactivate,
-        );
-        ModalRoute.of(context)?.addLocalHistoryEntry(entry);
-      },
-      onDetach: (state) {
-        // remove search from route history
-        Navigator.pop(context);
-      },
-      onChanged: widget.onSearch,
-    );
-  }
+  StateSetter? _rebuildModal;
 
   VoidCallback createOpenModal(
     BuildContext context,
@@ -181,22 +162,18 @@ class _ChoicePromptState<T> extends State<ChoicePrompt<T>> {
     return Builder(
       builder: (modalContext) {
         return ChoiceProvider<T>(
-          controller: state.copyWith(
-            search:
-                widget.searchable ? createSearchController(modalContext) : null,
-            onCloseModal: (value) {
-              Navigator.maybePop(modalContext, value);
-            },
-            onChanged: (value) {
-              if (!state.confirmation) {
-                state.replace(value);
-              }
+          controller: ChoiceController.createModalController(
+            modalContext: modalContext,
+            rootController: state,
+            searchable: widget.searchable,
+            onSearch: widget.onSearch,
+          ),
+          child: SafeStatefulBuilder(
+            builder: (_, setModalState) {
+              _rebuildModal = setModalState;
+              return widget.modal;
             },
           ),
-          child: SafeStatefulBuilder(builder: (context, setModalState) {
-            _rerenderModal = setModalState;
-            return widget.modal;
-          }),
         );
       },
     );
@@ -208,7 +185,7 @@ class _ChoicePromptState<T> extends State<ChoicePrompt<T>> {
 
     if (widget.modal != oldWidget.modal) {
       Future.delayed(Duration.zero, () async {
-        _rerenderModal?.call(() {});
+        _rebuildModal?.call(() {});
       });
     }
   }
