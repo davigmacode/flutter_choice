@@ -26,7 +26,7 @@ class ChoiceProvider<T> extends InheritedNotifier<ChoiceController<T>> {
   static ChoiceController<T> of<T>(BuildContext context) {
     final provider =
         context.dependOnInheritedWidgetOfExactType<ChoiceProvider<T>>();
-    assert(provider != null, 'No ChoiceSelectionProvider found in context');
+    assert(provider != null, 'No ChoiceProvider found in context');
     return provider!.notifier!;
   }
 

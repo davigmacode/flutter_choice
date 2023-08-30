@@ -53,7 +53,8 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                 value: singleSelected,
                 onChanged: setSingleSelected,
                 itemCount: choices.length,
-                itemSkip: (q, i) => !ChoiceSearch.match(choices[i], q),
+                itemSkip: (state, i) =>
+                    !ChoiceSearch.match(choices[i], state.search?.value),
                 itemBuilder: (state, i) {
                   return RadioListTile(
                     value: choices[i],
@@ -116,7 +117,8 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                 value: multipleSelected,
                 onChanged: setMultipleSelected,
                 itemCount: choices.length,
-                itemSkip: (q, i) => !ChoiceSearch.match(choices[i], q),
+                itemSkip: (state, i) =>
+                    !ChoiceSearch.match(choices[i], state.search?.value),
                 itemBuilder: (state, i) {
                   return ChoiceChip(
                     selected: state.selected(choices[i]),

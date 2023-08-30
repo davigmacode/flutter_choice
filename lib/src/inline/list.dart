@@ -41,7 +41,7 @@ class ChoiceList<T> extends StatelessWidget {
   /// {@template choice.list.itemSkip}
   /// Called to specify which indices to skip when building choice item
   /// {@endtemplate}
-  final ChoiceSkipCallback? itemSkip;
+  final ChoiceSkipCallback<T>? itemSkip;
 
   /// {@template choice.list.dividerBuilder}
   /// Called to build divider item
@@ -89,7 +89,7 @@ class ChoiceList<T> extends StatelessWidget {
 
   static final defaultBuilder = createWrapped();
 
-  static bool defaultItemSkip(String? keyword, int i) => false;
+  static bool defaultItemSkip<T>(ChoiceController<T> state, int i) => false;
 
   static ChoiceListBuilder createWrapped({
     Axis direction = Axis.horizontal,
@@ -229,9 +229,7 @@ class ChoiceList<T> extends StatelessWidget {
     final effectiveItemSkip = itemSkip ?? defaultItemSkip;
     return List<ChoiceItemBuilder?>.generate(
       itemCount,
-      (i) => !effectiveItemSkip(state.search?.value, i)
-          ? () => itemBuilder(state, i)
-          : null,
+      (i) => !effectiveItemSkip(state, i) ? () => itemBuilder(state, i) : null,
     ).whereType<ChoiceItemBuilder>().toList();
   }
 
