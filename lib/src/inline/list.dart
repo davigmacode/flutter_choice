@@ -95,9 +95,9 @@ class ChoiceList<T> extends StatelessWidget {
     Axis direction = Axis.horizontal,
     WrapAlignment alignment = WrapAlignment.start,
     EdgeInsetsGeometry padding = EdgeInsets.zero,
-    double spacing = 0.0,
+    double spacing = 10.0,
     WrapAlignment runAlignment = WrapAlignment.start,
-    double runSpacing = 0.0,
+    double runSpacing = 10.0,
     WrapCrossAlignment crossAxisAlignment = WrapCrossAlignment.start,
     TextDirection? textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
@@ -257,6 +257,8 @@ class ChoiceList<T> extends StatelessWidget {
         );
   }
 
+  ChoiceListBuilder get effectiveBuilder => builder ?? defaultBuilder;
+
   @override
   Widget build(BuildContext context) {
     final state = ChoiceProvider.of<T>(context);
@@ -265,7 +267,7 @@ class ChoiceList<T> extends StatelessWidget {
     return !loading
         ? !error
             ? itemCount > 0
-                ? (builder ?? defaultBuilder).call(
+                ? effectiveBuilder.call(
                     (i) => itemBuildersPool[i](),
                     itemCount,
                   )
