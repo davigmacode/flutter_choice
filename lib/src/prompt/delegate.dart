@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:choice/selection.dart';
-import 'package:choice/utils.dart';
 import 'types.dart';
 
-class ChoicePrompt<T> extends StatefulWidget {
-  ChoicePrompt({
-    super.key,
-    required this.builder,
-    required this.modal,
-    ChoicePromptDelegate<T>? delegate,
-    this.searchable = false,
-    this.onSearch,
-  }) : delegate = delegate ?? delegatePopupDialog();
-
-  final ChoicePromptBuilder<T> builder;
-  final Widget modal;
-  final ChoicePromptDelegate<T> delegate;
-  final bool searchable;
-  final ValueSetter<String>? onSearch;
-
+abstract class ChoicePrompt {
   static ChoicePromptDelegate<T> delegateNewPage<T>({
     Color? backgroundColor,
     Widget? header,
@@ -132,77 +115,5 @@ class ChoicePrompt<T> extends StatefulWidget {
         },
       );
     };
-  }
-
-  @override
-  State<ChoicePrompt<T>> createState() => _ChoicePromptState<T>();
-}
-
-class _ChoicePromptState<T> extends State<ChoicePrompt<T>> {
-  // ChoiceController<T>? _state;
-
-  StateSetter? _rebuildModal;
-
-  VoidCallback createOpenModal(
-    BuildContext context,
-    ChoiceController<T> state,
-  ) {
-    return () async {
-      final res = await widget.delegate(
-        context,
-        wrapModalWithNewController(state),
-      );
-      if (res != null) {
-        state.replace(res);
-      }
-    };
-  }
-
-  Widget wrapModalWithNewController(ChoiceController<T> state) {
-    return Builder(
-      builder: (modalContext) {
-        return ChoiceProvider<T>(
-          controller: ChoiceController.createModalController(
-            modalContext: modalContext,
-            rootController: state,
-            searchable: widget.searchable,
-            onSearch: widget.onSearch,
-          ),
-          child: SafeStatefulBuilder(
-            builder: (_, setModalState) {
-              _rebuildModal = setModalState;
-              return widget.modal;
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  void didUpdateWidget(covariant ChoicePrompt<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.modal != oldWidget.modal) {
-      Future.delayed(Duration.zero, () async {
-        _rebuildModal?.call(() {});
-      });
-    }
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _state = ChoiceProvider.of<T>(context);
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChoiceConsumer<T>(
-      builder: (state, _) {
-        // _state = state;
-        return widget.builder(state, createOpenModal(context, state));
-      },
-    );
   }
 }

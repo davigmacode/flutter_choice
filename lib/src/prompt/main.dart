@@ -3,11 +3,12 @@ import 'package:choice/selection.dart';
 import 'package:choice/inline.dart';
 import 'package:choice/modal.dart';
 import 'package:choice/anchor.dart';
+import 'package:choice/utils.dart';
 import 'delegate.dart';
 import 'types.dart';
 
 /// Widget to create prompted choice with single or multiple selection
-class PromptedChoice<T> extends StatelessWidget {
+class PromptedChoice<T> extends StatefulWidget {
   /// Create prompted choice widget with single or multiple selection
   ///
   /// {@macro choice.params.universal}
@@ -419,47 +420,103 @@ class PromptedChoice<T> extends StatelessWidget {
 
   static final defaultListBuilder = ChoiceList.createVirtualized();
 
+  Widget get modal {
+    return ChoiceModal<T>(
+      fit: modalFit,
+      headerBuilder: modalHeaderBuilder,
+      footerBuilder: modalFooterBuilder,
+      separatorBuilder: modalSeparatorBuilder,
+      bodyBuilder: (state) {
+        return ChoiceList<T>(
+          loading: loading,
+          error: error,
+          itemSkip: itemSkip,
+          itemCount: itemCount,
+          itemBuilder: itemBuilder,
+          dividerBuilder: dividerBuilder,
+          leadingBuilder: leadingBuilder,
+          trailingBuilder: trailingBuilder,
+          placeholderBuilder: placeholderBuilder,
+          errorBuilder: errorBuilder,
+          loaderBuilder: loaderBuilder,
+          builder: listBuilder ?? PromptedChoice.defaultListBuilder,
+        );
+      },
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return ChoiceProvider<T>(
-      controller: ChoiceController<T>(
-        title: title,
-        multiple: multiple,
-        clearable: clearable,
-        confirmation: confirmation,
-        loading: loading,
-        error: error,
-        value: value,
-        onChanged: onChanged,
-      ),
-      child: ChoicePrompt<T>(
-        searchable: searchable,
-        onSearch: onSearch,
-        delegate: promptDelegate,
-        builder: anchorBuilder ?? ChoiceAnchor.create(),
-        modal: ChoiceModal<T>(
-          fit: modalFit,
-          headerBuilder: modalHeaderBuilder,
-          footerBuilder: modalFooterBuilder,
-          separatorBuilder: modalSeparatorBuilder,
-          bodyBuilder: (state) {
-            return ChoiceList<T>(
-              loading: loading,
-              error: error,
-              itemSkip: itemSkip,
-              itemCount: itemCount,
-              itemBuilder: itemBuilder,
-              dividerBuilder: dividerBuilder,
-              leadingBuilder: leadingBuilder,
-              trailingBuilder: trailingBuilder,
-              placeholderBuilder: placeholderBuilder,
-              errorBuilder: errorBuilder,
-              loaderBuilder: loaderBuilder,
-              builder: listBuilder ?? defaultListBuilder,
+  State<PromptedChoice<T>> createState() => _PromptedChoiceState<T>();
+}
+
+class _PromptedChoiceState<T> extends State<PromptedChoice<T>> {
+  StateSetter? _rebuildModal;
+
+  ChoicePromptDelegate<T> get effectivePromptDelegate =>
+      widget.promptDelegate ?? ChoicePrompt.delegatePopupDialog<T>();
+
+  ChoicePromptBuilder<T> get effectiveAnchorBuilder =>
+      widget.anchorBuilder ?? ChoiceAnchor.create();
+
+  VoidCallback createOpenModal(
+    BuildContext context,
+    ChoiceController<T> state,
+  ) {
+    return () async {
+      final res = await effectivePromptDelegate(
+        context,
+        Builder(
+          builder: (modalContext) {
+            return ChoiceProvider<T>(
+              controller: ChoiceController.createModalController(
+                modalContext: modalContext,
+                rootController: state,
+                searchable: widget.searchable,
+                onSearch: widget.onSearch,
+              ),
+              child: SafeStatefulBuilder(
+                builder: (_, setModalState) {
+                  _rebuildModal = setModalState;
+                  return widget.modal;
+                },
+              ),
             );
           },
         ),
+      );
+      if (res != null) {
+        state.replace(res);
+      }
+    };
+  }
+
+  @override
+  void didUpdateWidget(covariant PromptedChoice<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.modal != oldWidget.modal) {
+      Future.delayed(Duration.zero, () async {
+        _rebuildModal?.call(() {});
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceProvider<T>.builder(
+      controller: ChoiceController<T>(
+        title: widget.title,
+        multiple: widget.multiple,
+        clearable: widget.clearable,
+        confirmation: widget.confirmation,
+        loading: widget.loading,
+        error: widget.error,
+        value: widget.value,
+        onChanged: widget.onChanged,
       ),
+      builder: (state, child) {
+        return effectiveAnchorBuilder(state, createOpenModal(context, state));
+      },
     );
   }
 }
