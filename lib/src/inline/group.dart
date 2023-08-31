@@ -106,3 +106,17 @@ abstract class ChoiceGroup {
     };
   }
 }
+
+abstract class ChoiceGroupSort {
+  /// Function to sort the group alphabetically by name in ascending order
+  static const asc = _asc;
+  static int _asc(String a, String b) {
+    return a.toLowerCase().compareTo(b.toLowerCase());
+  }
+
+  /// Function to sort the group alphabetically by name in descending order
+  static const desc = _desc;
+  static int _desc(String a, String b) {
+    return b.toLowerCase().compareTo(a.toLowerCase());
+  }
+}

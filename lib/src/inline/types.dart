@@ -30,3 +30,5 @@ typedef ChoiceSkipResolver<T> = bool Function(
 );
 
 typedef ChoiceGroupResolver = String Function(int index);
+
+typedef ChoiceGroupSortResolver = int Function(String a, String b);

@@ -19,6 +19,7 @@ class ChoiceList<T> extends StatelessWidget {
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupSort,
     this.groupBuilder,
     this.groupItemBuilder,
     this.groupHeaderBuilder,
@@ -97,6 +98,11 @@ class ChoiceList<T> extends StatelessWidget {
   /// Called to build the grouped header of choice items
   /// {@endtemplate}
   final ChoiceGroupHeaderBuilder<T>? groupHeaderBuilder;
+
+  /// {@template choice.list.groupSort}
+  /// If provided, sort group by the given callback
+  /// {@endtemplate}
+  final ChoiceGroupSortResolver? groupSort;
 
   /// {@template choice.list.builder}
   /// Called to build the list of choice items
@@ -229,7 +235,10 @@ class ChoiceList<T> extends StatelessWidget {
         };
       }
     }
-    final groupEntries = groups.entries;
+    final groupEntries = groups.entries.toList();
+    if (groupSort != null) {
+      groupEntries.sort((a, b) => groupSort!(a.key, b.key));
+    }
     return _buildLayout(
       state,
       groups.isEmpty,

@@ -119,6 +119,7 @@ class PromptedChoice<T> extends StatefulWidget {
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupSort,
     this.groupBuilder,
     this.groupItemBuilder,
     this.groupHeaderBuilder,
@@ -226,6 +227,7 @@ class PromptedChoice<T> extends StatefulWidget {
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupSort,
     this.groupBuilder,
     this.groupItemBuilder,
     this.groupHeaderBuilder,
@@ -332,6 +334,7 @@ class PromptedChoice<T> extends StatefulWidget {
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupSort,
     this.groupBuilder,
     this.groupItemBuilder,
     this.groupHeaderBuilder,
@@ -400,6 +403,9 @@ class PromptedChoice<T> extends StatefulWidget {
   /// {@macro choice.list.loaderBuilder}
   final ChoiceStateBuilder<T>? loaderBuilder;
 
+  /// {@macro choice.list.groupSort}
+  final ChoiceGroupSortResolver? groupSort;
+
   /// {@macro choice.list.groupBuilder}
   final ChoiceGroupBuilder? groupBuilder;
 
@@ -464,6 +470,7 @@ class PromptedChoice<T> extends StatefulWidget {
           placeholderBuilder: placeholderBuilder,
           errorBuilder: errorBuilder,
           loaderBuilder: loaderBuilder,
+          groupSort: groupSort,
           groupBuilder: groupBuilder,
           groupItemBuilder: groupItemBuilder,
           groupHeaderBuilder: groupHeaderBuilder,
