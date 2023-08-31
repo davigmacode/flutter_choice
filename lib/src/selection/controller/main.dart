@@ -291,17 +291,17 @@ class ChoiceController<T> extends ChangeNotifier {
 
   /// Toggle select each element of [choices] collection
   void selectMany(List<T> choices, [bool? active]) {
-    active ??= false;
+    active ??= !any(choices);
     if (active) {
-      replace(choices);
+      addMany(choices);
     } else {
-      removeAll(choices);
+      removeMany(choices);
     }
   }
 
   /// Toggle select [choice] value
   void select(T choice, [bool? active]) {
-    active = active ?? !selected(choice);
+    active ??= !selected(choice);
     if (active) {
       if (multiple) {
         add(choice);
@@ -324,6 +324,14 @@ class ChoiceController<T> extends ChangeNotifier {
     }
   }
 
+  void addMany(List<T> choices) {
+    if (!every(choices)) {
+      _value.addAll(choices);
+      notifyListeners();
+      _onChanged?.call(value);
+    }
+  }
+
   /// Removes [choice] from [value] collection
   void remove(T choice) {
     if (!clearable && _value.length == 1) return;
@@ -335,7 +343,7 @@ class ChoiceController<T> extends ChangeNotifier {
   }
 
   /// Removes each element of [choices] from [value] collection
-  void removeAll(List<T> choices) {
+  void removeMany(List<T> choices) {
     if (!clearable && every(choices)) return;
 
     _value.removeAll(choices);

@@ -9,6 +9,9 @@ class ChoiceData<T> {
   /// Represent as secondary text
   final String? subtitle;
 
+  /// Represent as group name
+  final String? group;
+
   /// Image url to use with choice item.
   final String? image;
 
@@ -26,6 +29,7 @@ class ChoiceData<T> {
     required this.value,
     required this.title,
     this.subtitle,
+    this.group,
     this.image,
     this.tooltip,
     this.disabled = false,
@@ -43,6 +47,8 @@ class ChoiceData<T> {
   int get hashCode => Object.hash(
         value,
         title,
+        subtitle,
+        group,
         image,
         tooltip,
         disabled,
@@ -58,6 +64,7 @@ class ChoiceData<T> {
     T? value,
     String? title,
     String? subtitle,
+    String? group,
     String? image,
     String? tooltip,
     bool? disabled,
@@ -66,6 +73,7 @@ class ChoiceData<T> {
     return ChoiceData<T>(
       value: value ?? this.value,
       title: title ?? this.title,
+      group: group ?? this.group,
       image: image ?? this.image,
       tooltip: tooltip ?? this.tooltip,
       disabled: disabled ?? this.disabled,
@@ -83,6 +91,7 @@ class ChoiceData<T> {
       value: other.value,
       title: other.title,
       subtitle: other.subtitle,
+      group: other.group,
       image: other.image,
       tooltip: other.tooltip,
       disabled: other.disabled,
@@ -100,6 +109,7 @@ extension ChoiceDataGeneration<T> on List<T> {
     required R Function(int index, T item) value,
     required String Function(int index, T item) title,
     ChoiceDataProp<T, String>? subtitle,
+    ChoiceDataProp<T, String>? group,
     ChoiceDataProp<T, String>? image,
     ChoiceDataProp<T, String>? tooltip,
     ChoiceDataProp<T, bool>? disabled,
@@ -113,6 +123,7 @@ extension ChoiceDataGeneration<T> on List<T> {
               value: value.call(index, item),
               title: title.call(index, item),
               subtitle: subtitle?.call(index, item),
+              group: group?.call(index, item),
               image: image?.call(index, item),
               tooltip: tooltip?.call(index, item),
               disabled: disabled?.call(index, item) ?? false,
