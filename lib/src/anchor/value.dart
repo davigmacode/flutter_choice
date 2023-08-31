@@ -41,7 +41,7 @@ class ChoiceValueChips<T> extends StatelessWidget {
   final ValueSetter<T>? onDelete;
   final String placeholder;
   final ChoiceListBuilder? builder;
-  final Widget Function(T value)? itemBuilder;
+  final Widget Function(T value, VoidCallback? onDelete)? itemBuilder;
 
   static final defaultBuilder = ChoiceList.createWrapped();
 
@@ -49,17 +49,19 @@ class ChoiceValueChips<T> extends StatelessWidget {
 
   int get itemCount => value.length;
 
-  Widget defaultItemBuilder(T singleValue) {
-    return InputChip(
+  Widget defaultItemBuilder(T singleValue, VoidCallback? onDelete) {
+    return Chip(
       label: Text(singleValue.toString()),
-      onDeleted: () {
-        onDelete?.call(singleValue);
-      },
+      onDeleted: onDelete,
     );
   }
 
   Widget effectiveItemBuilder(i) {
-    return (itemBuilder ?? defaultItemBuilder).call(value[i]);
+    final singleValue = value[i];
+    final singleOnDelete =
+        onDelete != null ? () => onDelete?.call(singleValue) : null;
+    final effectiveItemBuilder = itemBuilder ?? defaultItemBuilder;
+    return effectiveItemBuilder(singleValue, singleOnDelete);
   }
 
   @override
