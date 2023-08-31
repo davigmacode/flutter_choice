@@ -112,12 +112,16 @@ class PromptedChoice<T> extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.itemSkip,
+    this.itemGroup,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupBuilder,
+    this.groupItemBuilder,
+    this.groupHeaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -215,12 +219,16 @@ class PromptedChoice<T> extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.itemSkip,
+    this.itemGroup,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupBuilder,
+    this.groupItemBuilder,
+    this.groupHeaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -317,12 +325,16 @@ class PromptedChoice<T> extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.itemSkip,
+    this.itemGroup,
     this.dividerBuilder,
     this.leadingBuilder,
     this.trailingBuilder,
     this.placeholderBuilder,
     this.errorBuilder,
     this.loaderBuilder,
+    this.groupBuilder,
+    this.groupItemBuilder,
+    this.groupHeaderBuilder,
     this.listBuilder,
     this.modalHeaderBuilder,
     this.modalFooterBuilder,
@@ -365,7 +377,10 @@ class PromptedChoice<T> extends StatefulWidget {
   final IndexedChoiceStateBuilder<T> itemBuilder;
 
   /// {@macro choice.list.itemSkip}
-  final ChoiceSkipCallback? itemSkip;
+  final ChoiceSkipResolver<T>? itemSkip;
+
+  /// {@macro choice.list.itemGroup}
+  final ChoiceGroupResolver? itemGroup;
 
   /// {@macro choice.list.dividerBuilder}
   final ChoiceStateBuilder<T>? dividerBuilder;
@@ -384,6 +399,15 @@ class PromptedChoice<T> extends StatefulWidget {
 
   /// {@macro choice.list.loaderBuilder}
   final ChoiceStateBuilder<T>? loaderBuilder;
+
+  /// {@macro choice.list.groupBuilder}
+  final ChoiceGroupBuilder? groupBuilder;
+
+  /// {@macro choice.list.groupItemBuilder}
+  final ChoiceGroupItemBuilder? groupItemBuilder;
+
+  /// {@macro choice.list.groupHeaderBuilder}
+  final ChoiceGroupHeaderBuilder<T>? groupHeaderBuilder;
 
   /// {@macro choice.list.builder}
   final ChoiceListBuilder? listBuilder;
@@ -431,6 +455,7 @@ class PromptedChoice<T> extends StatefulWidget {
           loading: loading,
           error: error,
           itemSkip: itemSkip,
+          itemGroup: itemGroup,
           itemCount: itemCount,
           itemBuilder: itemBuilder,
           dividerBuilder: dividerBuilder,
@@ -439,6 +464,9 @@ class PromptedChoice<T> extends StatefulWidget {
           placeholderBuilder: placeholderBuilder,
           errorBuilder: errorBuilder,
           loaderBuilder: loaderBuilder,
+          groupBuilder: groupBuilder,
+          groupItemBuilder: groupItemBuilder,
+          groupHeaderBuilder: groupHeaderBuilder,
           builder: listBuilder ?? PromptedChoice.defaultListBuilder,
         );
       },
