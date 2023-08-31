@@ -151,6 +151,116 @@ class ChoiceList<T> extends StatelessWidget {
   ChoiceGroupHeaderBuilder<T> get effectiveGroupHeaderBuilder =>
       groupHeaderBuilder ?? ChoiceGroup.createHeader();
 
+  List<ChoiceItemBuilder?> _resolveSkippedItems(ChoiceController<T> state) {
+    return List<ChoiceItemBuilder?>.generate(
+      itemCount,
+      (i) => !effectiveItemSkip(state, i) ? () => itemBuilder(state, i) : null,
+    );
+  }
+
+  List<ChoiceItemBuilder> _resolveDividedItems(
+    ChoiceController<T> state,
+    List<ChoiceItemBuilder> items,
+  ) {
+    if (hasDivider) {
+      final count = items.length;
+      for (var i = count - 1; i > 0; i--) {
+        items.insert(i, () => dividerBuilder!(state));
+      }
+    }
+    return items;
+  }
+
+  List<ChoiceItemBuilder> _resolveComposedItems(
+    ChoiceController<T> state,
+    List<ChoiceItemBuilder?> items,
+  ) {
+    final composedItems = <ChoiceItemBuilder>[
+      if (hasLeading) () => leadingBuilder!(state),
+      ...items.whereType<ChoiceItemBuilder>().toList(),
+      if (hasTrailing) () => trailingBuilder!(state),
+    ];
+    return _resolveDividedItems(state, composedItems);
+  }
+
+  Widget _buildLayout(
+    ChoiceController<T> state,
+    bool isEmpty,
+    Widget Function() listBuilder,
+  ) {
+    return !loading
+        ? !error
+            ? itemCount > 0
+                ? listBuilder()
+                : effectivePlaceholderBuilder(state)
+            : effectiveErrorBuilder(state)
+        : effectiveLoadingBuilder(state);
+  }
+
+  Widget _buildNonGrouped(
+    ChoiceController<T> state,
+    List<ChoiceItemBuilder?> items,
+  ) {
+    final itemBuilders = _resolveComposedItems(state, items);
+    final itemCount = itemBuilders.length;
+    return _buildLayout(
+      state,
+      itemBuilders.isEmpty,
+      () => effectiveListBuilder.call(
+        (i) => itemBuilders[i](),
+        itemCount,
+      ),
+    );
+  }
+
+  Widget _buildGrouped(
+    ChoiceController<T> state,
+    List<ChoiceItemBuilder?> items,
+  ) {
+    /// name => index => builder
+    final Map<String, Map<int, ChoiceItemBuilder>> groups = {};
+    for (var i = 0; i < items.length; i++) {
+      final item = items[i];
+      if (item != null) {
+        final name = itemGroup!(i);
+        groups[name] = {
+          ...?groups[name],
+          ...{i: item}
+        };
+      }
+    }
+    final groupEntries = groups.entries;
+    return _buildLayout(
+      state,
+      groups.isEmpty,
+      () => effectiveGroupBuilder.call(
+        (i) {
+          final entry = groupEntries.elementAt(i);
+          final groupName = entry.key;
+          final groupIndexedBuilders = entry.value;
+          final groupBuilders = groupIndexedBuilders.values;
+          final groupIndices = groupIndexedBuilders.keys.toList();
+          final header = effectiveGroupHeaderBuilder(groupName, groupIndices);
+          final choices = effectiveListBuilder.call(
+            (j) => groupBuilders.elementAt(j)(),
+            groupBuilders.length,
+          );
+          return effectiveGroupItemBuilder(header, choices);
+        },
+        groupEntries.length,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ChoiceProvider.of<T>(context);
+    final itemBuilders = _resolveSkippedItems(state);
+    return isGrouped
+        ? _buildGrouped(state, itemBuilders)
+        : _buildNonGrouped(state, itemBuilders);
+  }
+
   static ChoiceListBuilder createWrapped({
     Axis direction = Axis.horizontal,
     WrapAlignment alignment = WrapAlignment.start,
@@ -270,115 +380,5 @@ class ChoiceList<T> extends StatelessWidget {
             ),
       );
     };
-  }
-
-  List<ChoiceItemBuilder?> _resolveSkippedItems(ChoiceController<T> state) {
-    return List<ChoiceItemBuilder?>.generate(
-      itemCount,
-      (i) => !effectiveItemSkip(state, i) ? () => itemBuilder(state, i) : null,
-    );
-  }
-
-  List<ChoiceItemBuilder> _resolveDividedItems(
-    ChoiceController<T> state,
-    List<ChoiceItemBuilder> items,
-  ) {
-    if (hasDivider) {
-      final count = items.length;
-      for (var i = count - 1; i > 0; i--) {
-        items.insert(i, () => dividerBuilder!(state));
-      }
-    }
-    return items;
-  }
-
-  List<ChoiceItemBuilder> _resolveComposedItems(
-    ChoiceController<T> state,
-    List<ChoiceItemBuilder?> items,
-  ) {
-    final composedItems = <ChoiceItemBuilder>[
-      if (hasLeading) () => leadingBuilder!(state),
-      ...items.whereType<ChoiceItemBuilder>().toList(),
-      if (hasTrailing) () => trailingBuilder!(state),
-    ];
-    return _resolveDividedItems(state, composedItems);
-  }
-
-  Widget _buildLayout(
-    ChoiceController<T> state,
-    bool isEmpty,
-    Widget Function() listBuilder,
-  ) {
-    return !loading
-        ? !error
-            ? itemCount > 0
-                ? listBuilder()
-                : effectivePlaceholderBuilder(state)
-            : effectiveErrorBuilder(state)
-        : effectiveLoadingBuilder(state);
-  }
-
-  Widget _buildNonGrouped(
-    ChoiceController<T> state,
-    List<ChoiceItemBuilder?> items,
-  ) {
-    final itemBuilders = _resolveComposedItems(state, items);
-    final itemCount = itemBuilders.length;
-    return _buildLayout(
-      state,
-      itemBuilders.isEmpty,
-      () => effectiveListBuilder.call(
-        (i) => itemBuilders[i](),
-        itemCount,
-      ),
-    );
-  }
-
-  Widget _buildGrouped(
-    ChoiceController<T> state,
-    List<ChoiceItemBuilder?> items,
-  ) {
-    /// name => index => builder
-    final Map<String, Map<int, ChoiceItemBuilder>> groups = {};
-    for (var i = 0; i < items.length; i++) {
-      final item = items[i];
-      if (item != null) {
-        final name = itemGroup!(i);
-        groups[name] = {
-          ...?groups[name],
-          ...{i: item}
-        };
-      }
-    }
-    final groupEntries = groups.entries;
-    return _buildLayout(
-      state,
-      groups.isEmpty,
-      () => effectiveGroupBuilder.call(
-        (i) {
-          final entry = groupEntries.elementAt(i);
-          final groupName = entry.key;
-          final groupIndexedBuilders = entry.value;
-          final groupBuilders = groupIndexedBuilders.values;
-          final groupIndices = groupIndexedBuilders.keys.toList();
-          final header = effectiveGroupHeaderBuilder(groupName, groupIndices);
-          final choices = effectiveListBuilder.call(
-            (j) => groupBuilders.elementAt(j)(),
-            groupBuilders.length,
-          );
-          return effectiveGroupItemBuilder(header, choices);
-        },
-        groupEntries.length,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final state = ChoiceProvider.of<T>(context);
-    final itemBuilders = _resolveSkippedItems(state);
-    return isGrouped
-        ? _buildGrouped(state, itemBuilders)
-        : _buildNonGrouped(state, itemBuilders);
   }
 }
