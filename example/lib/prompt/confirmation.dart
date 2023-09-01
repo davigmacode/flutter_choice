@@ -66,7 +66,6 @@ class _PromptedConfirmationState extends State<PromptedConfirmation> {
                   );
                 },
                 modalFooterBuilder: ChoiceModalFooter.create(
-                  color: Colors.white,
                   mainAxisAlignment: MainAxisAlignment.center,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12.0,

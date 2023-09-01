@@ -63,14 +63,11 @@ class _MultiplePromptedState extends State<MultiplePrompted> {
             ],
           ),
           modalFooterBuilder: (state) {
-            return Container(
-              color: Colors.white,
-              child: CheckboxListTile(
-                value: state.selectedMany(choices),
-                onChanged: state.onSelectedMany(choices),
-                tristate: true,
-                title: const Text('Select All'),
-              ),
+            return CheckboxListTile(
+              value: state.selectedMany(choices),
+              onChanged: state.onSelectedMany(choices),
+              tristate: true,
+              title: const Text('Select All'),
             );
           },
           promptDelegate: ChoicePrompt.delegateBottomSheet(),

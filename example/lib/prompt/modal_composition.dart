@@ -63,14 +63,11 @@ class _PromptedModalState extends State<PromptedModal> {
           ),
           modalSeparatorBuilder: ChoiceModal.createSeparator(),
           modalFooterBuilder: (state) {
-            return Container(
-              color: Colors.white,
-              child: CheckboxListTile(
-                value: state.selectedMany(choices),
-                onChanged: state.onSelectedMany(choices),
-                tristate: true,
-                title: const Text('Select All'),
-              ),
+            return CheckboxListTile(
+              value: state.selectedMany(choices),
+              onChanged: state.onSelectedMany(choices),
+              tristate: true,
+              title: const Text('Select All'),
             );
           },
           listBuilder: ChoiceList.createGrid(childAspectRatio: 1 / .25),

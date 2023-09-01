@@ -75,7 +75,6 @@ class _PromptedSearchableState extends State<PromptedSearchable> {
                   ],
                 ),
                 modalFooterBuilder: ChoiceModal.createFooter(
-                  color: Colors.white,
                   mainAxisAlignment: MainAxisAlignment.center,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12.0,
