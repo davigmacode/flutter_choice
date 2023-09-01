@@ -4,6 +4,7 @@ import 'package:choice/selection.dart';
 class ChoiceSearchField extends StatelessWidget {
   const ChoiceSearchField({
     super.key,
+    this.focusNode,
     this.controller,
     this.cursorColor,
     this.textStyle,
@@ -15,6 +16,7 @@ class ChoiceSearchField extends StatelessWidget {
   });
 
   final TextEditingController? controller;
+  final FocusNode? focusNode;
   final Color? cursorColor;
   final TextStyle? textStyle;
   final String? hintText;
@@ -34,16 +36,23 @@ class ChoiceSearchField extends StatelessWidget {
     bool autoSubmit = false,
     Duration? submitDelay,
   }) {
+    FocusNode searchFocusNode = FocusNode();
     return (state) {
       return ChoiceSearchField(
         key: key,
+        focusNode: searchFocusNode,
         controller: controller,
         cursorColor: cursorColor,
         textStyle: textStyle,
         hintText: hintText ?? 'Search on ${state.title}',
         hintStyle: hintStyle,
         textAlign: textAlign,
-        onSubmitted: !autoSubmit ? state.search?.apply : null,
+        onSubmitted: !autoSubmit
+            ? (query) {
+                state.search?.apply(query);
+                searchFocusNode.requestFocus();
+              }
+            : null,
         onChanged: autoSubmit
             ? (query) => state.search?.apply(query, submitDelay)
             : null,
@@ -55,13 +64,15 @@ class ChoiceSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
+      focusNode: focusNode,
       controller: controller,
       style: textStyle,
       cursorColor: cursorColor,
       textInputAction: TextInputAction.search,
-      decoration: InputDecoration.collapsed(
+      decoration: InputDecoration(
         hintText: hintText,
         hintStyle: hintStyle ?? textStyle,
+        border: InputBorder.none,
       ),
       textAlign: textAlign,
       onSubmitted: onSubmitted,
@@ -108,14 +119,19 @@ class ChoiceSearchToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return searching != true
-        ? IconButton(
-            icon: iconShow ?? defaultIconShow,
-            onPressed: onShow,
-          )
-        : IconButton(
-            icon: iconHide ?? defaultIconHide,
-            onPressed: onHide,
-          );
+    return AnimatedCrossFade(
+      crossFadeState: searching == true
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
+      firstChild: IconButton(
+        icon: iconShow ?? defaultIconShow,
+        onPressed: onShow,
+      ),
+      secondChild: IconButton(
+        icon: iconHide ?? defaultIconHide,
+        onPressed: onHide,
+      ),
+      duration: const Duration(milliseconds: 150),
+    );
   }
 }
