@@ -16,6 +16,7 @@ class ChoiceModalHeader extends AppBar {
     super.automaticallyImplyLeading = true,
     super.leading,
     super.actions,
+    super.titleSpacing,
   });
 
   static ChoiceStateBuilder<T> create<T>({
@@ -27,6 +28,7 @@ class ChoiceModalHeader extends AppBar {
     IconThemeData? actionsIconTheme,
     IconThemeData? iconTheme,
     bool? centerTitle,
+    Widget? leading,
     bool automaticallyImplyLeading = true,
     ChoiceStateBuilder<T>? searchFieldBuilder,
     ChoiceStateBuilder<T>? searchToggleBuilder,
@@ -44,6 +46,8 @@ class ChoiceModalHeader extends AppBar {
           title ?? (state.title != null ? Text(state.title!) : null);
       final actions =
           actionsBuilder?.map((actionBuilder) => actionBuilder(state));
+      final defaultLeading =
+          searchable && searching ? ChoiceSearchToggle.defaultIconShow : null;
       return ChoiceModalHeader(
         key: key,
         shape: shape,
@@ -54,8 +58,8 @@ class ChoiceModalHeader extends AppBar {
         centerTitle: centerTitle,
         automaticallyImplyLeading:
             automaticallyImplyLeading || (searchable && searching),
-        leading:
-            searchable && searching ? ChoiceSearchToggle.defaultIconShow : null,
+        leading: leading ?? defaultLeading,
+        titleSpacing: searchable && searching ? 0 : null,
         title: searchable && searching ? searchWidget : effectiveTitle,
         actions: [
           if (searchable) effectiveSearchToggleBuilder(state),
