@@ -9,12 +9,16 @@ The successor to `smart_select` and `chips_choice` with cleaner, more flexible, 
 * Single or multiple choice widget
 * Searchable choice items with highlighted result
 * Specifies whether the choice selection needs to be confirmed
+* Use any type of choice data and load it easily, either synchronously or asynchronously
 * Build your own choice item that fits your needs
+* Groupable choice items that can be sorted
 * Supports leading and trailing choice items, as well as divider choice items
 * Use a predefined wrapped, scrollable, virtualized choice list, or build one that fits your needs
 * Use a predefined popup dialog, bottom sheet, new page prompt, or build one that fits your needs
 * Use a predefined modal header, footer, and separator, or build one that fits your needs
-* Use a predefined trigger widget or build one that fits your needs
+* Use a predefined group list, group item, and group header, or build one that fits your needs
+* Use a predefined anchor widget or build one that fits your needs
+* Use a predefined widget on loading, on error, and placeholder when empty, or build one that fits your needs
 
 ## Usage
 
@@ -163,10 +167,11 @@ There are a few constructors to create a prompted choice widget:
 
 ## TODO
 
-* Grouped choice items
-* Sortable choice items
-* Add scroll wheel list
-* Add dropdown choice widget
+* :white_check_mark: Grouped choice items
+* :x: ~~Sortable choice items~~ better to do this outside
+* :black_square_button: Add scroll wheel list
+* :black_square_button: Add dropdown choice widget
+* :black_square_button: Add chainable choice widget
 
 ## Sponsoring
 

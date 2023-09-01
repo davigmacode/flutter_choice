@@ -33,6 +33,7 @@ dependencies:
   choice:
     path: ../
   animated_checkmark: ^1.0.1
+  theme_patrol: ^2.2.1
   dio: ^5.3.2
   async: ^2.11.0
   url_launcher: ^6.1.12

@@ -34,6 +34,7 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
       return Future.value(data.asChoiceData(
         value: (i, e) => e['mal_id'],
         title: (i, e) => e['titles'][0]['title'],
+        group: (i, e) => e['type'],
         image: (i, e) => e['images']['jpg']['small_image_url'],
       ));
     } on DioException catch (e) {
@@ -50,6 +51,7 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
           color: Colors.black12,
@@ -80,12 +82,24 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
             ],
           ),
         ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          alignment: Alignment.centerLeft,
+          child: const Text('Selected'),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: ChoiceValueText(
+          child: ChoiceValueChips(
             value: choicesValue,
-            truncate: 5,
+            onDelete: (value) {
+              setChoicesValue(choicesValue.where((e) => e != value).toList());
+            },
           ),
+        ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          alignment: Alignment.centerLeft,
+          child: const Text('Available'),
         ),
         FutureBuilder<List<ChoiceData<int>>>(
           initialData: const [],
@@ -98,13 +112,16 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
               loading: snapshot.connectionState == ConnectionState.waiting,
               value: choicesValue,
               onChanged: setChoicesValue,
+              groupSort: ChoiceGroupSort.asc,
+              itemGroup: (i) => choices[i].group!,
+              itemSkip: (state, i) => state.selected(choices[i]),
               itemCount: choices.length,
               itemBuilder: (state, i) {
                 final choice = choices.elementAt(i);
                 return ChoiceChip(
                   selected: state.selected(choice),
                   onSelected: state.onSelected(choice),
-                  label: Text(choice.title),
+                  label: Text(choice.toString()),
                 );
               },
               listBuilder: ChoiceList.createWrapped(
@@ -112,7 +129,6 @@ class _FutureInlineSearchState extends State<FutureInlineSearch> {
                 runSpacing: 10,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 20,
                 ),
               ),
             );

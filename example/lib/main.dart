@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theme_patrol/theme_patrol.dart';
 import 'inline/main.dart';
 import 'prompt/main.dart';
 import 'single/main.dart';
@@ -17,13 +18,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Choice',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return ThemePatrol(
+      light: ThemeData(
+        brightness: Brightness.light,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Choice'),
+      dark: ThemeData(
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      builder: (context, theme) {
+        return MaterialApp(
+          title: 'Chips Choice',
+          theme: theme.lightData,
+          darkTheme: theme.darkData,
+          themeMode: theme.mode,
+          home: const MyHomePage(
+            title: 'Flutter Choice',
+          ),
+        );
+      },
     );
   }
 }
@@ -102,11 +124,6 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 25),
-            Image.network(
-              'https://raster.shields.io/pub/v/choice.png',
-              height: 17,
             ),
           ],
         ),

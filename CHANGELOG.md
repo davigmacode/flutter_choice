@@ -1,3 +1,18 @@
+## 2.0.0
+
+* Added groupable choice items that can be sorted
+* Added group list, item, header builder, and predefined widget
+* Added choice anchor and value text widget
+* Added value chips widget
+* Adjust `itemSkip` callback parameters
+* Replaced `trigger` term with `anchor`
+* Replaced `createWidget` with `createSpacer`
+* Renamed most of `createBuilder` constructor with `create`
+* Improved choice and search controller construction
+* Improved selected many logic
+* Keep focus search field on submit and cross faded search toggle icon
+* Fixed search field spacing and replaceable leading widget
+
 ## 1.3.2
 
 * Re-render-able modal widget

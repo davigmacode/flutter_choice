@@ -1,6 +1,6 @@
 name: choice
 description: The successor to smart_select and chips_choice with cleaner, more flexible, and composable API for creating inline or prompted choice widgets with single or multiple selection.
-version: 1.3.2
+version: 2.0.0
 homepage: https://davigmacode.github.io/flutter_choice
 repository: https://github.com/davigmacode/flutter_choice
 screenshots:
