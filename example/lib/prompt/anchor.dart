@@ -89,7 +89,10 @@ class _PromptedAnchorState extends State<PromptedAnchor> {
                     ),
                   );
                 },
-                anchorBuilder: ChoiceAnchor.create(valueTruncate: 1),
+                anchorBuilder: ChoiceAnchor.create(
+                  valueTruncate: 1,
+                  placeholder: 'Choose one or more',
+                ),
               ),
             ),
           ),
