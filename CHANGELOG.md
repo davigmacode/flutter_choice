@@ -1,3 +1,9 @@
+## 2.3.0
+
+* Added untitled anchor/trigger widget
+* Added option to custom placeholder of the anchor/trigger widget
+* Added option to custom separator value text
+
 ## 2.0.0
 
 * Added groupable choice items that can be sorted
