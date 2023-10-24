@@ -51,6 +51,32 @@ class ChoiceAnchor extends ListTile {
     };
   }
 
+  static ChoiceAnchorBuilder<T> createUntitled<T>({
+    Widget? leading,
+    Widget? trailing,
+    bool? loading,
+    bool? dense,
+    int? valueTruncate,
+  }) {
+    return (state, openModal) {
+      final value = ChoiceValueText(
+        value: state.value,
+        placeholder: state.multiple ? 'Select one or more' : 'Select',
+        truncate: valueTruncate,
+      );
+      final effectiveTrailing = loading != true
+          ? trailing ?? defaultTrailingIcon
+          : defaultTrailingSpinner;
+      return ChoiceAnchor(
+        title: value,
+        leading: leading,
+        trailing: effectiveTrailing,
+        dense: dense,
+        onTap: loading != true ? openModal : null,
+      );
+    };
+  }
+
   /// Returns default trailing widget
   static const Widget defaultTrailingIcon = Padding(
     padding: EdgeInsets.only(top: 1),

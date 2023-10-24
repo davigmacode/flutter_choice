@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       ),
       builder: (context, theme) {
         return MaterialApp(
-          title: 'Chips Choice',
+          title: 'Choice',
           theme: theme.lightData,
           darkTheme: theme.darkData,
           themeMode: theme.mode,

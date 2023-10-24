@@ -93,6 +93,37 @@ class _PromptedAnchorState extends State<PromptedAnchor> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: 300,
+            child: Card(
+              clipBehavior: Clip.antiAlias,
+              child: PromptedChoice<String>.multiple(
+                title: 'Category',
+                clearable: true,
+                value: multipleSelected,
+                onChanged: setMultipleSelected,
+                itemCount: choices.length,
+                itemBuilder: (state, i) {
+                  return CheckboxListTile(
+                    value: state.selected(choices[i]),
+                    onChanged: state.onSelected(choices[i]),
+                    title: ChoiceText(
+                      choices[i],
+                      highlight: state.search?.value,
+                    ),
+                  );
+                },
+                anchorBuilder: ChoiceAnchor.createUntitled(
+                  valueTruncate: 2,
+                  trailing: const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
