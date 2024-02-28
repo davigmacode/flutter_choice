@@ -13,7 +13,6 @@ class ChoiceModal<T> extends StatelessWidget {
     this.headerBuilder,
     this.footerBuilder,
     this.separatorBuilder,
-    this.onWillClose,
     this.fit = FlexFit.loose,
   });
 
@@ -36,13 +35,6 @@ class ChoiceModal<T> extends StatelessWidget {
   /// Called to build modal separator widget
   /// {@endtemplate}
   final ChoiceStateBuilder<T>? separatorBuilder;
-
-  /// {@template choice.modal.onWillClose}
-  /// Called to veto attempts by the user to dismiss the enclosing [ModalRoute].
-  ///
-  /// If the callback returns a Future that resolves to false, the enclosing route will not be popped.
-  /// {@endtemplate}
-  final Future<bool> Function()? onWillClose;
 
   /// {@template choice.modal.fit}
   /// How a flexible modal body is inscribed into the available space.
@@ -83,21 +75,18 @@ class ChoiceModal<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillClose,
-      child: ChoiceConsumer<T>(builder: (state, _) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            headerBuilder?.call(state),
-            if (headerBuilder != null) separatorBuilder?.call(state),
-            Flexible(fit: fit, child: bodyBuilder(state)),
-            if (footerBuilder != null) separatorBuilder?.call(state),
-            footerBuilder?.call(state),
-          ].whereType<Widget>().toList(),
-        );
-      }),
-    );
+    return ChoiceConsumer<T>(builder: (state, _) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          headerBuilder?.call(state),
+          if (headerBuilder != null) separatorBuilder?.call(state),
+          Flexible(fit: fit, child: bodyBuilder(state)),
+          if (footerBuilder != null) separatorBuilder?.call(state),
+          footerBuilder?.call(state),
+        ].whereType<Widget>().toList(),
+      );
+    });
   }
 }
