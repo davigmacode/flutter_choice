@@ -1,3 +1,8 @@
+## 2.3.1
+
+* Fixed error when search had special characters
+* Removed WillPopScope since it's not working yet
+
 ## 2.3.0
 
 * Added untitled anchor/trigger widget
