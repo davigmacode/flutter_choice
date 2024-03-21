@@ -127,6 +127,58 @@ class _PromptedAnchorState extends State<PromptedAnchor> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
+          PromptedChoice<String>.multiple(
+            title: 'Category',
+            clearable: true,
+            value: multipleSelected,
+            onChanged: setMultipleSelected,
+            itemCount: choices.length,
+            itemBuilder: (state, i) {
+              return CheckboxListTile(
+                value: state.selected(choices[i]),
+                onChanged: state.onSelected(choices[i]),
+                title: ChoiceText(
+                  choices[i],
+                  highlight: state.search?.value,
+                ),
+              );
+            },
+            anchorBuilder: (state, openModal) {
+              return ListTileTheme(
+                data: const ListTileThemeData(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 10,
+                  ),
+                  visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                  titleTextStyle: TextStyle(
+                    color: Colors.blue,
+                  ),
+                  subtitleTextStyle: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: Container(
+                  width: 300,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.lightBlue,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: ChoiceAnchor.create(
+                    valueTruncate: 2,
+                    trailing: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.grey,
+                    ),
+                  )(state, openModal),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
