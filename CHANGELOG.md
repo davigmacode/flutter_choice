@@ -1,3 +1,7 @@
+## 2.3.2
+
+* Removed screenshots and example from package archive
+
 ## 2.3.1
 
 * Fixed error when search had special characters

@@ -1,1 +1,4 @@
 .fvm/flutter_sdk
+media/
+example/*
+!example/lib
