@@ -78,6 +78,7 @@ abstract class ChoicePrompt {
     Clip clipBehavior = Clip.antiAlias,
     ShapeBorder? shape,
     double maxHeightFactor = 0.6,
+    bool useRootNavigator = false,
   }) {
     return (context, modal) {
       return showModalBottomSheet(
@@ -91,6 +92,7 @@ abstract class ChoicePrompt {
         barrierColor: barrierColor,
         enableDrag: enableDrag,
         isScrollControlled: true,
+        useRootNavigator: useRootNavigator,
         builder: (_) {
           final MediaQueryData mq = MediaQueryData.fromView(View.of(context));
           final double topObstructions = mq.viewPadding.top;
