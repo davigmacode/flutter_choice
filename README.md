@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Repository Moved to Monorepo**: Active development of $pkg has migrated to the official [**davigmacode/flutter_wx**](https://github.com/davigmacode/flutter_wx) monorepo under [packages/choice](https://github.com/davigmacode/flutter_wx/tree/main/packages/choice).
+
 [![Pub Version](https://img.shields.io/pub/v/choice)](https://pub.dev/packages/choice) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_choice) [![GitHub](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&color=yellow&label)](https://www.buymeacoffee.com/davigmacode) [![GitHub](https://badgen.net/badge/icon/ko-fi?icon=kofi&color=red&label)](https://ko-fi.com/davigmacode)
 
 The successor to `smart_select` and `chips_choice` with cleaner, more flexible, and composable API for creating inline or prompted choice widgets with single or multiple selection.
@@ -179,3 +182,4 @@ There are a few constructors to create a prompted choice widget:
 <a href="https://ko-fi.com/davigmacode" target="_blank"><img src="https://storage.ko-fi.com/cdn/brandasset/kofi_s_tag_white.png" alt="Ko-Fi" height="45"></a>
 
 If this package or any other package I created is helping you, please consider to sponsor me so that I can take time to read the issues, fix bugs, merge pull requests and add features to these packages.
+
